@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.github.rebue.common-pom</groupId>
+		<artifactId>sb-parent</artifactId>
+		<version>1.0.7</version>
+	</parent>
+
+	<groupId>com.github.rebue.kdi</groupId>
+	<artifactId>kdi</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<description>快递API服务</description>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>zhangbaizi</name>
+			<email>nnzbz@163.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/rebue/kdi.git</connection>
+		<developerConnection>scm:git:https://github.com/rebue/kdi.git</developerConnection>
+		<url>https://github.com/rebue/kdi.git</url>
+	</scm>
+
+	<modules>
+		<module>kdi-gen</module>
+		<module>kdi-api</module>
+		<module>kdi-bll</module>
+		<module>kdi-svr</module>
+		<module>kdi-svr-feign</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.rebue.kdi</groupId>
+				<artifactId>kdi-api</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.kdi</groupId>
+				<artifactId>kdi-bll</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

@@ -1,0 +1,78 @@
+kdi:
+  issandbox: true
+  kdniao:
+    # 专门测试物流跟踪推送功能的账号和key
+#    ebusinessid: test1326761
+#    apikey: 45f18644-a37c-4f26-b17b-6d25ca8bdbdd
+    # 测试其它功能的账号和key
+    ebusinessid: 1326761
+    apikey: ead9e2d4-346c-42c6-b391-a7bee4994f21
+  # 各快递公司电子面单的参数《快递鸟电子面单参数配置对照表》
+  shippers:
+    # 百世快递
+    HTKY:
+      customername: testhtky
+      customerpwd: testhtkypwd
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 3
+    YZPY:
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 3
+    # 顺丰速运
+    SF:
+      monthcode: "7553045845"
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 申通快递
+    STO:
+      customername: teststo
+      customerpwd: teststopwd
+      sendsite: teststosendsite
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 中通快递
+    ZTO:
+      customername: testzto
+      customerpwd: testztopwd
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 圆通速递
+    YTO:
+      customername: testyto
+      monthcode: testytomonthcode
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+      
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/kdi?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: kdi
+    password: 123456
+  redis:
+    # 最大实例数
+    maxTotal: 100
+    # 最大空闲实例数
+    maxIdle: 10
+    # (创建实例时)最大等待时间
+    maxWaitMillis: 10000
+    # (创建实例时)是否验证
+    testOnBorrow: false
+    # 集群类型 (Single,RedisCluster)
+    clusterType: Single
+    # Single类型需要配置连接Redis的host和port
+    host: 127.0.0.1
+    port: 6379
+    # 集群类型需要配置服务器的节点
+    #clusterNodes: 
+    #  - 192.168.1.201:7000
+    #  - 192.168.1.201:7001
+    #  - 192.168.1.201:7002
+    #  - 192.168.1.201:7003
+    #  - 192.168.1.201:7004
+    #  - 192.168.1.201:7005
+    # 集群类型需要配置连接超时
+    #connectionTimeout: 5000
+    # 集群类型需要配置返回值的超时时间
+    #soTimeout: 5000
+    # 集群类型需要配置出现异常最大重试次数
+    #maxAttempts: 5

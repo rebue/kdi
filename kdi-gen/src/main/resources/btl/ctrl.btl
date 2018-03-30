@@ -1,0 +1,200 @@
+package ${modulePackage}.ctrl;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${moClassFullName};
+import ${modulePackage}.svc.${entityName}Svc;
+import com.github.pagehelper.PageInfo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+@Api(tags = "${entityTitle}")
+@RestController
+public class ${entityName}Ctrl {
+    /**
+     * @mbg.generated
+     */
+    private final static Logger _log = LoggerFactory.getLogger(${entityName}Ctrl.class);
+
+    /**
+     * @mbg.generated
+     */
+	@Resource
+    private ${entityName}Svc svc;
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("添加${entityTitle}")
+    @PostMapping("/${strutil.toLowerCase(entityNamePrefix)}/${strutil.toLowerCase(entitySimpleName)}")
+    @ResponseBody
+    Map<String, Object> add(${moClassShortName} vo) throws Exception {
+        _log.info("add ${moClassShortName}:" + vo);
+        svc.add(vo);
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("id", vo.getId());
+        _log.info("add ${moClassShortName} success!");
+        return result;
+    }
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("修改${entityTitle}")
+    @PutMapping("/${strutil.toLowerCase(entityNamePrefix)}/${strutil.toLowerCase(entitySimpleName)}")
+    @ResponseBody
+    Map<String, Object> modify(${moClassShortName} vo) throws Exception {
+        _log.info("modify ${moClassShortName}:" + vo);
+        svc.modify(vo);
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        _log.info("modify ${moClassShortName} success!");
+        return result;
+    }
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("删除${entityTitle}")
+    <&
+		for(id in ids){
+			if(!idLP.first) {
+				print(', ');
+			}
+			print('    @ApiImplicitParam(name = "');
+		    print(id.key);
+		    print('", value = "要删除的');
+		    print(entityTitle + id.key);
+		    print('", dataType = "');
+		    if(id.value=='java.lang.String')
+		    		print('string');
+		    	else if(id.value=='java.lang.Long')
+		    		print('long');
+		    print('", paramType = "path", required = true)');
+		}
+	&>
+	
+    @DeleteMapping("/${strutil.toLowerCase(entityNamePrefix)}/${strutil.toLowerCase(entitySimpleName)}/{id}")
+    @ResponseBody
+    Map<String, Object> del(<&
+		for(id in ids){
+			if(!idLP.first) {
+				print(', ');
+			}
+			print('@PathVariable("');
+		    print(id.key);
+		    print('") ');
+		    print(id.value);
+		    print(' ');
+		    print(id.key);
+		}
+	&>) {
+
+        _log.info("save ${moClassShortName}:" + <&
+			for(id in ids){
+				if(!idLP.first) {
+					print(', ');
+				}
+			    print(id.key);
+			}
+		&>);
+        svc.del(<&
+			for(id in ids){
+				if(!idLP.first) {
+					print(', ');
+				}
+			    print(id.key);
+			}
+		&>);
+		
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        _log.info("delete ${moClassShortName} success!");
+        return result;
+    }
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("查询${entityTitle}")
+    @ApiImplicitParams({ //
+            @ApiImplicitParam(name = "pageNum", value = "查询第几页", dataType = "int", paramType = "query", required = true), //
+            @ApiImplicitParam(name = "pageSize", value = "分页记录数", dataType = "int", paramType = "query", required = true) })
+    @GetMapping("/${strutil.toLowerCase(entityNamePrefix)}/${strutil.toLowerCase(entitySimpleName)}")
+    @ResponseBody
+    PageInfo<${moClassShortName}> list(${moClassShortName} qo, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+    		_log.info("list ${moClassShortName}:" + qo+", pageNum = " + pageNum + ", pageSize = " + pageSize);
+
+        if (pageSize > 50) {
+            String msg = "pageSize不能大于50";
+            _log.error(msg);
+            throw new IllegalArgumentException(msg);
+        }
+
+        PageInfo<${moClassShortName}> result = svc.list(qo, pageNum, pageSize);
+        _log.info("result: " + result);
+        return result;
+    }
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("获取单个${entityTitle}")
+    <&
+		for(id in ids){
+			if(!idLP.first) {
+				print(', ');
+			}
+			print('    @ApiImplicitParam(name = "');
+		    print(id.key);
+		    print('", value = "要获取');
+		    print(entityTitle + '的' + id.key);
+		    print('", dataType = "');
+		    if(id.value=='java.lang.String')
+		    		print('string');
+		    	else if(id.value=='java.lang.Long')
+		    		print('long');
+		    print('", paramType = "path", required = true)');
+		}
+	&>
+
+    @GetMapping("/${strutil.toLowerCase(entityNamePrefix)}/${strutil.toLowerCase(entitySimpleName)}/{id}")
+    @ResponseBody
+    ${moClassShortName} get(<&
+		for(id in ids){
+			if(!idLP.first) {
+				print(', ');
+			}
+			print('@PathVariable("');
+		    print(id.key);
+		    print('") ');
+		    print(id.value);
+		    print(' ');
+		    print(id.key);
+		}
+	&>) {
+        _log.info("get ${moClassShortName} by id: " + id);
+        ${moClassShortName} result = svc.getById(id);
+        _log.info("get: " + result);
+        return result;
+    }
+
+}

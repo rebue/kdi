@@ -1,0 +1,82 @@
+kdi:
+  issandbox: true
+  kdniao:
+    # 专门测试物流跟踪推送功能的账号和key
+#    ebusinessid: test1326761
+#    apikey: 45f18644-a37c-4f26-b17b-6d25ca8bdbdd
+    # 测试其它功能的账号和key
+    ebusinessid: 1326761
+    apikey: ead9e2d4-346c-42c6-b391-a7bee4994f21
+  # 各快递公司电子面单的参数《快递鸟电子面单参数配置对照表》
+  shippers:
+    # 百世快递
+    HTKY:
+      customername: testhtky
+      customerpwd: testhtkypwd
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 3
+    YZPY:
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 3
+    # 顺丰速运
+    SF:
+      monthcode: "7553045845"
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 申通快递
+    STO:
+      customername: teststo
+      customerpwd: teststopwd
+      sendsite: teststosendsite
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 中通快递
+    ZTO:
+      customername: testzto
+      customerpwd: testztopwd
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+    # 圆通速递
+    YTO:
+      customername: testyto
+      monthcode: testytomonthcode
+      # 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+      paytype: 1
+      
+debug: true
+
+server:
+  port: 20080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+logging:
+  config: classpath:config/log4j2.xml
+  level:
+    root: info
+    rebue: trace
+    com.netflix.discovery: false
+
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/kdi?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: kdi
+    password: kdi
+  redis:
+    maxTotal: 100
+    maxIdle: 10
+    maxWaitMillis: 10000
+    testOnBorrow: false
+    clusterType: Single
+    host: 127.0.0.1
+    port: 6379
+
+appid: 1

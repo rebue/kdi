@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.github.rebue.kdi</groupId>
+		<artifactId>kdi</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>kdi-bll</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.rebue.kdi</groupId>
+			<artifactId>kdi-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.robotech</groupId>
+			<artifactId>robotech-bll</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.wheel</groupId>
+			<artifactId>wheel-turing</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>redis-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>rabbit-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.rebue.sbs</groupId>
+			<artifactId>dozer-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.dozermapper</groupId> -->
+		<!-- <artifactId>dozer-spring-boot-starter</artifactId> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

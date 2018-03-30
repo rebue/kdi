@@ -1,0 +1,15 @@
+package ${modulePackage}.svc;
+
+import rebue.robotech.svc.MybatisBaseSvc;
+import ${moClassFullName};
+
+public interface ${entityName}Svc extends MybatisBaseSvc<${moClassShortName}, <&
+		for(id in ids){
+			if(!idLP.first) {
+				print(', ');
+			}
+		    print(id.value);
+		}
+	&>>{
+
+}

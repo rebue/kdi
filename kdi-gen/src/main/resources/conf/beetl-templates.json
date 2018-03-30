@@ -1,0 +1,20 @@
+[
+	{
+		"templateName": "svc.btl",
+		"targetDir": "../kdi-api/src/main/java/${modulePath}/svc/",
+		"targetFile": "${entityName}Svc.java",
+		"backup": false
+	},
+	{
+		"templateName": "svc-impl.btl",
+		"targetDir": "../kdi-bll/src/main/java/${modulePath}/svc/impl/",
+		"targetFile": "${entityName}SvcImpl.java",
+		"backup": false
+	},
+	{
+		"templateName": "ctrl.btl",
+		"targetDir": "../kdi-svr/src/main/java/${modulePath}/ctrl/",
+		"targetFile": "${entityName}Ctrl.java",
+		"backup": false
+	}
+]

@@ -328,7 +328,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 ro.setResult(EOrderResultDic.SUCCESS);
                 ro.setLogisticId(logisticMo.getId());
                 ro.setLogisticCode(logisticCode);
-                ro.setPrintPage(URLEncoder.encode(printPage, "UTF-8"));
+//                ro.setPrintPage(URLEncoder.encode(printPage, "UTF-8"));
+                ro.setPrintPage(printPage);
                 return ro;
             } else {
                 // 取出请求失败的原因

@@ -1,16 +1,20 @@
 package rebue.kdi.ctrl;
+
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 
 @RestController
 public class KdiManageCtrl {
-	
+
 	/**
 	 */
 	private final static Logger _log = LoggerFactory.getLogger(KdiManageCtrl.class);
@@ -18,9 +22,11 @@ public class KdiManageCtrl {
 	/**
 	 */
 	@Resource
-	private KdiLogisticSvc svc;
-	
-	
+	private KdiLogisticSvc kdiLogisticSvc;
+
+	@Resource
+	private KdiCompanySvc kdiCompanySvc;
+
 	/**
 	 * 根据条件查询订单信息 Title: list Description:
 	 * 
@@ -30,17 +36,24 @@ public class KdiManageCtrl {
 	 * @return
 	 * @date 2018年3月28日 下午3:06:09
 	 */
-	@GetMapping("/kid/manage")
-	   List<KdiLogisticMo> list(KdiLogisticMo mo) {
-		_log.info("list KdiLogisticMo:" + mo );
-	
-	    List<KdiLogisticMo> result = svc.list(mo);
+	@GetMapping("/kid/manage/logistic")
+	List<KdiLogisticMo> kdiLogisticList(KdiLogisticMo mo) {
+		_log.info("list KdiLogisticMo:" + mo);
+
+		List<KdiLogisticMo> result = kdiLogisticSvc.list(mo);
 		_log.info("result: " + result);
 		return result;
 	}
 
-	
-	
-	
-
+	/**
+	 * 查询所有快递公司信息
+	 * @return
+	 */
+	@GetMapping("/kdi/company/alllist")
+	List<KdiCompanyMo> kdiCompanyList() {
+		_log.info("开始查询快递公司信息");
+		List<KdiCompanyMo> list = kdiCompanySvc.listAll();
+		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
+		return list;
+	}
 }

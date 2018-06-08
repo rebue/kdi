@@ -11,20 +11,64 @@
 		// 创建添加订单div
 		$(document).on("click", "#addOrder", function() {
 			$('.bgPop,.pop').show();
+			$(".pop").css("min-height","550px");
 			var html = '<div id="cloceDiv">';
 				html += '	<div class="pop-top">';
 				html += '		<h2>添加订单</h2>';
 				html += '		<span class="pop-close">Ｘ</span>';
 				html += '	</div>';
-				html += '	<div class="pop-content">';
-				html += '		<div class="pop-content-right">';
+				html += '	<div class="pop-content" style="height: 460px">';
+				html += '		<div class="pop-content-right" style="width: 500px">';
 				html += '			<p>';
-				html += '				订单标题：<b class="lname"></b>';
-				html += '				<input>';
+				html += '				订单标题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
 				html += '			</p>';
 				html += '			<p>';
 				html += '				订单详情：<b class="lname"></b>';
-				html += '				<textarea ></textarea>';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<textarea style="margin-top: -25px; margin-left: 47px; width: 350px;" ></textarea>';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				快递公司：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<select id="courierCompany" style="width: 350px"></select>';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				发件人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<select id="sender" style="width: 350px">';
+				html += '					<option value ="volvo">Volvo</option>';
+				html += '					<option value ="volvo">Volvo</option>';
+				html += '					<option value ="volvo">Volvo</option>';
+				html += '				</select>';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件人名称：&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件人联系方式：<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件省份：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件城市：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件区/县：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件详细地址：&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				收件地址邮编：&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<input style="width: 350px">';
 				html += '			</p>';
 				html += '		</div>';
 				html += '	</div>';
@@ -36,10 +80,75 @@
 			$(".pop").append(html);
 		});
 		
+		// 创建添加快递公司div
+		$(document).on("click", "#addCourierCompany", function() {
+			$(".pop").css("min-height","250px");
+			$(".pop").css("height","312px");
+			$('.bgPop,.pop').show();
+			var html = '<div id="cloceDiv">';
+				html += '	<div class="pop-top">';
+				html += '		<h2>添加快递公司</h2>';
+				html += '		<span class="pop-close">Ｘ</span>';
+				html += '	</div>';
+				html += '	<div class="pop-content" style="height: 220px">';
+				html += '		<div class="pop-content-right" style="width: 500px">';
+				html += '			<p>';
+				html += '				快递公司名称：<b class="lname"></b>';
+				html += '				<input id="courierCompanyName" style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				快递公司账号：<b class="lname"></b>';
+				html += '				<input id="courierCompanyAccount" style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				快递公司密码：<b class="lname"></b>';
+				html += '				<input id="courierCompanyPassWord" style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				快递公司编码：<b class="lname"></b>';
+				html += '				<input id="courierCompanyCode" style="width: 350px">';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				支付类型：&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
+				html += '				<select id="payTYpe" style="width: 350px">';
+				html += '					<option value ="">请选择</option>';
+				html += '					<option value ="1">现付</option>';
+				html += '					<option value ="2">到付</option>';
+				html += '					<option value ="3">月结</option>';
+				html += '					<option value ="4">第三方付</option>';
+				html += '				</select>';
+				html += '			</p>';
+				html += '		</div>';
+				html += '	</div>';
+				html += '	<div class="pop-foot">';
+				html += '		<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">';
+				html += '		<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addCourierCompanyButton">';
+				html += '	</div>';
+				html += '</div>';
+			$(".pop").append(html);
+		});
+		
+		// 添加快递公司
+		$(document).on("click", "#addCourierCompanyButton", function() {
+			
+		});
+		
 		// 关闭并删除div
 		$(document).on("click", ".pop-close", function() {
 			$("#cloceDiv").remove();
 			$('.bgPop,.pop').hide();
+		});
+		
+		// 获取快递公司
+		$(document).on("click", "#courierCompanyList", function() {
+			$.ajax({
+				type : "get",
+				url : "http://localhost:20080/kdi/company/alllist",
+				dataType : "json",
+				success : function(data) {
+					console.log(data);
+				}
+			});
 		});
 	})
 </script>
@@ -93,9 +202,9 @@
 					</div>
 					<div class="input-all div-from-Other">
 						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
-						<span><a href="#" id="entryOrder">录入订单</a></span>| 
-						<span><a href="#" id="addCourierCompany">添加快递公司</a> </span>| 
-						<span><a href="#" id="addSender">添加发件人</a></span> <br /> 
+						<span><a href="javascript:void(0)" id="entryOrder">录入订单</a></span>| 
+						<span><a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a> </span>| 
+						<span><a href="javascript:void(0)" id="addSender">添加发件人</a></span> <br /> 
 						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
 					</div>

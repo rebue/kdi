@@ -6,115 +6,168 @@
 <link href="KdiManage.css" rel="stylesheet">
 <script type="text/javascript" src="../../lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../../lib/laydate/laydate.js"></script>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.pop-close').click(function() {
+			alert(112);
+			$('.bgPop,.pop').hide();
+		});
+		$('#addOrder').click(function() {
+			$('.bgPop,.pop').show();
+		});
+	})
+	$(function(){
+		
+	})
+</script>
 </head>
 <body>
-	 <div class="wrap">
-	 	<div class="header" ></div>
-	 	<div class="main">
-	 		<div class="search-form">
-	 		  <form class="main-form"  action="">
-	 		  		<div  class=" input-all div-from-tiem "  >
-	 		  			<span>导入时间:</span>
-	 		  			<input readonly="readonly" style="width:100px;" id="from-tiem-start" type="text" class="from-tiem-start ">
-	 		  			<span>至:</span>
-	 		  			<input readonly="readonly"  style="width:100px;" id="from-tiem-end" type="text" class="from-tiem-end "  >
-	 		  		</div>
-	 		  		<div class=" input-all  div-from-send-out">
-	 		  			<span>发货状态:</span>
-	 		  			<select style="width:232px;" >
-	 		  				<option>已发货</option>
-	 		  				<option>未发货</option>
-	 		  				<option>全部</option>
-	 		  			</select>
-	 		  		</div>
-	 		  		<div class=" input-all  div-from-Printing">
-	 		  			<span>打印状态:</span>
-	 		  			<select  class="from-Printing-express-send">
-	 		  				<option>全部</option>
-	 		  				<option>已打印快递单</option>
-	 		  				<option>未打印快递单</option>
-	 		  			</select>
-	 		  			<select  class="from-Printing-express-take">
-	 		  				<option>全部</option>
-	 		  				<option>已打印发货单</option>
-	 		  				<option>未打印发货单</option>
-	 		  			</select>
-	 		  		</div>
-	 		  		<div class=" input-all div-from-Send-info">
-	 		  			<span>寄件人信息:</span>
-	 		  			<input placeholder="姓名/手机" type="text" class="Send-info" style="width:220px;">
-	 		  		</div>
-	 		  		<div class=" input-all div-from-take-info">
-	 		  			<span>收件人信息:</span>
-	 		  			<input placeholder="姓名/手机" type="text" class="take-info" style="width:215px;">
-	 		  		</div>
-	 		  		<div class=" input-all div-from-info-id">
-	 		  			<span>快递单号:</span>
-	 		  			<input style="width:210px;" onkeyup="this.value=this.value.replace(/[^\w]/g,'')"  type="text" placeholder="快递单号" class="from-info-id-start" >
-	 		  		</div>
-	 		  		<div class=" input-all div-from-baishi"></div>
-	 		  		<div class=" input-all div-from-sub">
-	 		  			<input style="margin-right:30px;" type="submit" value="查&nbsp;&nbsp;询" class="from-sub" >
-	 		  			<input type="reset" value="清&nbsp;&nbsp;空" class="from-ret" >
-	 		  		</div>
-	 		  		<div class="input-all div-from-Other">
-	 		  			<span><a href="#" id="addOrder">添加订单</a></span>|
-						<span><a href="#" id="entryOrder">录入订单</a></span>|	
-						<span><a href="#" id="addCourierCompany">添加快递公司</a></span>|
-						<span><a href="#" id="addSender">添加发件人</a></span>
-						<br/>
-	 		  			<input  type="button" value="导&nbsp;&nbsp;出" class="from-Other" >&nbsp;&nbsp;&nbsp;&nbsp;
-	 		  			<input  type="button" value="导&nbsp;&nbsp;入" class="from-Other" >
-	 		  		</div>
-	 		  </form>
-	 		</div>
-	 		<div class="main-text" >
-	 			<div class="express-info">
-	 			 	<table class="div-express-info" >
-	 			 		<thead>
-	 			 			<tr>
-	 			 				<th width="138px" >订单号</th>
-	 			 				<th width="88px"  >快递</th>
-	 			 				<th width="144px"  >快递单号</th>
-	 			 				<th width="248px"  >收件人信息</th>
-	 			 				<th width="248px"  >寄件人信息</th>
-	 			 				<th width="196px" >商品内容</th>
-	 			 				<th width="196px"  >留言/备注</th>
-	 			 			</tr>
-	 			 		</thead>
-	 			 		<tbody>
-	 			 			<tr>
-	 			 				<td>253274870253244</td>
-	 			 				<td>百世快递</td>
-	 			 				<td>1648635126846635</td>
-	 			 				<td>姓名：李小明,电话：18970785485</td>
-	 			 				<td>姓名：王小二,电话：sssddssss18970785485</td>
-	 			 				<td>保时捷911</td>
-	 			 				<td>贵重物品，小心轻放</td>
-	 			 			</tr>
-	 			 			<tr>
-	 			 				<td>253274870253244</td>
-	 			 				<td>百世快递</td>
-	 			 				<td>1648635126846635</td>
-	 			 				<td>姓名：李小明,电话：18970785485</td>
-	 			 				<td>姓名：王小二,电话：sssddssss18970785485</td>
-	 			 				<td>保时捷911</td>
-	 			 				<td>贵重物品，小心轻放</td>
-	 			 			</tr>
-	 			 		</tbody>
-	 			 		
-	 			 	</table>
-	 			</div>
-	 		</div>
-	 	</div>
-	 	<div class="foot">
-	 	</div>
-	 </div>
+	<div class="wrap">
+		<div class="header"></div>
+		<div class="main">
+			<div class="search-form">
+				<form class="main-form" action="">
+					<div class=" input-all div-from-tiem ">
+						<span>导入时间:</span> <input readonly="readonly"
+							style="width: 100px;" id="from-tiem-start" type="text"
+							class="from-tiem-start "> <span>至:</span> <input
+							readonly="readonly" style="width: 100px;" id="from-tiem-end"
+							type="text" class="from-tiem-end ">
+					</div>
+					<div class=" input-all  div-from-send-out">
+						<span>发货状态:</span> <select style="width: 232px;">
+							<option>已发货</option>
+							<option>未发货</option>
+							<option>全部</option>
+						</select>
+					</div>
+					<div class=" input-all  div-from-Printing">
+						<span>打印状态:</span> <select class="from-Printing-express-send">
+							<option>全部</option>
+							<option>已打印快递单</option>
+							<option>未打印快递单</option>
+						</select> <select class="from-Printing-express-take">
+							<option>全部</option>
+							<option>已打印发货单</option>
+							<option>未打印发货单</option>
+						</select>
+					</div>
+					<div class=" input-all div-from-Send-info">
+						<span>寄件人信息:</span> 
+						<input placeholder="姓名/手机" type="text" class="Send-info" style="width: 220px;">
+					</div>
+					<div class=" input-all div-from-take-info">
+						<span>收件人信息:</span> 
+						<input placeholder="姓名/手机" type="text" class="take-info" style="width: 215px;">
+					</div>
+					<div class=" input-all div-from-info-id">
+						<span>快递单号:</span> 
+						<input style="width: 210px;" onkeyup="this.value=this.value.replace(/[^\w]/g,'')" type="text" placeholder="快递单号" class="from-info-id-start">
+					</div>
+					<div class=" input-all div-from-baishi"></div>
+					<div class=" input-all div-from-sub">
+						<input style="margin-right: 30px;" type="submit" value="查&nbsp;&nbsp;询" class="from-sub"> 
+						<input type="reset" value="清&nbsp;&nbsp;空" class="from-ret">
+					</div>
+					<div class="input-all div-from-Other">
+						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
+						<span><a href="#" id="entryOrder">录入订单</a></span>| 
+						<span><a href="#" id="addCourierCompany">添加快递公司</a>
+						</span>| <span><a href="#" id="addSender">添加发件人</a></span> <br /> 
+						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
+					</div>
+				</form>
+			</div>
+			<div class="main-text">
+				<div class="express-info">
+					<table class="div-express-info">
+						<thead>
+							<tr>
+								<th width="138px">订单号</th>
+								<th width="88px">快递</th>
+								<th width="144px">快递单号</th>
+								<th width="248px">收件人信息</th>
+								<th width="248px">寄件人信息</th>
+								<th width="196px">商品内容</th>
+								<th width="196px">留言/备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>253274870253244</td>
+								<td>百世快递</td>
+								<td>1648635126846635</td>
+								<td>姓名：李小明,电话：18970785485</td>
+								<td>姓名：王小二,电话：sssddssss18970785485</td>
+								<td>保时捷911</td>
+								<td>贵重物品，小心轻放</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="foot"></div>
+		<div class="wrappage">
+		<div class="page fr">
+			<a class="pageup">上一页</a>
+			<div id="pageGro" class="pageGro"></div>
+			<a class="pagedown">下一页</a>
+			<form id="page_form">
+				<span>
+					跳至
+					<input type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
+    				onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}">
+					页
+				</span>
+				<input type="button" value="确定">
+			</form>
+		</div>
+	</div>
+	</div>
+	<!--遮罩层-->
+	<div class="bgPop"></div>
+	<!--弹出框-->
+	<div class="pop">
+		<div class="pop-top">
+			<h2>课程介绍</h2>
+			<span class="pop-close">Ｘ</span>
+		</div>
+		<div class="pop-content">
+			<div class="pop-content-right">
+				<p>
+					课程名称：<b class="lname"></b>
+				</p>
+				<p>
+					课程价钱：<b class="price"></b>
+				</p>
+				<p>
+					上课时间：<b class="ltime"></b>
+				</p>
+				<p>
+					上课老师：<b class="teacher"></b>
+				</p>
+				<p>
+					老师简介：<b class="teasynopsis"></b>
+				</p>
+				<p>
+					课程简介：<b class="synopsis"></b>
+				</p>
+			</div>
+		</div>
+		<div class="pop-foot">
+			<input type="button" value="关闭" class="pop-cancel pop-close">
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	laydate.skin('molv');
-	laydate({elem:'#from-tiem-start'});
-	laydate({elem:'#from-tiem-end'});
+	laydate({
+		elem : '#from-tiem-start'
+	});
+	laydate({
+		elem : '#from-tiem-end'
+	});
 </script>
 </html>

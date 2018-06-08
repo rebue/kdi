@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/6/7 14:48:26                            */
+/* Created on:     2018/6/8 9:44:42                             */
 /*==============================================================*/
 
 
@@ -48,6 +48,7 @@ CREATE TABLE KDI_LOGISTIC
             2-在途中 201-到达派件城市 202-派件中 211-已放入快递柜或驿站
             3-已签收 311-已取出快递柜或驿站
             4-问题件 401-发货无信息 402-超时未签收 403-超时未更新 404-拒收(退件) 412-快递柜或驿站超时未取',
+   ORDER_TIME           DATETIME NOT NULL COMMENT '下单时间',
    UPDATE_TIME          DATETIME NOT NULL COMMENT '更新时间',
    ESTIMATED_ARRIVAL_TIME DATETIME COMMENT '预计到达时间',
    CITY                 VARCHAR(20) COMMENT '所在城市',

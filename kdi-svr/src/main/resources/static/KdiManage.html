@@ -8,16 +8,39 @@
 <script type="text/javascript" src="../../lib/laydate/laydate.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.pop-close').click(function() {
-			alert(112);
+		// 创建添加订单div
+		$(document).on("click", "#addOrder", function() {
+			$('.bgPop,.pop').show();
+			var html = '<div id="cloceDiv">';
+				html += '	<div class="pop-top">';
+				html += '		<h2>添加订单</h2>';
+				html += '		<span class="pop-close">Ｘ</span>';
+				html += '	</div>';
+				html += '	<div class="pop-content">';
+				html += '		<div class="pop-content-right">';
+				html += '			<p>';
+				html += '				订单标题：<b class="lname"></b>';
+				html += '				<input>';
+				html += '			</p>';
+				html += '			<p>';
+				html += '				订单详情：<b class="lname"></b>';
+				html += '				<textarea ></textarea>';
+				html += '			</p>';
+				html += '		</div>';
+				html += '	</div>';
+				html += '	<div class="pop-foot">';
+				html += '		<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">';
+				html += '		<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok">';
+				html += '	</div>';
+				html += '</div>';
+			$(".pop").append(html);
+		});
+		
+		// 关闭并删除div
+		$(document).on("click", ".pop-close", function() {
+			$("#cloceDiv").remove();
 			$('.bgPop,.pop').hide();
 		});
-		$('#addOrder').click(function() {
-			$('.bgPop,.pop').show();
-		});
-	})
-	$(function(){
-		
 	})
 </script>
 </head>
@@ -28,11 +51,10 @@
 			<div class="search-form">
 				<form class="main-form" action="">
 					<div class=" input-all div-from-tiem ">
-						<span>导入时间:</span> <input readonly="readonly"
-							style="width: 100px;" id="from-tiem-start" type="text"
-							class="from-tiem-start "> <span>至:</span> <input
-							readonly="readonly" style="width: 100px;" id="from-tiem-end"
-							type="text" class="from-tiem-end ">
+						<span>导入时间:</span> 
+						<input readonly="readonly" style="width: 100px;" id="from-tiem-start" type="text" class="from-tiem-start "> 
+						<span>至:</span> 
+						<input readonly="readonly" style="width: 100px;" id="from-tiem-end" type="text" class="from-tiem-end ">
 					</div>
 					<div class=" input-all  div-from-send-out">
 						<span>发货状态:</span> <select style="width: 232px;">
@@ -72,8 +94,8 @@
 					<div class="input-all div-from-Other">
 						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
 						<span><a href="#" id="entryOrder">录入订单</a></span>| 
-						<span><a href="#" id="addCourierCompany">添加快递公司</a>
-						</span>| <span><a href="#" id="addSender">添加发件人</a></span> <br /> 
+						<span><a href="#" id="addCourierCompany">添加快递公司</a> </span>| 
+						<span><a href="#" id="addSender">添加发件人</a></span> <br /> 
 						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
 					</div>
@@ -94,6 +116,7 @@
 							</tr>
 						</thead>
 						<tbody>
+
 							<tr>
 								<td>253274870253244</td>
 								<td>百世快递</td>
@@ -104,62 +127,17 @@
 								<td>贵重物品，小心轻放</td>
 							</tr>
 						</tbody>
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="foot"></div>
-		<div class="wrappage">
-		<div class="page fr">
-			<a class="pageup">上一页</a>
-			<div id="pageGro" class="pageGro"></div>
-			<a class="pagedown">下一页</a>
-			<form id="page_form">
-				<span>
-					跳至
-					<input type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"  
-    				onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}">
-					页
-				</span>
-				<input type="button" value="确定">
-			</form>
-		</div>
-	</div>
 	</div>
 	<!--遮罩层-->
 	<div class="bgPop"></div>
 	<!--弹出框-->
-	<div class="pop">
-		<div class="pop-top">
-			<h2>课程介绍</h2>
-			<span class="pop-close">Ｘ</span>
-		</div>
-		<div class="pop-content">
-			<div class="pop-content-right">
-				<p>
-					课程名称：<b class="lname"></b>
-				</p>
-				<p>
-					课程价钱：<b class="price"></b>
-				</p>
-				<p>
-					上课时间：<b class="ltime"></b>
-				</p>
-				<p>
-					上课老师：<b class="teacher"></b>
-				</p>
-				<p>
-					老师简介：<b class="teasynopsis"></b>
-				</p>
-				<p>
-					课程简介：<b class="synopsis"></b>
-				</p>
-			</div>
-		</div>
-		<div class="pop-foot">
-			<input type="button" value="关闭" class="pop-cancel pop-close">
-		</div>
-	</div>
+	<div class="pop"></div>
 </body>
 <script type="text/javascript">
 	laydate.skin('molv');

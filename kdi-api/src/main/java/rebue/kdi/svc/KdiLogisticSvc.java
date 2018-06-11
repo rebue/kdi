@@ -1,6 +1,8 @@
 package rebue.kdi.svc;
 
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.ro.AddKdiLogisticRo;
+import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.robotech.svc.MybatisBaseSvc;
 
 public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.Long> {
@@ -19,5 +21,12 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
      * 获取新的ID
      */
     Long getNewId();
+
+    /**
+     * 添加物流订单
+     * @param to
+     * @return
+     */
+	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo to);
 
 }

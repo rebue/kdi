@@ -71,6 +71,13 @@ body, html {
 	background-color: #f7f8fc;
 }
 
+.pop-content-right input{
+	width: 350px;
+	height: 25px;
+	margin-top: 10px;
+	margin-left: 2px;
+}
+
 /**========================以下是div弹窗样式=======================**/
 * {
 	padding: 0px;
@@ -96,6 +103,17 @@ body, html {
 	box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
 }
 
+#orderDiv {
+	display: none;
+}
+
+#courierCompanyDiv{
+	display: none;
+}
+
+#senderDiv{
+	display: none;
+}
 .pop-top {
 	height: 40px;
 	width: 100%;

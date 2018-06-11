@@ -11,146 +11,288 @@
 		// 创建添加订单div
 		$(document).on("click", "#addOrder", function() {
 			$('.bgPop,.pop').show();
-			$(".pop").css("min-height","550px");
-			var html = '<div id="cloceDiv">';
-				html += '	<div class="pop-top">';
-				html += '		<h2>添加订单</h2>';
-				html += '		<span class="pop-close">Ｘ</span>';
-				html += '	</div>';
-				html += '	<div class="pop-content" style="height: 460px">';
-				html += '		<div class="pop-content-right" style="width: 500px">';
-				html += '			<p>';
-				html += '				订单标题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				订单详情：<b class="lname"></b>';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<textarea style="margin-top: -25px; margin-left: 47px; width: 350px;" ></textarea>';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				快递公司：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<select id="courierCompany" style="width: 350px"></select>';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				发件人：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<select id="sender" style="width: 350px">';
-				html += '					<option value ="volvo">Volvo</option>';
-				html += '					<option value ="volvo">Volvo</option>';
-				html += '					<option value ="volvo">Volvo</option>';
-				html += '				</select>';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件人名称：&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件人联系方式：<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件省份：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件城市：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件区/县：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件详细地址：&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				收件地址邮编：&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<input style="width: 350px">';
-				html += '			</p>';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="pop-foot">';
-				html += '		<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">';
-				html += '		<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok">';
-				html += '	</div>';
-				html += '</div>';
-			$(".pop").append(html);
+			$("#orderDiv").show();
+			$(".pop").css("min-height", "650px");
+			// 获取所有快递公司
+			getCourierCompany();
+			// 获取所有发件人
+			getSender();
 		});
-		
+
 		// 创建添加快递公司div
 		$(document).on("click", "#addCourierCompany", function() {
-			$(".pop").css("min-height","250px");
-			$(".pop").css("height","312px");
+			$(".pop").css("min-height", "250px");
+			$(".pop").css("height", "330px");
 			$('.bgPop,.pop').show();
-			var html = '<div id="cloceDiv">';
-				html += '	<div class="pop-top">';
-				html += '		<h2>添加快递公司</h2>';
-				html += '		<span class="pop-close">Ｘ</span>';
-				html += '	</div>';
-				html += '	<div class="pop-content" style="height: 220px">';
-				html += '		<div class="pop-content-right" style="width: 500px">';
-				html += '			<p>';
-				html += '				快递公司名称：<b class="lname"></b>';
-				html += '				<input id="courierCompanyName" style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				快递公司账号：<b class="lname"></b>';
-				html += '				<input id="courierCompanyAccount" style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				快递公司密码：<b class="lname"></b>';
-				html += '				<input id="courierCompanyPassWord" style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				快递公司编码：<b class="lname"></b>';
-				html += '				<input id="courierCompanyCode" style="width: 350px">';
-				html += '			</p>';
-				html += '			<p>';
-				html += '				支付类型：&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></b>';
-				html += '				<select id="payTYpe" style="width: 350px">';
-				html += '					<option value ="">请选择</option>';
-				html += '					<option value ="1">现付</option>';
-				html += '					<option value ="2">到付</option>';
-				html += '					<option value ="3">月结</option>';
-				html += '					<option value ="4">第三方付</option>';
-				html += '				</select>';
-				html += '			</p>';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="pop-foot">';
-				html += '		<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">';
-				html += '		<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addCourierCompanyButton">';
-				html += '	</div>';
-				html += '</div>';
+			$("#courierCompanyDiv").show();
+		});
+
+		// 创建添加发件人div
+		$(document).on("click", "#addSender", function() {
+			$(".pop").css("min-height", "250px");
+			$(".pop").css("height", "460px");
+			$('.bgPop,.pop').show();
+			$("#senderDiv").show();
 			$(".pop").append(html);
 		});
-		
+
 		// 添加快递公司
 		$(document).on("click", "#addCourierCompanyButton", function() {
-			
-		});
-		
-		// 关闭并删除div
-		$(document).on("click", ".pop-close", function() {
-			$("#cloceDiv").remove();
-			$('.bgPop,.pop').hide();
-		});
-		
-		// 获取快递公司
-		$(document).on("click", "#courierCompanyList", function() {
+			// 快递公司名称
+			var companyName = $("#courierCompanyName").val();
+			// 快递公司账号
+			var companyAccount = $("#courierCompanyAccount").val();
+			// 快递公司密码
+			var companyPwd = $("#courierCompanyPassWord").val();
+			// 快递公司编码
+			var companyCode = $("#courierCompanyCode").val();
+			// 支付类型
+			var payType = $("#payType").val();
+			if (companyName == null || companyName == "" || companyName == "null") {
+				alert("快递公司名称不能为空");
+				return;
+			}
+			if (companyAccount == null || companyAccount == "" || companyAccount == "null") {
+				alert("快递公司账号不能为空");
+				return;
+			}
+			if (companyPwd == null || companyPwd == "" || companyPwd == "null") {
+				alert("快递公司密码不能为空");
+				return;
+			}
+			if (companyCode == null || companyCode == "" || companyCode == "null") {
+				alert("快递公司编码不能为空");
+				return;
+			}
+			if (payType == null || payType == "" || payType == "null") {
+				alert("支付类型不能为空");
+				return;
+			}
 			$.ajax({
-				type : "get",
-				url : "http://localhost:20080/kdi/company/alllist",
+				type : "post",
+				url : "/kdi/company/add",
 				dataType : "json",
-				success : function(data) {
-					console.log(data);
+				data : {
+					companyName : companyName,
+					companyAccount : companyAccount,
+					companyPwd : companyPwd,
+					companyCode : companyCode,
+					payType : payType
 				}
+			}).done(function(data) {
+				alert(data.msg);
+				window.location.reload();
 			});
 		});
-	})
+
+		// 添加发件人
+		$(document).on("click", "#addSenderButton", function() {
+			// 发件人名称
+			var senderName = $("#senderName").val();
+			// 发件人电话
+			var senderTel = $("#senderTel").val();
+			// 发件人手机
+			var senderMobile = $("#senderMobile").val();
+			// 发件省份
+			var senderProvince = $("#senderProvince").val();
+			// 发件城市
+			var senderCity = $("#senderCity").val();
+			// 发件区县
+			var senderExpArea = $("#senderExpArea").val();
+			// 发件详细地址
+			var senderAddress = $("#senderAddress").val();
+			// 发件地邮编
+			var senderPostCode = $("#senderPostCode").val();
+
+			if (senderName == null || senderName == "" || senderName == "null") {
+				alert("发件人不能为空");
+				return;
+			}
+			if (senderProvince == null || senderProvince == "" || senderProvince == "null") {
+				alert("发件省份不能为空");
+				return;
+			}
+			if (senderCity == null || senderCity == "" || senderCity == "null") {
+				alert("发件城市不能为空");
+				return;
+			}
+			if (senderExpArea == null || senderExpArea == "" || senderExpArea == "null") {
+				alert("发件区/县不能为空");
+				return;
+			}
+			if (senderAddress == null || senderAddress == "" || senderAddress == "null") {
+				alert("发件详细地址不能为空");
+				return;
+			}
+			if (senderPostCode == null || senderPostCode == "" || senderPostCode == "null") {
+				alert("发件地邮编不能为空");
+				return;
+			}
+			if (senderTel == null || senderTel == "" || senderTel == "null"
+					&& senderMobile == null || senderMobile == "" || senderMobile == "null") {
+				alert("发件人电话和手机必须填一个");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi/sender/add",
+				dataType : "json",
+				data : {
+					senderName : senderName,
+					senderTel : senderTel,
+					senderMobile : senderMobile,
+					senderProvince : senderProvince,
+					senderCity : senderCity,
+					senderExpArea : senderExpArea,
+					senderAddress : senderAddress,
+					senderPostCode : senderPostCode
+				}
+			}).done(function(data) {
+				alert(data.msg);
+				window.location.reload();
+			});
+		});
+
+		// 添加订单
+		$(document).on("click", "#orderButton", function() {
+			var orderTitle = $("#orderTitle").val().trim(); // 订单标题
+			var orderDetail = $("#orderDetail").val().trim(); // 订单详情
+			var receiverName = $("#receiverName").val().trim(); // 收件人名称
+			var receiverTel = $("#receiverTel").val().trim(); // 收件人电话
+			var receiverMobile = $("#receiverMobile").val().trim(); // 收件人手机
+			var receiverProvince = $("#receiverProvince").val().trim(); // 收件省份
+			var receiverCity = $("#receiverCity").val().trim(); // 收件城市
+			var receiverExpArea = $("#receiverExpArea").val().trim(); // 收件区县
+			var receiverAddress = $("#receiverAddress").val().trim(); // 收件人详细地址
+			var receiverPostCode = $("#receiverPostCode").val().trim(); // 收件地址邮编
+			var getCourierCompany = $("#getCourierCompany").val().trim(); // 快递公司
+			var getSender = $("#getSender").val(); // 发件人
+			if (orderTitle == null || orderTitle == "" || orderTitle == "null") {
+				alert("订单标题不能为空");
+				return;
+			}
+			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
+				alert("订单详情不能为空");
+				return;
+			}
+			if (receiverName == null || receiverName == "" || receiverName == "null") {
+				alert("收件人名称不能为空");
+				return;
+			}
+			if (receiverProvince == null || receiverProvince == "" || receiverProvince == "null") {
+				alert("收件省份不能为空");
+				return;
+			}
+			if (receiverCity == null || receiverCity == "" || receiverCity == "null") {
+				alert("收件城市不能为空");
+				return;
+			}
+			if (receiverExpArea == null || receiverExpArea == "" || receiverExpArea == "null") {
+				alert("收件区/县不能为空");
+				return;
+			}
+			if (receiverAddress == null || receiverAddress == "" || receiverAddress == "null") {
+				alert("收件详细地址不能为空");
+				return;
+			}
+			if (receiverPostCode == null || receiverPostCode == "" || receiverPostCode == "null") {
+				alert("收件地址邮编不能为空");
+				return;
+			}
+			if (getCourierCompany == null || getCourierCompany == "" || getCourierCompany == "null") {
+				alert("快递公司不能为空");
+				return;
+			}
+			if (getSender == null || getSender == "" || getSender == "null") {
+				alert("发件人不能为空");
+				return;
+			}
+			if (receiverTel == "null") {
+				receiverTel = "";
+			}
+			if (receiverMobile == "null") {
+				receiverMobile = "";
+			}
+			if (receiverTel == null || receiverTel == "" && receiverMobile == null || receiverMobile == "") {
+				alert("收件人手机和电话必须填写一个");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi/logistic/add",
+				dataType : "json",
+				data : {
+					orderTitle : orderTitle,
+					orderDetail : orderDetail,
+					receiverName : receiverName,
+					receiverTel : receiverTel,
+					receiverMobile : receiverMobile,
+					receiverProvince : receiverProvince,
+					receiverCity : receiverCity,
+					receiverExpArea : receiverExpArea,
+					receiverAddress : receiverAddress,
+					receiverPostCode : receiverPostCode,
+					companyCode : getCourierCompany,
+					senderId : getSender
+				}
+			}).done(function(data) {
+				console.log(data);
+				if (data.result != 1) {
+					alert(data.msg);
+					return;
+				}
+				var printPage = data.printPage;
+				window.document.body.innerHTML = printPage;
+				window.print();
+				location.reload();
+			});
+		});
+
+		// 关闭并删除div
+		$(document).on("click", ".pop-close", function() {
+			$('.bgPop,.pop').hide();
+			$("#orderDiv").hide();
+			$("#courierCompanyDiv").hide();
+			$("#senderDiv").hide();
+		});
+	});
+
+	// 获取快递公司
+	function getCourierCompany() {
+		$.ajax({
+			type : "get",
+			url : "/kdi/company/alllist",
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+				$("#getCourierCompany").html('<option value ="">请选择</option>');
+				var html = '';
+				for (var i = 0; i < data.length; i++) {
+					html += '<option value ="' + data[i].companyCode + '">'
+							+ data[i].companyName + '</option>';
+				}
+				$("#getCourierCompany").append(html);
+			}
+		});
+	}
+
+	// 获取发件人
+	function getSender() {
+		$.ajax({
+			type : "get",
+			url : "/kdi/sender/alllist",
+			dataType : "json",
+		}).done(function(data) {
+			console.log(data);
+			$("#getSender").html('<option value ="">请选择</option>');
+			var html = '';
+			for (var i = 0; i < data.length; i++) {
+				html += '<option value ="' + data[i].id + '">'
+						+ data[i].senderName + '</option>';
+			}
+			$("#getSender").append(html);
+		});
+	}
 </script>
 </head>
 <body>
@@ -202,10 +344,11 @@
 					</div>
 					<div class="input-all div-from-Other">
 						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
-						<span><a href="javascript:void(0)" id="entryOrder">录入订单</a></span>| 
-						<span><a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a> </span>| 
-						<span><a href="javascript:void(0)" id="addSender">添加发件人</a></span> <br /> 
-						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp;
+						<span><a href="javascript:void(0)" id="entryOrder">录入订单</a></span>|
+						<span><a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a></span>| 
+						<span><a href="javascript:void(0)" id="addSender">添加发件人</a></span>
+						<br /> 
+						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp; 
 						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
 					</div>
 				</form>
@@ -246,7 +389,108 @@
 	<!--遮罩层-->
 	<div class="bgPop"></div>
 	<!--弹出框-->
-	<div class="pop"></div>
+	<div class="pop">
+		<!-- 添加订单 -->
+		<div id="orderDiv">
+			<div id="cloceDiv">
+				<div class="pop-top">
+					<h2>添加订单</h2>
+					<span class="pop-close">Ｘ</span>
+				</div>
+				<div class="pop-content" style="height: 560px">
+					<div class="pop-content-right" style="width: 500px">
+						<table>
+							<span>订单标题：<input id="orderTitle" style="margin-left: 30px;"></span></br>
+							<span>订单详情：
+								<textarea id="orderDetail" style="margin-top: -20px; margin-left: 111px; width: 350px; height: 50px;"></textarea>
+							</span></br>
+							<span>快递公司：</span>
+							<select id="getCourierCompany" style="width: 350px; height: 30px; margin-left: 32px;">
+								<option value="">请选择</option>
+							</select></br>
+							<span>发件人：</span>
+							<select id="getSender" style="width: 350px; height: 30px; margin-left: 48px;">
+								<option value="">请选择</option>
+							</select></br>
+							<span>收件人名称：<input id="receiverName" style="margin-left: 17px;"></span></br>
+							<span>收件人电话：<input id="receiverTel" style="margin-left: 17px;"></span></br>
+							<span>收件人手机：<input id="receiverMobile" style="margin-left: 17px;"></span></br>
+							<span>收件省份：<input id="receiverProvince" style="margin-left: 33px;"></span></br>
+							<span>收件城市：<input id="receiverCity" style="margin-left: 33px;"></span></br>
+							<span>收件区/县：<input id="receiverExpArea" style="margin-left: 27px;"></span></br>
+							<span>收件详细地址：<input id="receiverAddress"></span></br>
+							<span>收件地址邮编：<input id="receiverPostCode"></span>
+						</table>
+					</div>
+				</div>
+				<div class="pop-foot">
+					<input type="button" value="关&nbsp;&nbsp;闭"
+						class="pop-cancel pop-close"> <input type="button"
+						id="orderButton" value="提&nbsp;&nbsp;交" class="pop-ok">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 添加快递公司 -->
+		<div id="courierCompanyDiv">
+			<div id="cloceDiv">
+				<div class="pop-top">
+					<h2>添加快递公司</h2>
+					<span class="pop-close">Ｘ</span>
+				</div>
+				<div class="pop-content" style="height: 250px">
+					<div class="pop-content-right" style="width: 500px">
+						<table>
+							<span>快递公司名称：<input id="courierCompanyName"></span></br>
+							<span>快递公司账号：<input id="courierCompanyAccount"></span></br>
+							<span>快递公司密码：<input id="courierCompanyPassWord"></span></br>
+							<span>快递公司编码：<input id="courierCompanyCode"></span></br>
+							<span>支付类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></span>
+							<select id="payType" style="width: 355px; height: 30px; margin-left:4px; margin-top: 10px;">
+								<option value ="">请选择</option>
+								<option value ="1">现付</option>
+								<option value ="2">到付</option>
+								<option value ="3">月结</option>
+								<option value ="4">第三方付</option>
+							</select>
+						</table>
+					</div>
+				</div>
+				<div class="pop-foot">
+					<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">
+					<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addCourierCompanyButton">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 添加发件人 -->
+		<div id="senderDiv">
+			<div id="cloceDiv">
+				<div class="pop-top">
+					<h2>添加发件人</h2>
+					<span class="pop-close">Ｘ</span>
+				</div>
+				<div class="pop-content" style="height: 370px">
+					<div class="pop-content-right" style="width: 650px">
+						<table>
+							<span>发件人名称: <input id="senderName" style="margin-left:17px;"></span></br>
+							<span>发件人电话: <input id="senderTel" style="margin-left:17px;"></span></br>
+							<span>发件人手机: <input id="senderMobile" style="margin-left:17px;"></span></br>
+							<span>发件省份: <input id="senderProvince" style="margin-left:33px;"></span></br>
+							<span>发件城市: <input id="senderCity" style="margin-left:33px;"></span></br>
+							<span>发件区/县: <input id="senderExpArea" style="margin-left:26px;"></span></br>
+							<span>发件详细地址: <input id="senderAddress"></span></br>
+							<span>发件地邮编: <input id="senderPostCode" style="margin-left:18px;"></span></br>
+						</table>
+					</div>
+				</div>
+				<div class="pop-foot">
+					<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">
+					<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addSenderButton">
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	laydate.skin('molv');

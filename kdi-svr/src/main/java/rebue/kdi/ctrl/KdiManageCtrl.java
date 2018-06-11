@@ -5,12 +5,19 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiSenderMo;
+import rebue.kdi.ro.AddKdiLogisticRo;
+import rebue.kdi.ro.AddKdiSenderRo;
+import rebue.kdi.ro.AddkdiCompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
+import rebue.kdi.svc.KdiSenderSvc;
+import rebue.kdi.to.AddKdiLogisticTo;
 
 @RestController
 public class KdiManageCtrl {
@@ -26,6 +33,9 @@ public class KdiManageCtrl {
 
 	@Resource
 	private KdiCompanySvc kdiCompanySvc;
+	
+	@Resource
+	private KdiSenderSvc kdiSenderSvc;
 
 	/**
 	 * 根据条件查询订单信息 Title: list Description:
@@ -55,5 +65,50 @@ public class KdiManageCtrl {
 		List<KdiCompanyMo> list = kdiCompanySvc.listAll();
 		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
 		return list;
+	}
+	
+	/**
+	 * 获取所有发件人信息
+	 * @return
+	 */
+	@GetMapping("/kdi/sender/alllist")
+	List<KdiSenderMo> kdiSenderList() {
+		_log.info("开始查询发件人信息");
+		List<KdiSenderMo> list = kdiSenderSvc.listAll();
+		_log.info("查询到的发件人信息为: {}", String.valueOf(list));
+		return list;
+	}
+
+	/**
+	 * 添加快递公司
+	 * @param mo
+	 * @return
+	 */
+	@PostMapping("/kdi/company/add")
+	AddkdiCompanyRo addkdiCompany(KdiCompanyMo mo) {
+		_log.info("添加快递公司的参数为: {}", mo);
+		return kdiCompanySvc.exAdd(mo);
+	}
+	
+	/**
+	 * 添加发件人
+	 * @param mo
+	 * @return
+	 */
+	@PostMapping("/kdi/sender/add")
+	AddKdiSenderRo addKdiSender(KdiSenderMo mo) {
+		_log.info("添加发件人的参数为: {}", mo);
+		return kdiSenderSvc.exAdd(mo);
+	}
+	
+	/**
+	 * 添加物流订单
+	 * @param to
+	 * @return
+	 */
+	@PostMapping("/kdi/logistic/add")
+	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo to) {
+		_log.info("添加物流订单的参数为: {}", to);
+		return kdiLogisticSvc.addKdiLogistic(to);
 	}
 }

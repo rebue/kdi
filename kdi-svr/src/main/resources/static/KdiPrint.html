@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control"
+	content="no-cache,no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="google" value="notranslate">
+<meta charset="utf-8">
+<title>订单打印</title>
+<link href="KdiPrint.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div id="root">
+		<div data-reactroot="" class="layout-normal">
+			<div class="layout-header">
+				<div class="layout-header-info-container">
+					<div class="layout-header-info">
+						<div class="ant-row">
+							<div class="ant-col-3">
+								<div class="layout-logo">
+									<a href="http://lt.800best.com" target="_blank">
+										<div class="dadan-logo"></div>
+									</a>
+								</div>
+							</div>
+							<div class="ant-col-13">
+								<ul
+									class="ant-menu ant-menu-horizontal ant-menu-dark ant-menu-root"
+									role="menu" aria-activedescendant="" tabindex="0">
+									<li class="ant-menu-item" role="menuitem" aria-selected="false"><span>导入订单打印</span></li>
+									<li class="ant-menu-item-selected ant-menu-item"
+										role="menuitem" aria-selected="true"><span>自定义打印</span></li>
+									<li class="ant-menu-item" role="menuitem" aria-selected="false"><span>辅助功能</span></li>
+									<li class="ant-menu-item" role="menuitem" aria-selected="false"><span>设置</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layout-content">
+				<div class="layout-content-inner">
+					<div class="ant-row">
+						<div class="ant-col-12 leftCol">
+							<div>
+								<div class="customPrint-form-div">
+									<!-- react-empty: 354 -->
+									<div class="ant-row info-header-row">
+										<div class="ant-col-1"></div>
+										<div class="ant-col-6">
+											<div>修改寄件人信息</div>
+										</div>
+										<!-- <div class="ant-col-3 ant-col-push-11">
+											<button type="button"
+												class="ant-btn ant-btn-default ant-btn-sm">
+												<span> 批量导入</span>
+											</button>
+										</div>
+										<div class="ant-col-3 ant-col-push-11">
+											<a href="/customPrint.zip" target="###">模板下载</a>
+										</div> -->
+									</div>
+									<form class="ant-form ant-form-horizontal">
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="name" class="" title="寄件人姓名">寄件人姓名</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="name" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="nick" class="" title="卖家ID">卖家ID</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="nick" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="mobilePhone" class="" title="手机">手机</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="mobilePhone"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="phone" class="" title="电话">电话</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="phone" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="company" class="" title="寄件人单位">寄件人单位</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="company"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="zipCode" class="" title="邮编">邮编</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="zipCode"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-24 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-5 ant-form-item-label">
+														<label for="provinceCityCountry" class="" title="寄件人地址">寄件人地址</label>
+													</div>
+													<div class="ant-col-19 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control has-success">
+															<div style="display: inline-block;">
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: none; -moz-user-select: none;">请选择省</div>
+																			<div class="ant-select-selection-selected-value"
+																				title="" style="display: block; opacity: 1;"></div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> </span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: none; -moz-user-select: none;">请选择市</div>
+																			<div class="ant-select-selection-selected-value"
+																				title="" style="display: block; opacity: 1;"></div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> </span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: block; -moz-user-select: none;">请选择区</div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> </span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-24 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-5 ant-form-item-label">
+														<label for="addr" class="ant-form-item-required"
+															title="详细地址">详细地址</label>
+													</div>
+													<div class="ant-col-19 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input id="addr" value="" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row">
+											<div class="ant-col-24 last-info-col">
+												<div class="ant-col-4 last-info-col"></div>
+												<div class="ant-col-6">
+													<label class="ant-checkbox-wrapper"><span
+														class="ant-checkbox"><input
+															class="ant-checkbox-input" data-__meta="[object Object]"
+															value="on" type="checkbox"><span
+															class="ant-checkbox-inner"></span></span><span>是否是默认寄件人</span></label>
+												</div>
+												<div class="ant-col-5 last-info-col">
+													<button type="button"
+														class="ant-btn ant-btn-primary ant-btn-sm">
+														<span>新增寄件人记录</span>
+													</button>
+												</div>
+												<div class="ant-col-7 last-info-col">
+													<button disabled="" type="button"
+														class="ant-btn ant-btn-default ant-btn-sm">
+														<span>修改寄件人记录</span>
+													</button>
+												</div>
+												<div class="ant-col-2 last-info-col">
+													<button type="button"
+														class="ant-btn ant-btn-primary ant-btn-sm">
+														<span>清 空</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="senderAndReceiverTable-div">
+									<div class="ant-row">
+										<div class="ant-col-14">
+											<div>
+												<a> <!-- react-text: 488 -->收起寄件人信息<!-- /react-text -->
+													<i class="anticon anticon-up"></i>
+												</a>
+											</div>
+										</div>
+										<div class="ant-col-8">
+											<span class="ant-input-search search ant-input-affix-wrapper"><input
+												placeholder="输入关键字搜索" value="" class="ant-input" type="text"><span
+												class="ant-input-suffix"><i
+													class="anticon anticon-search ant-input-search-icon"></i></span></span>
+										</div>
+										<div class="ant-col-2 clear-btn">
+											<button type="button"
+												class="ant-btn ant-btn-primary ant-btn-sm">
+												<span>清 空</span>
+											</button>
+										</div>
+									</div>
+									<div>
+										<div class="ant-table-wrapper">
+											<div class="ant-spin-nested-loading">
+												<div class="ant-spin-container">
+													<div
+														class="ant-table ant-table-large ant-table-bordered ant-table-empty ant-table-fixed-header ant-table-scroll-position-left">
+														<div class="ant-table-content">
+															<div class="ant-table-scroll">
+																<div class="ant-table-header"
+																	style="margin-bottom: -10px; padding-bottom: 0px;">
+																	<table class="ant-table-fixed"
+																		style="table-layout: fixed;">
+																		<colgroup>
+																			<col style="width: 16px; min-width: 16px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 200px; min-width: 200px;">
+																			<col style="width: 60px; min-width: 60px;">
+																		</colgroup>
+																		<thead class="ant-table-thead">
+																			<tr>
+																				<th class=""><span><label
+																						class="ant-checkbox-wrapper"><span
+																							class="ant-checkbox"><input
+																								class="ant-checkbox-input" data-type="1"
+																								value="on" type="checkbox"><span
+																								class="ant-checkbox-inner"></span></span></label></span></th>
+																				<th class=""><span> <!-- react-text: 524 -->寄件人姓名<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 527 -->卖家ID<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 530 -->寄件人单位<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 533 -->寄件人信息<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 536 -->操作<!-- /react-text -->
+																				</span></th>
+																			</tr>
+																		</thead>
+																	</table>
+																</div>
+																<div class="ant-table-body"
+																	style="overflow-x: auto; max-height: 200px; overflow-y: scroll;">
+																	<table class="ant-table-fixed"
+																		style="table-layout: fixed;">
+																		<colgroup>
+																			<col style="width: 16px; min-width: 16px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 200px; min-width: 200px;">
+																			<col style="width: 60px; min-width: 60px;">
+																		</colgroup>
+																		<tbody class="ant-table-tbody"></tbody>
+																	</table>
+																</div>
+																<div class="ant-table-placeholder">
+																	<span><i class="anticon anticon-frown-o"></i> <!-- react-text: 550 -->暂无数据<!-- /react-text --></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div>
+										<div class="ant-row">
+											<div class="ant-col-3">
+												<button disabled="" type="button"
+													class="ant-btn ant-btn-primary ant-btn-sm">
+													<span>设为默认</span>
+												</button>
+											</div>
+											<div class="ant-col-3">
+												<button disabled="" type="button"
+													class="ant-btn ant-btn-default ant-btn-sm">
+													<span>批量删除</span>
+												</button>
+											</div>
+											<div class="ant-col-12">
+												<button disabled="" type="button"
+													class="ant-btn ant-btn-primary ant-btn-sm">
+													<span>清空选择</span>
+												</button>
+											</div>
+											<div class="ant-col-6">
+												<span style="font-size: 15px; font-weight: 900;"> <!-- react-text: 564 -->已选择<!-- /react-text -->
+													<span style="color: red;">0</span> <!-- react-text: 566 -->/<!-- /react-text -->
+													<span>0</span>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ant-col-12 rightCol">
+							<div>
+								<div class="customPrint-form-div">
+									<!-- react-empty: 571 -->
+									<div class="ant-row info-header-row">
+										<div class="ant-col-1"></div>
+										<div class="ant-col-6">
+											<div>
+												<!-- react-text: 576 -->
+												修改
+												<!-- /react-text -->
+												<!-- react-text: 577 -->
+												收件人
+												<!-- /react-text -->
+												<!-- react-text: 578 -->
+												信息
+												<!-- /react-text -->
+											</div>
+										</div>
+										<div class="ant-col-3 ant-col-push-11">
+											<button type="button"
+												class="ant-btn ant-btn-default ant-btn-sm">
+												<span> 批量导入</span>
+											</button>
+										</div>
+										<div class="ant-col-3 ant-col-push-11">
+											<a href="/customPrint.zip" target="###">模板下载</a>
+										</div>
+									</div>
+									<form class="ant-form ant-form-horizontal">
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="name" class="" title="收件人姓名">收件人姓名</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="name" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="nick" class="" title="买家ID">买家ID</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="nick" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="mobilePhone" class="" title="手机">手机</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="mobilePhone"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="phone" class="" title="电话">电话</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="phone" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="company" class="" title="收件人单位">收件人单位</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="company"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="zipCode" class="" title="邮编">邮编</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="zipCode"
+																data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-24 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-5 ant-form-item-label">
+														<label for="provinceCityCountry" class="" title="收件人地址">收件人地址</label>
+													</div>
+													<div class="ant-col-19 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control has-success">
+															<div style="display: inline-block;">
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection
+            ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: none; -moz-user-select: none;">请选择省</div>
+																			<div class="ant-select-selection-selected-value"
+																				title="" style="display: block; opacity: 1;"></div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> <!-- react-text: 646 -->
+																						<!-- /react-text --> <!-- react-text: 647 -->&nbsp;<!-- /react-text -->
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection
+            ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: none; -moz-user-select: none;">请选择市</div>
+																			<div class="ant-select-selection-selected-value"
+																				title="" style="display: block; opacity: 1;"></div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> <!-- react-text: 658 -->
+																						<!-- /react-text --> <!-- react-text: 659 -->&nbsp;<!-- /react-text -->
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+																<div class="ant-select ant-select-enabled"
+																	style="width: 120px;">
+																	<div
+																		class="ant-select-selection
+            ant-select-selection--single"
+																		role="combobox" aria-autocomplete="list"
+																		aria-haspopup="true" aria-expanded="false"
+																		tabindex="0">
+																		<div class="ant-select-selection__rendered">
+																			<div unselectable="unselectable"
+																				class="ant-select-selection__placeholder"
+																				style="display: block; -moz-user-select: none;">请选择区</div>
+																			<div
+																				class="ant-select-search ant-select-search--inline"
+																				style="display: none;">
+																				<div class="ant-select-search__field__wrap">
+																					<input autocomplete="off" value=""
+																						class="ant-select-search__field"><span
+																						class="ant-select-search__field__mirror"> <!-- react-text: 670 -->
+																						<!-- /react-text --> <!-- react-text: 671 -->&nbsp;<!-- /react-text -->
+																					</span>
+																				</div>
+																			</div>
+																		</div>
+																		<span class="ant-select-arrow"
+																			unselectable="unselectable"
+																			style="-moz-user-select: none;"><b></b></span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-24 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-5 ant-form-item-label">
+														<label for="addr" class="ant-form-item-required"
+															title="详细地址">详细地址</label>
+													</div>
+													<div class="ant-col-19 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input id="addr" value="" data-__meta="[object Object]"
+																class="ant-input ant-input-lg" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row">
+											<div class="ant-col-24 last-info-col">
+												<div class="ant-col-4 last-info-col"></div>
+												<div class="ant-col-6">
+													<label class="ant-checkbox-wrapper"><span
+														class="ant-checkbox ant-checkbox-checked"><input
+															class="ant-checkbox-input" value="on" type="checkbox"><span
+															class="ant-checkbox-inner"></span></span><span>智能解析</span></label>
+												</div>
+												<div class="ant-col-5 last-info-col">
+													<button type="button"
+														class="ant-btn ant-btn-primary ant-btn-sm">
+														<span>新增收件人记录</span>
+													</button>
+												</div>
+												<div class="ant-col-7 last-info-col">
+													<button disabled="" type="button"
+														class="ant-btn ant-btn-default ant-btn-sm">
+														<span>修改收件人记录</span>
+													</button>
+												</div>
+												<div class="ant-col-2 last-info-col">
+													<button type="button"
+														class="ant-btn ant-btn-primary ant-btn-sm">
+														<span>清 空</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="senderAndReceiverTable-div">
+									<div class="ant-row">
+										<div class="ant-col-14">
+											<div>
+												<a> <!-- react-text: 705 -->收起收件人信息<!-- /react-text -->
+													<i class="anticon anticon-up"></i>
+												</a>
+											</div>
+										</div>
+										<div class="ant-col-8">
+											<span class="ant-input-search search ant-input-affix-wrapper"><input
+												placeholder="输入关键字搜索" value="" class="ant-input" type="text"><span
+												class="ant-input-suffix"><i
+													class="anticon anticon-search ant-input-search-icon"></i></span></span>
+										</div>
+										<div class="ant-col-2 clear-btn">
+											<button type="button"
+												class="ant-btn ant-btn-primary ant-btn-sm">
+												<span>清 空</span>
+											</button>
+										</div>
+									</div>
+									<div>
+										<div class="ant-table-wrapper">
+											<div class="ant-spin-nested-loading">
+												<div class="ant-spin-container">
+													<div
+														class="ant-table ant-table-large ant-table-bordered ant-table-empty ant-table-fixed-header ant-table-scroll-position-left">
+														<div class="ant-table-content">
+															<div class="ant-table-scroll">
+																<div class="ant-table-header"
+																	style="margin-bottom: -10px; padding-bottom: 0px;">
+																	<table class="ant-table-fixed"
+																		style="table-layout: fixed;">
+																		<colgroup>
+																			<col style="width: 16px; min-width: 16px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 200px; min-width: 200px;">
+																			<col style="width: 60px; min-width: 60px;">
+																		</colgroup>
+																		<thead class="ant-table-thead">
+																			<tr>
+																				<th class=""><span><label
+																						class="ant-checkbox-wrapper"><span
+																							class="ant-checkbox"><input
+																								class="ant-checkbox-input" data-type="2"
+																								value="on" type="checkbox"><span
+																								class="ant-checkbox-inner"></span></span></label></span></th>
+																				<th class=""><span> <!-- react-text: 741 -->收件人姓名<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 744 -->买家ID<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 747 -->收件人单位<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 750 -->收件人信息<!-- /react-text -->
+																				</span></th>
+																				<th class=""><span> <!-- react-text: 753 -->操作<!-- /react-text -->
+																				</span></th>
+																			</tr>
+																		</thead>
+																	</table>
+																</div>
+																<div class="ant-table-body"
+																	style="overflow-x: auto; max-height: 200px; overflow-y: scroll;">
+																	<table class="ant-table-fixed"
+																		style="table-layout: fixed;">
+																		<colgroup>
+																			<col style="width: 16px; min-width: 16px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 80px; min-width: 80px;">
+																			<col style="width: 200px; min-width: 200px;">
+																			<col style="width: 60px; min-width: 60px;">
+																		</colgroup>
+																		<tbody class="ant-table-tbody"></tbody>
+																	</table>
+																</div>
+																<div class="ant-table-placeholder">
+																	<span><i class="anticon anticon-frown-o"></i> <!-- react-text: 767 -->暂无数据<!-- /react-text --></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div>
+										<div class="ant-row">
+											<div class="ant-col-3"></div>
+											<div class="ant-col-3">
+												<button disabled="" type="button"
+													class="ant-btn ant-btn-default ant-btn-sm">
+													<span>批量删除</span>
+												</button>
+											</div>
+											<div class="ant-col-12">
+												<button disabled="" type="button"
+													class="ant-btn ant-btn-primary ant-btn-sm">
+													<span>清空选择</span>
+												</button>
+											</div>
+											<div class="ant-col-6">
+												<span style="font-size: 15px; font-weight: 900;"> <!-- react-text: 779 -->已选择<!-- /react-text -->
+													<span style="color: red;">0</span> <!-- react-text: 781 -->/<!-- /react-text -->
+													<span>0</span>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ant-row">
+						<div class="add-prod-table">
+							<div class="ant-table-wrapper editAbleTable">
+								<div class="ant-spin-nested-loading">
+									<div class="ant-spin-container">
+										<div
+											class="ant-table ant-table-large ant-table-bordered ant-table-empty ant-table-fixed-header ant-table-scroll-position-left">
+											<div class="ant-table-content">
+												<div class="ant-table-scroll">
+													<div class="ant-table-header"
+														style="margin-bottom: -10px; padding-bottom: 0px;">
+														<table class="ant-table-fixed" style="width: 850px;">
+															<colgroup>
+																<col style="width: 50px; min-width: 50px;">
+																<col style="width: 150px; min-width: 150px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 50px; min-width: 50px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+															</colgroup>
+															<thead class="ant-table-thead">
+																<tr>
+																	<th class=""><span> <!-- react-text: 807 -->
+																			<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 810 -->商品简称<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 813 -->商品编码<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 816 -->规格<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 819 -->数量<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 822 -->单价<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 825 -->优惠<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 828 -->金额<!-- /react-text -->
+																	</span></th>
+																	<th class=""><span> <!-- react-text: 831 -->重量<!-- /react-text -->
+																	</span></th>
+																</tr>
+															</thead>
+														</table>
+													</div>
+													<div class="ant-table-body"
+														style="overflow-x: auto; max-height: 300px; overflow-y: scroll;">
+														<table class="ant-table-fixed" style="width: 850px;">
+															<colgroup>
+																<col style="width: 50px; min-width: 50px;">
+																<col style="width: 150px; min-width: 150px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 50px; min-width: 50px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+																<col style="width: 100px; min-width: 100px;">
+															</colgroup>
+															<tbody class="ant-table-tbody"></tbody>
+														</table>
+													</div>
+													<div class="ant-table-placeholder">
+														<span><i class="anticon anticon-frown-o"></i> <!-- react-text: 848 -->暂无数据<!-- /react-text --></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button type="button" class="ant-btn add-one-row ant-btn-primary">
+								<span>添加一行</span>
+							</button>
+						</div>
+					</div>
+					<div class="ant-row">
+						<div class="lt-grid-modal-footer">
+							<div class="ant-row footer-row">
+								<div class="ant-col-9">
+									<div>
+										<!-- react-empty: 856 -->
+										<!-- react-empty: 857 -->
+										<div>
+											<!-- react-empty: 859 -->
+											<!-- react-empty: 860 -->
+										</div>
+										<!-- react-empty: 861 -->
+										<!-- react-empty: 862 -->
+									</div>
+								</div>
+								<div class="ant-col-15">
+									<span class="customprint-footerbutton-span"><label>打印份数：</label>
+										<div class="ant-input-number" style="width: 90px;">
+											<div class="ant-input-number-handler-wrap">
+												<span unselectable="unselectable" role="button"
+													aria-label="Increase Value" aria-disabled="false"
+													class="ant-input-number-handler ant-input-number-handler-up "><span
+													unselectable="unselectable"
+													class="ant-input-number-handler-up-inner"></span></span><span
+													unselectable="unselectable" role="button"
+													aria-label="Decrease Value" aria-disabled="true"
+													class="ant-input-number-handler ant-input-number-handler-down ant-input-number-handler-down-disabled"><span
+													unselectable="unselectable"
+													class="ant-input-number-handler-down-inner"></span></span>
+											</div>
+											<div class="ant-input-number-input-wrap" role="spinbutton"
+												aria-valuemin="1" aria-valuemax="9007199254740991"
+												aria-valuenow="1">
+												<input step="1" min="1" max="9007199254740991"
+													class="ant-input-number-input" autocomplete="off" value="1">
+											</div>
+										</div> <!-- react-text: 874 -->份<!-- /react-text --></span><span
+										class="customprint-footerbutton-span"><label>邮费（元）：</label><input
+										value="0" class="ant-input" style="width: 75px;" type="text"></span><span
+										class="customprint-footerbutton-span"><label>选择物流：</label>
+										<div class="ant-select ant-select-enabled"
+											style="width: 120px;">
+											<div
+												class="ant-select-selection
+            ant-select-selection--single"
+												role="combobox" aria-autocomplete="list"
+												aria-haspopup="true" aria-expanded="false" tabindex="0">
+												<div class="ant-select-selection__rendered">
+													<div class="ant-select-selection-selected-value"
+														title="百世快递" style="display: block; opacity: 1;">百世快递</div>
+													<div class="ant-select-search ant-select-search--inline"
+														style="display: none;">
+														<div class="ant-select-search__field__wrap">
+															<input autocomplete="off" value=""
+																class="ant-select-search__field"><span
+																class="ant-select-search__field__mirror"> <!-- react-text: 888 -->
+																<!-- /react-text --> <!-- react-text: 889 -->&nbsp;<!-- /react-text -->
+															</span>
+														</div>
+													</div>
+												</div>
+												<span class="ant-select-arrow" unselectable="unselectable"
+													style="-moz-user-select: none;"><b></b></span>
+											</div>
+										</div></span>
+									<button type="button"
+										class="ant-btn  lt-btn-active ant-btn-active ant-btn-lg">
+										<span>打印快递单</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- react-empty: 49 -->
+		</div>
+	</div>
+	<!-- 使用defer属性可以让脚本在文档完全呈现之后再执行，延迟脚本总是按照它们的顺序执行 -->
+	<!-- 使用async属性表示当前脚本不必等待其他脚本，也不必阻塞文档呈现，不能保证按照它们在页面中出现的顺序执行。 -->
+	<script type="text/javascript" src="../../lib/jquery-3.3.1.min.js"></script>
+	<div id="_umfp" style="display: inline; width: 1px; height: 1px; overflow: hidden;"></div>
+</body>
+</html>

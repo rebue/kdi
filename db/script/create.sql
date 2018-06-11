@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/6/8 9:44:42                             */
+/* Created on:     2018/6/11 9:23:11                            */
 /*==============================================================*/
 
 
@@ -103,6 +103,7 @@ CREATE TABLE KDI_SENDER
    SENDER_EXP_AREA      VARCHAR(20) NOT NULL COMMENT '发件区',
    SENDER_ADDRESS       VARCHAR(300) NOT NULL COMMENT '发件人详细地址',
    SENDER_POST_CODE     CHAR(6) NOT NULL COMMENT '发件地邮编',
+   IS_DEFAULT           BOOL NOT NULL COMMENT '是否为默认发件人（true：默认  false：不是默认）',
    ENTRY_TIME           DATETIME NOT NULL COMMENT '录入时间',
    PRIMARY KEY (ID)
 );

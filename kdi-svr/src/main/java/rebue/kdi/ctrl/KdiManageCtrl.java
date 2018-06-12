@@ -18,6 +18,7 @@ import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.ListKdiLogisticTo;
 
 @RestController
 public class KdiManageCtrl {
@@ -47,10 +48,9 @@ public class KdiManageCtrl {
 	 * @date 2018年3月28日 下午3:06:09
 	 */
 	@GetMapping("/kid/manage/logistic")
-	List<KdiLogisticMo> kdiLogisticList(KdiLogisticMo mo) {
-		_log.info("list KdiLogisticMo:" + mo);
-
-		List<KdiLogisticMo> result = kdiLogisticSvc.list(mo);
+	List<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to) {
+		_log.info("list KdiLogisticMo:" + to);
+		List<KdiLogisticMo> result = kdiLogisticSvc.kdiLogisticList(to);
 		_log.info("result: " + result);
 		return result;
 	}

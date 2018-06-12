@@ -24,6 +24,7 @@ import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
+import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
 @Service
@@ -163,5 +164,11 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		addKdiLogisticRo.setPrintPage(eorder.getPrintPage());
 		addKdiLogisticRo.setResult(AddKdiLogisticDic.SUCCESS);
 		return addKdiLogisticRo;
+	}
+
+	@Override
+	public List<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to) {
+		_log.info("获取物流订单的参数为: {}", to);
+		return _mapper.kdiLogisticList(to);
 	}
 }

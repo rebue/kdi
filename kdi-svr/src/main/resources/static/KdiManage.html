@@ -8,6 +8,9 @@
 <script type="text/javascript" src="../../lib/laydate/laydate.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		//获取订单数据
+		reloadData();
+		
 		// 创建添加订单div
 		$(document).on("click", "#addOrder", function() {
 			$('.bgPop,.pop').show();
@@ -293,55 +296,133 @@
 			$("#getSender").append(html);
 		});
 	}
+	
+	
+	/**
+	* 加载首页信息
+	*/ 
+	function reloadData(){
+		  var senderName="";
+	      var senderTel="";
+	      var receiverName="";
+	      var receiverTel="";
+		  //判断用户的输入
+		  var senderName=document.getElementById("senderName");
+		  var receiverName=document.getElementById("receiverName");
+		  var reg = /^[0-9]+.?[0-9]*$/;
+		  if (reg.test(senderName.value)) {
+			  console.log("用户输入了发件人电话，需要修改name的属性");
+			  senderName.name="senderTel";
+			  senderTel=$("#senderName").val().trim(); // 发件人电话
+			  //因为下面的ajax要捕捉name为senderName的val，所以如果改了#senderName的name值，这里就需要修改一个临时的name值
+			  var sn=document.getElementById("sn");
+			  sn.name="senderName";
+			  senderName=$("#rn").val().trim(); // 
+		  }else{
+			  senderName.name="senderName";
+			  senderName=$("#senderName").val().trim(); // 发件人名称 
+		  }
+		  if (reg.test(receiverName.value)) {
+			  console.log("用户输入了发件人电话，需要修改name的属性");
+			  receiverName.name="receiverTel";
+			  receiverTel=$("#receiverName").val().trim(); // 收件人电话
+			  //因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
+			  var rn=document.getElementById("rn");
+			  rn.name="receiverName";
+			  receiverName=$("#rn").val().trim(); // 
+			
+		  }else{
+			  receiverName.name="receiverName";
+			  receiverName=$("#receiverName").val().trim(); // 收件人名称 
+		  }
+		  //以上都是对判断用户是输入名字还是电话号码的判断
+		  var logisticCode = $("#logisticCode").val().trim(); // 快递单号
+		  var logisticStatus = $("#logisticStatus").val().trim(); // 物流订单状态
+		  var orderTimeStart = $("#orderTimeStart").val().trim(); // 下单时间段 开始
+		  var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
+		  console.log("属性："+orderTimeStart);
+		  console.log("属性："+logisticCode);
+		  $.ajax({
+			type : "get",
+			url : "/kid/manage/logistic",
+			dataType : "json",
+			data : {
+				senderTel : senderTel,
+				senderName : senderName,
+				receiverTel : receiverTel,
+				receiverName : receiverName,
+				logisticCode : logisticCode,
+				logisticStatus : logisticStatus,
+				orderTimeStart : orderTimeStart,
+				orderTimeEnd  : orderTimeEnd
+			}
+			}).done(function(data) {
+				console.log(data);
+					html="";
+					// 首页商品信息
+					document.getElementById("express-info-list").innerHTML=html;
+					for (var i = 0; i < data.length; i++) {
+						html+= '<tr>';
+						html += '<td>'+data[i].orderId+'</td>';
+						html += '<td>'+data[i].shipperCode+'</td>';
+						html += '<td>'+data[i].logisticCode+'</td>';
+						html += '<td>'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
+						html += '<td>'+data[i].senderName+':'+data[i].senderTel+'</td>';
+						html += '<td>'+data[i].orderTitle+'</td>';
+						html += '<td>'+data[i].orderDetail+'</td>';
+						html+= '</tr>';
+					}
+					document.getElementById("express-info-list").innerHTML=html;
+	 		 });
+    	}
+	
 </script>
+
 </head>
 <body>
 	<div class="wrap">
-		<div class="header"></div>
+		<input type="hidden" name="sn" id="sn" >
+		<input type="hidden" name="rn"  id="rn"  >
+		<div class="header">
+			<div class="link">
+				<a href="KdiManage.html" >首页</a>
+				<a href="KdiPrint.html" >打印</a>
+			</div>
+		</div>
 		<div class="main">
 			<div class="search-form">
-				<form class="main-form" action="">
+				<form id="fm"  class="main-form" >
 					<div class=" input-all div-from-tiem ">
-						<span>导入时间:</span> 
-						<input readonly="readonly" style="width: 100px;" id="from-tiem-start" type="text" class="from-tiem-start "> 
+						<span>下单时间:</span> 
+						<input id="orderTimeStart" name="orderTimeStart" readonly="readonly" style="width: 100px;"  type="text" class="from-tiem-start "> 
 						<span>至:</span> 
-						<input readonly="readonly" style="width: 100px;" id="from-tiem-end" type="text" class="from-tiem-end ">
+						<input id="orderTimeEnd" name="orderTimeEnd" readonly="readonly" style="width: 100px;"  type="text" class="from-tiem-end ">
 					</div>
 					<div class=" input-all  div-from-send-out">
-						<span>发货状态:</span> <select style="width: 232px;">
-							<option>已发货</option>
-							<option>未发货</option>
-							<option>全部</option>
+						<span>物流订单状态:</span>
+						 <select name="logisticStatus" id="logisticStatus" style="width: 232px;">
+						 	<option value="" >全部</option>
+							<option value="0" >无轨迹</option>
+							<option value="1" >已揽收</option>
+							<option value="2" >在途中</option>
+							<option value="3" >以签收</option>
+							<option value="4" >问题件</option>
+							<option></option>
 						</select>
-					</div>
-					<div class=" input-all  div-from-Printing">
-						<span>打印状态:</span> <select class="from-Printing-express-send">
-							<option>全部</option>
-							<option>已打印快递单</option>
-							<option>未打印快递单</option>
-						</select> <select class="from-Printing-express-take">
-							<option>全部</option>
-							<option>已打印发货单</option>
-							<option>未打印发货单</option>
-						</select>
-					</div>
-					<div class=" input-all div-from-Send-info">
-						<span>寄件人信息:</span> 
-						<input placeholder="姓名/手机" type="text" class="Send-info" style="width: 220px;">
-					</div>
-					<div class=" input-all div-from-take-info">
-						<span>收件人信息:</span> 
-						<input placeholder="姓名/手机" type="text" class="take-info" style="width: 215px;">
 					</div>
 					<div class=" input-all div-from-info-id">
 						<span>快递单号:</span> 
-						<input style="width: 210px;" onkeyup="this.value=this.value.replace(/[^\w]/g,'')" type="text" placeholder="快递单号" class="from-info-id-start">
+						<input id="logisticCode" name="logisticCode" style="width: 210px;" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" placeholder="快递单号" class="from-info-id-start">
 					</div>
-					<div class=" input-all div-from-baishi"></div>
-					<div class=" input-all div-from-sub">
-						<input style="margin-right: 30px;" type="submit" value="查&nbsp;&nbsp;询" class="from-sub"> 
-						<input type="reset" value="清&nbsp;&nbsp;空" class="from-ret">
+					<div class=" input-all div-from-Send-info">
+						<span>寄件人信息:</span> 
+						<input  id="senderName" name="senderName"   placeholder="姓名/手机" type="text" class="Send-info" style="width: 220px;">
 					</div>
+					<div class=" input-all div-from-take-info">
+						<span>收件人信息:</span> 
+						<input id="receiverName" name="receiverName"  placeholder="姓名/手机" type="text" class="take-info" style="width: 215px;">
+					</div>
+				
 					<div class="input-all div-from-Other">
 						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
 						<span><a href="javascript:void(0)" id="entryOrder">录入订单</a></span>|
@@ -351,6 +432,13 @@
 						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp; 
 						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
 					</div>
+						<div class="input-all" ></div>
+					<div class=" input-all div-from-sub">
+						<input style="margin-right: 30px;" type="button" onclick="reloadData();" value="查&nbsp;&nbsp;询" class="from-sub"> 
+						<input type="reset" value="清&nbsp;&nbsp;空" class="from-ret">
+					</div>
+				
+				
 				</form>
 			</div>
 			<div class="main-text">
@@ -367,17 +455,8 @@
 								<th width="196px">留言/备注</th>
 							</tr>
 						</thead>
-						<tbody>
-
-							<tr>
-								<td>253274870253244</td>
-								<td>百世快递</td>
-								<td>1648635126846635</td>
-								<td>姓名：李小明,电话：18970785485</td>
-								<td>姓名：王小二,电话：sssddssss18970785485</td>
-								<td>保时捷911</td>
-								<td>贵重物品，小心轻放</td>
-							</tr>
+						<tbody id="express-info-list" >
+							
 						</tbody>
 
 					</table>
@@ -495,10 +574,10 @@
 <script type="text/javascript">
 	laydate.skin('molv');
 	laydate({
-		elem : '#from-tiem-start'
+		elem : '#orderTimeStart'
 	});
 	laydate({
-		elem : '#from-tiem-end'
+		elem : '#orderTimeEnd'
 	});
 </script>
 </html>

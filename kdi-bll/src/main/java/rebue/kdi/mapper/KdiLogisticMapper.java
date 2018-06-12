@@ -3,6 +3,7 @@ package rebue.kdi.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.mapper.MybatisBaseMapper;
 
 @Mapper
@@ -94,4 +95,14 @@ public interface KdiLogisticMapper extends MybatisBaseMapper<KdiLogisticMo, Long
      * @mbg.generated 2018-06-11 09:28:42
      */
     boolean existSelective(KdiLogisticMo record);
+    
+    /**
+     * 根据参数获取订单信息
+     * @param to
+     * @return
+     */
+    
+    List<KdiLogisticMo> kdiLogisticList (ListKdiLogisticTo to);
+    
+    
 }

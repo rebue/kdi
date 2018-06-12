@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
-import rebue.kdi.ro.AddKdiSenderRo;
 import rebue.kdi.ro.AddkdiCompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;

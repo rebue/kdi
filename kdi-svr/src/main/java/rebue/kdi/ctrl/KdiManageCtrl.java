@@ -33,7 +33,7 @@ public class KdiManageCtrl {
 
 	@Resource
 	private KdiCompanySvc kdiCompanySvc;
-	
+
 	@Resource
 	private KdiSenderSvc kdiSenderSvc;
 
@@ -57,6 +57,7 @@ public class KdiManageCtrl {
 
 	/**
 	 * 查询所有快递公司信息
+	 * 
 	 * @return
 	 */
 	@GetMapping("/kdi/company/alllist")
@@ -66,21 +67,10 @@ public class KdiManageCtrl {
 		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
 		return list;
 	}
-	
-	/**
-	 * 获取所有发件人信息
-	 * @return
-	 */
-	@GetMapping("/kdi/sender/alllist")
-	List<KdiSenderMo> kdiSenderList() {
-		_log.info("开始查询发件人信息");
-		List<KdiSenderMo> list = kdiSenderSvc.listAll();
-		_log.info("查询到的发件人信息为: {}", String.valueOf(list));
-		return list;
-	}
 
 	/**
 	 * 添加快递公司
+	 * 
 	 * @param mo
 	 * @return
 	 */
@@ -89,20 +79,10 @@ public class KdiManageCtrl {
 		_log.info("添加快递公司的参数为: {}", mo);
 		return kdiCompanySvc.exAdd(mo);
 	}
-	
-	/**
-	 * 添加发件人
-	 * @param mo
-	 * @return
-	 */
-	@PostMapping("/kdi/sender/add")
-	AddKdiSenderRo addKdiSender(KdiSenderMo mo) {
-		_log.info("添加发件人的参数为: {}", mo);
-		return kdiSenderSvc.exAdd(mo);
-	}
-	
+
 	/**
 	 * 添加物流订单
+	 * 
 	 * @param to
 	 * @return
 	 */

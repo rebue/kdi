@@ -494,6 +494,7 @@
     RECEIVER_CITY, RECEIVER_EXP_AREA, RECEIVER_ADDRESS, RECEIVER_POST_CODE, PRINT_PAGE
     from KDI_LOGISTIC
   </select>
+  
   <select id="selectSelective" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated
@@ -593,6 +594,45 @@
       </if>
     </where>
   </select>
+  
+  
+   <select id="kdiLogisticList" parameterType="rebue.kdi.to.ListKdiLogisticTo" resultMap="BaseResultMap">
+    <!--
+       因为传入参数和传出不同，所以添加了这个方法
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from KDI_LOGISTIC
+    <where>
+       <if test="logisticCode != null and logisticCode != ''">
+        and LOGISTIC_CODE = #{logisticCode,jdbcType=VARCHAR}
+      </if>
+      <if test="logisticStatus != null and logisticStatus != ''">
+        and LOGISTIC_STATUS = #{logisticStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderTimeStart != null and orderTimeStart !='' ">
+        and ORDER_TIME &gt;= "${orderTimeStart}" 
+	   </if>
+	   <if test="orderTimeEnd != null and orderTimeEnd !=''" > 
+		and ORDER_TIME &lt;= "${orderTimeEnd}"
+	   </if>
+       <if test="senderName != null and senderName != ''">
+        and SENDER_NAME = #{senderName,jdbcType=VARCHAR}
+      </if>
+      <if test="senderTel != null and senderTel != ''">
+        and SENDER_TEL = #{senderTel,jdbcType=VARCHAR}
+      </if>
+      <if test="receiverName != null and receiverName != ''">
+        and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
+      </if>
+      <if test="receiverTel != null and receiverTel != ''">
+        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  
+  
   <select id="existByPrimaryKey" parameterType="java.lang.Long" resultType="boolean">
     <!--
       WARNING - @mbg.generated

@@ -18,6 +18,20 @@ body, html {
 	background: #4855a8;
 }
 
+.link{
+	width:200px;
+	height:100%;
+	margin-left:20%;
+	line-height:50px;
+}
+
+.link a{
+	margin-left:20px;
+	color: #fff;
+	letter-spacing: 5px;
+	text-decoration: none;
+}
+
 .main {
 	width: 100%;
 	height: 622px;

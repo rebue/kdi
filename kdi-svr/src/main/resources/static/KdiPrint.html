@@ -3,8 +3,7 @@
 <head>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Cache-Control"
-	content="no-cache,no-store, must-revalidate">
+<meta http-equiv="Cache-Control" content="no-cache,no-store, must-revalidate">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta name="google" value="notranslate">
@@ -20,9 +19,21 @@
 		// 加载发件人信息
 		senderInfo();
 		
+		// 加载物流公司
+		getLogisticsCompany();
+		
 		// 清除发件人信息
 		$(document).on("click", "#clearSender", function() {
 		    $('#senderFrom')[0].reset();  
+		});
+		
+		// 清空收件人信息
+		$(document).on("click", "#clearRecipient", function() {
+		    $('#recipientFrom')[0].reset();
+		    $("#selectRecipientCity").find("option").remove();
+		    $("#selectRecipientCounty").find("option").remove();
+		    $("#selectRecipientCity").append("<option>请选择</option>");
+		    $("#selectRecipientCounty").append("<option>请选择</option>");
 		});
 		
 		// 添加发件人
@@ -186,7 +197,7 @@
 		// 选中后将发件人信息填写至寄件人信息
 		$(document).on("click", ".senderCheckbox", function() {
 			var obj = $(this).parent();
-			console.log(obj[0].cells);
+			console.log(obj[0].cells[0].childNodes[1].id);
 			var strs = new Array();
 			// 根据逗号获取图片后缀
 			strs = obj[0].cells[4].innerHTML.split(" "); 
@@ -210,7 +221,7 @@
 			// 发件地邮编
 			$("#senderPostCode").val(strs[4]);
 			// 发件人Id
-			$("#senderId").val(obj[0].cells[2].innerHTML);
+			$("#senderId").val(obj[0].cells[0].childNodes[1].id);
 			$("#isDefault").prop("checked","checked");
 			$("#senderIsDefault").prop("checked","checked");
 		});
@@ -270,6 +281,259 @@
 				window.location.reload();
 			});
 		});
+		
+		// 添加订单
+		$(document).on("click", "#printExpress", function() {
+			var shipperCode			=	$("#selectLogisticsCompany").val().trim();		// 物流公司编号
+			var orderTitle 			= 	$("#orderTitle").val().trim(); 						// 订单标题
+			var orderDetail 			= 	$("#orderDetail").val().trim(); 						// 订单详情
+			var senderName 			= 	$("#senderName").val().trim(); 						// 发件人名称
+			var senderTel 				= 	$("#senderTel").val().trim(); 						// 发件人电话
+			var senderMobile			= 	$("#senderMobile").val().trim();						// 发件人手机
+			var senderProvince		=	$("#selectSendProvinces").val().trim();			// 发件省份
+			var senderCity				=	$("#selectSendCity").val().trim();					// 发件城市
+			var senderExpArea			=	$("#selectSendCounty").val().trim();				// 发件区县
+			var senderAddress			=	$("#senderAddress").val().trim();					// 发件详细地址
+			var senderPostCode		= 	$("#senderPostCode").val().trim();					//	发件地址邮编
+			var receiverName 			= 	$("#receiverName").val().trim(); 					// 收件人名称
+			var receiverTel 			= 	$("#receiverTel").val().trim(); 						// 收件人电话
+			var receiverMobile 		= 	$("#receiverMobile").val().trim(); 					// 收件人手机
+			var receiverProvince 	= 	$("#selectRecipientProvinces option:selected").text().trim(); 	// 收件省份
+			var receiverCity 			= 	$("#selectRecipientCity option:selected").text().trim(); 		// 收件城市
+			var receiverExpArea 		= 	$("#selectRecipientCounty option:selected").text().trim(); 		// 收件区县
+			var receiverAddress 		= 	$("#receiverAddress").val().trim(); 				// 收件人详细地址
+			var receiverPostCode 	= 	$("#receiverPostCode").val().trim(); 				// 收件地址邮编
+			if (shipperCode == null || shipperCode == "" || shipperCode == "null") {
+				alert("请选择物流公司");
+				return ;
+			}
+			if (orderTitle == null || orderTitle == "" || orderTitle == "null") {
+				alert("订单标题不能为空");
+				return;
+			}
+			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
+				alert("订单详情不能为空");
+				return;
+			}
+			if	(senderName == null || senderName == "" || senderName == "null") {
+				alert("发件人不能为空");
+				return ;
+			}
+			if (senderMobile.length == 0 && senderTel.length == 0) {
+				alert("发件人手机或电话号码必须填一个");
+				return ;
+			}
+			if (senderProvince == null || senderProvince == "" || senderProvince == "null") {
+				alert("发件省份不能为空");
+				return ;
+			}
+			if	(senderCity == null || senderCity == "" || senderCity == "null") {
+				alert("发件城市不能为空");
+				return ;
+			}
+			if	(senderExpArea == null || senderExpArea == "" || senderExpArea == "null") {
+				alert("发件区/县/直辖镇不能为空");
+				return ;
+			}
+			if (senderAddress == null || senderAddress == "" || senderAddress == "null") {
+				alert("发件详细地址不能为空");
+				return ;
+			}
+			if	(senderPostCode == null || senderPostCode == "" || senderPostCode == "null") {
+				alert("发件地址邮编不能为空");
+				return ;
+			}
+			if (receiverName == null || receiverName == "" || receiverName == "null") {
+				alert("收件人名称不能为空");
+				return;
+			}
+			if (receiverProvince == null || receiverProvince == "" || receiverProvince == "null") {
+				alert("收件省份不能为空");
+				return;
+			}
+			if (receiverCity == null || receiverCity == "" || receiverCity == "null") {
+				alert("收件城市不能为空");
+				return;
+			}
+			if (receiverExpArea == null || receiverExpArea == "" || receiverExpArea == "null") {
+				alert("收件区/县不能为空");
+				return;
+			}
+			if (receiverAddress == null || receiverAddress == "" || receiverAddress == "null") {
+				alert("收件详细地址不能为空");
+				return;
+			}
+			if (receiverPostCode == null || receiverPostCode == "" || receiverPostCode == "null") {
+				alert("收件地址邮编不能为空");
+				return;
+			}
+			if (receiverTel.length == 0 && receiverMobile.length == 0) {
+				alert("收件人手机和电话必须填写一个");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi/logistic/add",
+				dataType : "json",
+				data : {
+					shipperCode 	:	shipperCode,
+					orderTitle		:	orderTitle,
+					orderDetail		:	orderDetail,
+					senderName		: 	senderName,
+					senderTel		:	senderTel,
+					senderMobile	:	senderMobile,
+					senderProvince	:	senderProvince,
+					senderCity		:	senderCity,
+					senderExpArea	:	senderExpArea,
+					senderAddress	:	senderAddress,
+					senderPostCode	:	senderPostCode,
+					receiverName	:	receiverName,
+					receiverTel		:	receiverTel,
+					receiverMobile	:	receiverMobile,
+					receiverProvince	:	receiverProvince,
+					receiverCity		:	receiverCity,
+					receiverExpArea	:	receiverExpArea,
+					receiverAddress	:	receiverAddress,
+					receiverPostCode	:	receiverPostCode
+				}
+			}).done(function(data) {
+				console.log(data);
+				if (data.result != 1) {
+					alert(data.msg);
+					return;
+				}
+				var printPage = data.printPage;
+				window.document.body.innerHTML = printPage;
+				window.print();
+				location.reload();
+			});
+		});
+		
+		// 录入快递单
+		$(document).on("click", "#entryExpress", function() {
+			var logisticCode			= 	$("#logisticCode").val().trim();						// 物流订单号
+			var shipperCode			=	$("#selectLogisticsCompany").val().trim();		// 物流公司编号
+			var orderTitle 			= 	$("#orderTitle").val().trim(); 						// 订单标题
+			var orderDetail 			= 	$("#orderDetail").val().trim(); 						// 订单详情
+			var senderName 			= 	$("#senderName").val().trim(); 						// 发件人名称
+			var senderTel 				= 	$("#senderTel").val().trim(); 						// 发件人电话
+			var senderMobile			= 	$("#senderMobile").val().trim();						// 发件人手机
+			var senderProvince		=	$("#selectSendProvinces").val().trim();			// 发件省份
+			var senderCity				=	$("#selectSendCity").val().trim();					// 发件城市
+			var senderExpArea			=	$("#selectSendCounty").val().trim();				// 发件区县
+			var senderAddress			=	$("#senderAddress").val().trim();					// 发件详细地址
+			var senderPostCode		= 	$("#senderPostCode").val().trim();					//	发件地址邮编
+			var receiverName 			= 	$("#receiverName").val().trim(); 					// 收件人名称
+			var receiverTel 			= 	$("#receiverTel").val().trim(); 						// 收件人电话
+			var receiverMobile 		= 	$("#receiverMobile").val().trim(); 					// 收件人手机
+			var receiverProvince 	= 	$("#selectRecipientProvinces option:selected").text().trim(); 	// 收件省份
+			var receiverCity 			= 	$("#selectRecipientCity option:selected").text().trim(); 		// 收件城市
+			var receiverExpArea 		= 	$("#selectRecipientCounty option:selected").text().trim(); 		// 收件区县
+			var receiverAddress 		= 	$("#receiverAddress").val().trim(); 				// 收件人详细地址
+			var receiverPostCode 	= 	$("#receiverPostCode").val().trim(); 				// 收件地址邮编
+			if	(logisticCode == null || logisticCode == "" || logisticCode == "null") {
+				alert("请填写物流单号后再操作");
+				return ;
+			}
+			if (shipperCode == null || shipperCode == "" || shipperCode == "null") {
+				alert("请选择物流公司");
+				return ;
+			}
+			if (orderTitle == null || orderTitle == "" || orderTitle == "null") {
+				alert("订单标题不能为空");
+				return;
+			}
+			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
+				alert("订单详情不能为空");
+				return;
+			}
+			if	(senderName == null || senderName == "" || senderName == "null") {
+				alert("发件人不能为空");
+				return ;
+			}
+			if (senderMobile.length == 0 && senderTel.length == 0) {
+				alert("发件人手机或电话号码必须填一个");
+				return ;
+			}
+			if (senderProvince == null || senderProvince == "" || senderProvince == "null") {
+				alert("发件省份不能为空");
+				return ;
+			}
+			if	(senderCity == null || senderCity == "" || senderCity == "null") {
+				alert("发件城市不能为空");
+				return ;
+			}
+			if	(senderExpArea == null || senderExpArea == "" || senderExpArea == "null") {
+				alert("发件区/县/直辖镇不能为空");
+				return ;
+			}
+			if (senderAddress == null || senderAddress == "" || senderAddress == "null") {
+				alert("发件详细地址不能为空");
+				return ;
+			}
+			if	(senderPostCode == null || senderPostCode == "" || senderPostCode == "null") {
+				alert("发件地址邮编不能为空");
+				return ;
+			}
+			if (receiverName == null || receiverName == "" || receiverName == "null") {
+				alert("收件人名称不能为空");
+				return;
+			}
+			if (receiverProvince == null || receiverProvince == "" || receiverProvince == "null") {
+				alert("收件省份不能为空");
+				return;
+			}
+			if (receiverCity == null || receiverCity == "" || receiverCity == "null") {
+				alert("收件城市不能为空");
+				return;
+			}
+			if (receiverExpArea == null || receiverExpArea == "" || receiverExpArea == "null") {
+				alert("收件区/县不能为空");
+				return;
+			}
+			if (receiverAddress == null || receiverAddress == "" || receiverAddress == "null") {
+				alert("收件详细地址不能为空");
+				return;
+			}
+			if (receiverPostCode == null || receiverPostCode == "" || receiverPostCode == "null") {
+				alert("收件地址邮编不能为空");
+				return;
+			}
+			if (receiverTel.length == 0 && receiverMobile.length == 0) {
+				alert("收件人手机和电话必须填写一个");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi/logistic/entry",
+				dataType : "json",
+				data : {
+					logisticCode	:	logisticCode,
+					shipperCode 	:	shipperCode,
+					orderTitle		:	orderTitle,
+					orderDetail		:	orderDetail,
+					senderName		: 	senderName,
+					senderTel		:	senderTel,
+					senderMobile	:	senderMobile,
+					senderProvince	:	senderProvince,
+					senderCity		:	senderCity,
+					senderExpArea	:	senderExpArea,
+					senderAddress	:	senderAddress,
+					senderPostCode	:	senderPostCode,
+					receiverName	:	receiverName,
+					receiverTel		:	receiverTel,
+					receiverMobile	:	receiverMobile,
+					receiverProvince	:	receiverProvince,
+					receiverCity		:	receiverCity,
+					receiverExpArea	:	receiverExpArea,
+					receiverAddress	:	receiverAddress,
+					receiverPostCode	:	receiverPostCode
+				}
+			}).done(function(data) {
+				alert(data.msg);
+				location.reload();
+			});
+		});
 	});
 	
 	// 选择省份
@@ -312,20 +576,20 @@
 	// ==================================收件人===================================
 	// 选择城市
 	function getRecipientCity() {
-		var selectSendProvinces = $("#selectRecipientProvinces").val();
-		console.log(selectSendProvinces);
-		$("#selectRecipientCity").find("option").remove(); 
+		var selectRecipientProvinces = $("#selectRecipientProvinces").val();
+		console.log(selectRecipientProvinces);
+		$("#selectRecipientCity").find("option").remove();
 		// 根据区域编号获取所有下级区域信息
-		getAllLowerArea(selectSendProvinces, 3);
+		getAllLowerArea(selectRecipientProvinces, 3);
 	}
 	
 	// 选择区县/直辖镇
 	function getRecipientCounty() {
-		var selectSendProvinces = $("#selectRecipientCity").val();
+		var selectRecipientCity = $("#selectRecipientCity").val();
 		$("#selectRecipientCounty").find("option").remove();
-		console.log(selectSendCity);
+		console.log(selectRecipientCity);
 		// 根据区域编号获取所有下级区域信息
-		getAllLowerArea(selectSendProvinces, 4);
+		getAllLowerArea(selectRecipientCity, 4);
 	}
 	// ================================发件人=======================================
 	
@@ -387,7 +651,7 @@
 				}
 				html += '	</td>';
 				html += '	<td class="">' + data[i].senderName + '</td>';
-				html += '	<td class="">' + data[i].id + '</td>';
+				html += '	<td  class=""></td>';
 				html += '	<td class="">' + data[i].senderProvince + ' ' + data[i].senderCity + ' ' +  data[i].senderExpArea + '</td>';
 				html += '	<td class="">' + data[i].senderProvince + ' ' +  data[i].senderCity + ' ' +  data[i].senderExpArea + ' ' +  data[i].senderAddress + " " + data[i].senderPostCode + ' ' +  data[i].senderMobile + '' + data[i].senderTel + '</td>';
 				html += '	<td class=""><button type="button" id="deleteSender" class="ant-btn"><span>删除</span></button></td>';
@@ -431,6 +695,24 @@
 		}
 	}
 	
+
+	// 获取所有物流公司信息
+	function getLogisticsCompany() {
+		$.ajax({
+			type : "get",
+			url : "/kdi/company/alllist",
+			dataType : "json",
+		}).done(function(data) {
+			console.log(data);
+			$("#selectLogisticsCompany").html('<option value ="">请选择</option>');
+			var html = '';
+			for (var i = 0; i < data.length; i++) {
+				html += '<option value ="' + data[i].companyCode + '">' + data[i].companyName + '</option>';
+			}
+			$("#selectLogisticsCompany").append(html);
+		});
+	}
+
 </script>
 
 <style type="text/css">
@@ -487,7 +769,6 @@
 						<div class="ant-col-12 leftCol">
 							<div>
 								<div class="customPrint-form-div">
-									<!-- react-empty: 354 -->
 									<div class="ant-row info-header-row">
 										<div class="ant-col-1"></div>
 										<div class="ant-col-6">
@@ -728,8 +1009,36 @@
 											</form> 
 										</div>
 									</div>
-									<form class="ant-form ant-form-horizontal">
+									<form id="recipientFrom" class="ant-form ant-form-horizontal">
 										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="company" class="" title="订单标题">订单标题</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<input value="" id="orderTitle" class="ant-input ant-input-lg" style="width: 468px" type="text">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row">
+											<div class="ant-col-12 info-col">
+												<div class="ant-row ant-form-item">
+													<div class="ant-col-10 ant-form-item-label">
+														<label for="zipCode" class="" title="订单详情">订单详情</label>
+													</div>
+													<div class="ant-col-14 ant-form-item-control-wrapper">
+														<div class="ant-form-item-control ">
+															<textarea value="" id="orderDetail" class="ant-input ant-input-lg" style="min-width: 468px;" type="text"></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ant-row info-row" style="margin-top: 40px">
 											<div class="ant-col-12 info-col">
 												<div class="ant-row ant-form-item">
 													<div class="ant-col-10 ant-form-item-label">
@@ -737,7 +1046,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input value="" id="nick" class="ant-input ant-input-lg" type="text">
+															<input value="" id="receiverName" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>
@@ -749,7 +1058,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input value="" id="mobilePhone" class="ant-input ant-input-lg" type="text">
+															<input value="" id="receiverMobile" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>
@@ -763,7 +1072,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input value="" id="phone" class="ant-input ant-input-lg" type="text">
+															<input value="" id="receiverTel" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>
@@ -775,33 +1084,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input value="" id="zipCode" class="ant-input ant-input-lg" type="text">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="ant-row info-row">
-											<div class="ant-col-12 info-col">
-												<div class="ant-row ant-form-item">
-													<div class="ant-col-10 ant-form-item-label">
-														<label for="company" class="" title="订单标题">订单标题</label>
-													</div>
-													<div class="ant-col-14 ant-form-item-control-wrapper">
-														<div class="ant-form-item-control ">
-															<input value="" id="company" class="ant-input ant-input-lg" type="text">
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="ant-col-12 info-col">
-												<div class="ant-row ant-form-item">
-													<div class="ant-col-10 ant-form-item-label">
-														<label for="zipCode" class="" title="订单详情">订单详情</label>
-													</div>
-													<div class="ant-col-14 ant-form-item-control-wrapper">
-														<div class="ant-form-item-control ">
-															<input value="" id="zipCode" class="ant-input ant-input-lg" type="text">
+															<input value="" id="receiverPostCode" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>
@@ -839,7 +1122,7 @@
 													</div>
 													<div class="ant-col-19 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input id="addr" value="" data-__meta="[object Object]" class="ant-input ant-input-lg" type="text">
+															<input id="receiverAddress" value="" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>
@@ -848,19 +1131,12 @@
 										<div class="ant-row">
 											<div class="ant-col-24 last-info-col">
 												<div class="ant-col-4 last-info-col"></div>
-												<div class="ant-col-5 last-info-col">
-													<button type="button"
-														class="ant-btn ant-btn-primary ant-btn-sm">
-														<span>新增收件人记录</span>
-													</button>
-												</div>
-												<div class="ant-col-7 last-info-col">
-													<button disabled="" type="button" class="ant-btn ant-btn-default ant-btn-sm">
-														<span>修改收件人记录</span>
-													</button>
-												</div>
+												<div class="ant-col-5 last-info-col"> </div>
+												<div class="ant-col-7 last-info-col"> </div>
+												<div class="ant-col-3 last-info-col"> </div>
+												<div class="ant-col-3 last-info-col"> </div>
 												<div class="ant-col-2 last-info-col">
-													<button type="button" class="ant-btn ant-btn-primary ant-btn-sm">
+													<button type="button" id="clearRecipient" class="ant-btn ant-btn-primary ant-btn-sm">
 														<span>清 空</span>
 													</button>
 												</div>
@@ -957,57 +1233,46 @@
 							</div>
 						</div>
 					</div>
-					<div class="ant-row">
+					<div class="ant-row" style="margin-top: 20px">
 						<div class="lt-grid-modal-footer">
 							<div class="ant-row footer-row">
 								<div class="ant-col-9">
 									<div><div></div></div>
-								</div>
-								<div class="ant-col-15">
-									<span class="customprint-footerbutton-span"><label>打印份数：</label>
-										<div class="ant-input-number" style="width: 90px;">
-											<div class="ant-input-number-handler-wrap">
-												<span unselectable="unselectable" role="button"
-													aria-label="Increase Value" aria-disabled="false"
-													class="ant-input-number-handler ant-input-number-handler-up ">
-													<span unselectable="unselectable" class="ant-input-number-handler-up-inner"></span>
-												</span>
-												<span unselectable="unselectable" role="button" aria-label="Decrease Value" aria-disabled="true"
-												class="ant-input-number-handler ant-input-number-handler-down ant-input-number-handler-down-disabled">
-													<span unselectable="unselectable" class="ant-input-number-handler-down-inner"></span>
-												</span>
-											</div>
-											<div class="ant-input-number-input-wrap" role="spinbutton"
-												aria-valuemin="1" aria-valuemax="9007199254740991" aria-valuenow="1">
-												<input step="1" min="1" max="9007199254740991" class="ant-input-number-input" autocomplete="off" value="1">
-											</div>
-										</div>份
-									</span>
-									<span class="customprint-footerbutton-span">
-										<label>邮费（元）：</label>
-										<input value="0" class="ant-input" style="width: 75px;" type="text">
-									</span>
-									<span class="customprint-footerbutton-span">
-										<label>选择物流：</label>
-										<div class="ant-select ant-select-enabled" style="width: 120px;">
-											<div class="ant-select-selection ant-select-selection--single"
-											role="combobox" aria-autocomplete="list"
-											aria-haspopup="true" aria-expanded="false" tabindex="0">
-											<div class="ant-select-selection__rendered">
-												<div class="ant-select-selection-selected-value" title="百世快递" style="display: block; opacity: 1;">百世快递</div>
-												<div class="ant-select-search ant-select-search--inline" style="display: none;">
-													<div class="ant-select-search__field__wrap">
-														<input autocomplete="off" value="" class="ant-select-search__field">
-														<span class="ant-select-search__field__mirror">&nbsp;</span>
+									<div class="ant-row info-row">
+										<div class="ant-col-12 info-col">
+											<div class="ant-row ant-form-item">
+												<div class="ant-col-10 ant-form-item-label">
+													<label for="phone" class="" title="物流单号">物流单号</label>
+												</div>
+												<div class="ant-col-14 ant-form-item-control-wrapper">
+													<div class="ant-form-item-control ">
+														<input value="" id="logisticCode" class="ant-input ant-input-lg" type="text">
 													</div>
 												</div>
 											</div>
-											<span class="ant-select-arrow" unselectable="unselectable" style="-moz-user-select: none;"><b></b></span>
+										</div>
+										<div class="ant-col-12 info-col">
+											<div class="ant-row ant-form-item">
+												<div class="ant-col-10 ant-form-item-label"><label>选择物流</label></div>
+												<div class="ant-col-14 ant-form-item-control-wrapper">
+													<div class="ant-form-item-control ">
+														<span class="customprint-footerbutton-span">
+															<select id="selectLogisticsCompany" style="height: 30px">
+																<option>请选择</option>
+															</select>
+														</span>
+													</div>
+												</div>
 											</div>
 										</div>
-									</span>
-									<button type="button" class="ant-btn  lt-btn-active ant-btn-active ant-btn-lg">
+									</div>
+								</div>
+								<div class="ant-col-15">
+									<button type="button" id="printExpress" class="ant-btn  lt-btn-active ant-btn-active ant-btn-lg">
 										<span>打印快递单</span>
+									</button>
+									<button type="button" id="entryExpress" style="margin-left: 30px;" class="ant-btn ant-btn-active ant-btn-lg">
+										<span style="border-bottom-color: blue;">录入快递单</span>
 									</button>
 								</div>
 							</div>

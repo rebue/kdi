@@ -27,12 +27,10 @@ import com.mysql.jdbc.Statement;
 
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.AddkdiCompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
-import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 
 @RestController
@@ -71,19 +69,6 @@ public class KdiManageCtrl {
 	}
 
 	/**
-	 * 查询所有快递公司信息
-	 * 
-	 * @return
-	 */
-	@GetMapping("/kdi/company/alllist")
-	List<KdiCompanyMo> kdiCompanyList() {
-		_log.info("开始查询快递公司信息");
-		List<KdiCompanyMo> list = kdiCompanySvc.listAll();
-		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
-		return list;
-	}
-
-	/**
 	 * 添加快递公司
 	 * 
 	 * @param mo
@@ -95,22 +80,13 @@ public class KdiManageCtrl {
 		return kdiCompanySvc.exAdd(mo);
 	}
 
-	/**
-	 * 添加物流订单
-	 * 
-	 * @param to
-	 * @return
-	 */
-	@PostMapping("/kdi/logistic/add")
-	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo to) {
-		_log.info("添加物流订单的参数为: {}", to);
-		return kdiLogisticSvc.addKdiLogistic(to);
-	}
+
 
 	@PostMapping("/kdi/excel")
 	Map<String, Object> uploadExcel(@RequestParam(value = "filename") MultipartFile file) {
 
 		return null;
 	}
+
 
 }

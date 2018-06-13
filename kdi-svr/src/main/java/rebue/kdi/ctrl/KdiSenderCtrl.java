@@ -1,12 +1,16 @@
 package rebue.kdi.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,4 +88,23 @@ public class KdiSenderCtrl {
 		_log.info("修改默认发件人的参数为: {}", mo);
 		return svc.modifyDefaultSender(mo);
 	}
+	
+	/**
+	 * 删除发件人
+	 * 
+	 * @mbg.generated
+	 */
+	@DeleteMapping("/kdi/sender/{id}")
+	Map<String, Object> del(@PathVariable("id") java.lang.Long id) {
+		_log.info("删除发件人参数："+id);
+		svc.del(id);
+		Map<String, Object> result = new HashMap<>();
+		result.put("msg","删除成功");
+		_log.info("delete kdisederMo success!");
+		return result;
+		
+	}
+	
+	
+	
 }

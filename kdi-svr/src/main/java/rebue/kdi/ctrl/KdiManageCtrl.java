@@ -106,16 +106,11 @@ public class KdiManageCtrl {
 		_log.info("添加物流订单的参数为: {}", to);
 		return kdiLogisticSvc.addKdiLogistic(to);
 	}
-	
-	
+
 	@PostMapping("/kdi/excel")
-	Map<String,Object> uploadExcel(@RequestParam(value="filename") MultipartFile file){
-		
-		
-		
+	Map<String, Object> uploadExcel(@RequestParam(value = "filename") MultipartFile file) {
+
 		return null;
 	}
-	
-	
-	
+
 }

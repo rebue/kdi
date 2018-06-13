@@ -1,10 +1,12 @@
 package rebue.kdi.svc.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rebue.kdi.dic.AddKdiLogisticDic;
 import rebue.kdi.dic.EOrderResultDic;
+import rebue.kdi.dic.EntryLogisticsDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
+import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
@@ -50,6 +54,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
 	@Resource
 	private KdNiaoSvc kdNiaoSvc;
+
+	@Resource
+	private Mapper dozerMapper;
 
 	/**
 	 * @mbg.generated
@@ -111,27 +118,8 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 			return addKdiLogisticRo;
 		}
 
-		EOrderTo eOrderTo = new EOrderTo();
-		eOrderTo.setShipperCode(mo.getShipperCode());
+		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
 		eOrderTo.setOrderId(_idWorker.getId());
-		eOrderTo.setOrderTitle(mo.getOrderTitle());
-		eOrderTo.setOrderRemark(mo.getOrderDetail());
-		eOrderTo.setSenderName(mo.getSenderName());
-		eOrderTo.setSenderTel(mo.getSenderTel());
-		eOrderTo.setSenderMobile(mo.getSenderMobile());
-		eOrderTo.setSenderProvince(mo.getSenderProvince());
-		eOrderTo.setSenderCity(mo.getSenderCity());
-		eOrderTo.setSenderExpArea(mo.getSenderExpArea());
-		eOrderTo.setSenderAddress(mo.getSenderAddress());
-		eOrderTo.setSenderPostCode(mo.getSenderPostCode());
-		eOrderTo.setReceiverName(mo.getReceiverName());
-		eOrderTo.setReceiverTel(mo.getReceiverTel());
-		eOrderTo.setReceiverMobile(mo.getReceiverMobile());
-		eOrderTo.setReceiverProvince(mo.getReceiverProvince());
-		eOrderTo.setReceiverCity(mo.getReceiverCity());
-		eOrderTo.setReceiverExpArea(mo.getReceiverExpArea());
-		eOrderTo.setReceiverAddress(mo.getReceiverAddress());
-		eOrderTo.setReceiverPostCode(mo.getReceiverPostCode());
 		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
 		// 调用电子面单
 		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);
@@ -149,6 +137,47 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		return addKdiLogisticRo;
 	}
 
+	/**
+	 * 录入订单
+	 * 
+	 * @param mo
+	 * @return
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
+		_log.info("录入订单的参数为: {}", mo);
+		EntryLogisticsRo logisticsRo = new EntryLogisticsRo();
+		if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getOrderDetail(),
+				mo.getSenderName(), mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(),
+				mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(),
+				mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
+				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
+			logisticsRo.setResult(EntryLogisticsDic.INCORRECT_PARAMETER);
+			logisticsRo.setMsg("参数不正确");
+			return logisticsRo;
+		}
+		Date now = new Date();
+		mo.setOrderId(_idWorker.getId());
+		mo.setOrderTime(now);
+		mo.setUpdateTime(now);
+		_log.info("录入订单的请求参数为: {}", mo);
+		int result = add(mo);
+		if (result != 1) {
+			logisticsRo.setResult(EntryLogisticsDic.FAILT);
+			logisticsRo.setMsg("下单失败");
+			return logisticsRo;
+		}
+		_log.info("录入订单成功, {}", now);
+		logisticsRo.setResult(EntryLogisticsDic.SUCCESS);
+		logisticsRo.setMsg("录入成功");
+		return logisticsRo;
+	}
+
+	/**
+	 * 查询物流订单信息
+	 */
 	@Override
 	public List<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to) {
 		_log.info("获取物流订单的参数为: {}", to);

@@ -322,11 +322,13 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				Map<String, Object> orderMap = (Map<String, Object>) resultMap.get("Order");
 				String logisticCode = (String) orderMap.get("LogisticCode");
 				String printPage = String.valueOf(resultMap.get("PrintTemplate"));
+				Date now = new Date();
 				// 添加新的物流订单
 				KdiLogisticMo logisticMo = dozerMapper.map(to, KdiLogisticMo.class);
 				logisticMo.setLogisticCode(logisticCode);
 				logisticMo.setPrintPage(printPage);
-				logisticMo.setUpdateTime(new Date());
+				logisticMo.setUpdateTime(now);
+				logisticMo.setOrderTime(now);
 				logisticSvc.add(logisticMo);
 				ro.setResult(EOrderResultDic.SUCCESS);
 				ro.setLogisticId(logisticMo.getId());

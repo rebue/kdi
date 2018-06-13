@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
+import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 
 @RestController
@@ -29,5 +30,16 @@ public class KdiLogisticCtrl {
 	AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo) {
 		_log.info("添加物流订单的参数为: {}", mo);
 		return svc.addKdiLogistic(mo);
+	}
+	
+	/**
+	 * 录入订单
+	 * @param mo
+	 * @return
+	 */
+	@PostMapping("/kdi/logistic/entry")
+	EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
+		_log.info("录入订单的参数为: {}", mo);
+		return svc.entryLogistics(mo);
 	}
 }

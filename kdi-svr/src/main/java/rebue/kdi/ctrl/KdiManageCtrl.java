@@ -1,12 +1,29 @@
 package rebue.kdi.ctrl;
 
+import java.io.FileOutputStream;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
@@ -89,4 +106,16 @@ public class KdiManageCtrl {
 		_log.info("添加物流订单的参数为: {}", to);
 		return kdiLogisticSvc.addKdiLogistic(to);
 	}
+	
+	
+	@PostMapping("/kdi/excel")
+	Map<String,Object> uploadExcel(@RequestParam(value="filename") MultipartFile file){
+		
+		
+		
+		return null;
+	}
+	
+	
+	
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
-import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.MybatisBaseSvc;
 
@@ -30,7 +29,7 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
      * @param to
      * @return
      */
-	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo to);
+	AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo);
 	
 	/**
 	 * 获取物流订单

@@ -156,101 +156,6 @@
 			});
 		});
 
-		// 添加订单
-		$(document).on("click", "#orderButton", function() {
-			var orderTitle = $("#orderTitle").val().trim(); // 订单标题
-			var orderDetail = $("#orderDetail").val().trim(); // 订单详情
-			var receiverName = $("#receiverName").val().trim(); // 收件人名称
-			var receiverTel = $("#receiverTel").val().trim(); // 收件人电话
-			var receiverMobile = $("#receiverMobile").val().trim(); // 收件人手机
-			var receiverProvince = $("#receiverProvince").val().trim(); // 收件省份
-			var receiverCity = $("#receiverCity").val().trim(); // 收件城市
-			var receiverExpArea = $("#receiverExpArea").val().trim(); // 收件区县
-			var receiverAddress = $("#receiverAddress").val().trim(); // 收件人详细地址
-			var receiverPostCode = $("#receiverPostCode").val().trim(); // 收件地址邮编
-			var getCourierCompany = $("#getCourierCompany").val().trim(); // 快递公司
-			var getSender = $("#getSender").val(); // 发件人
-			if (orderTitle == null || orderTitle == "" || orderTitle == "null") {
-				alert("订单标题不能为空");
-				return;
-			}
-			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
-				alert("订单详情不能为空");
-				return;
-			}
-			if (receiverName == null || receiverName == "" || receiverName == "null") {
-				alert("收件人名称不能为空");
-				return;
-			}
-			if (receiverProvince == null || receiverProvince == "" || receiverProvince == "null") {
-				alert("收件省份不能为空");
-				return;
-			}
-			if (receiverCity == null || receiverCity == "" || receiverCity == "null") {
-				alert("收件城市不能为空");
-				return;
-			}
-			if (receiverExpArea == null || receiverExpArea == "" || receiverExpArea == "null") {
-				alert("收件区/县不能为空");
-				return;
-			}
-			if (receiverAddress == null || receiverAddress == "" || receiverAddress == "null") {
-				alert("收件详细地址不能为空");
-				return;
-			}
-			if (receiverPostCode == null || receiverPostCode == "" || receiverPostCode == "null") {
-				alert("收件地址邮编不能为空");
-				return;
-			}
-			if (getCourierCompany == null || getCourierCompany == "" || getCourierCompany == "null") {
-				alert("快递公司不能为空");
-				return;
-			}
-			if (getSender == null || getSender == "" || getSender == "null") {
-				alert("发件人不能为空");
-				return;
-			}
-			if (receiverTel == "null") {
-				receiverTel = "";
-			}
-			if (receiverMobile == "null") {
-				receiverMobile = "";
-			}
-			if (receiverTel == null || receiverTel == "" && receiverMobile == null || receiverMobile == "") {
-				alert("收件人手机和电话必须填写一个");
-				return;
-			}
-			$.ajax({
-				type : "post",
-				url : "/kdi/logistic/add",
-				dataType : "json",
-				data : {
-					orderTitle : orderTitle,
-					orderDetail : orderDetail,
-					receiverName : receiverName,
-					receiverTel : receiverTel,
-					receiverMobile : receiverMobile,
-					receiverProvince : receiverProvince,
-					receiverCity : receiverCity,
-					receiverExpArea : receiverExpArea,
-					receiverAddress : receiverAddress,
-					receiverPostCode : receiverPostCode,
-					companyCode : getCourierCompany,
-					senderId : getSender
-				}
-			}).done(function(data) {
-				console.log(data);
-				if (data.result != 1) {
-					alert(data.msg);
-					return;
-				}
-				var printPage = data.printPage;
-				window.document.body.innerHTML = printPage;
-				window.print();
-				location.reload();
-			});
-		});
-
 		// 关闭并删除div
 		$(document).on("click", ".pop-close", function() {
 			$('.bgPop,.pop').hide();
@@ -260,89 +165,50 @@
 		});
 	});
 
-	// 获取快递公司
-	function getCourierCompany() {
-		$.ajax({
-			type : "get",
-			url : "/kdi/company/alllist",
-			dataType : "json",
-			success : function(data) {
-				console.log(data);
-				$("#getCourierCompany").html('<option value ="">请选择</option>');
-				var html = '';
-				for (var i = 0; i < data.length; i++) {
-					html += '<option value ="' + data[i].companyCode + '">'
-							+ data[i].companyName + '</option>';
-				}
-				$("#getCourierCompany").append(html);
-			}
-		});
-	}
-
-	// 获取发件人
-	function getSender() {
-		$.ajax({
-			type : "get",
-			url : "/kdi/sender/alllist",
-			dataType : "json",
-		}).done(function(data) {
-			console.log(data);
-			$("#getSender").html('<option value ="">请选择</option>');
-			var html = '';
-			for (var i = 0; i < data.length; i++) {
-				html += '<option value ="' + data[i].id + '">'
-						+ data[i].senderName + '</option>';
-			}
-			$("#getSender").append(html);
-		});
-	}
-	
-	
 	/**
 	* 加载首页信息
 	*/ 
 	function reloadData(){
-		  var senderName="";
-	      var senderTel="";
-	      var receiverName="";
-	      var receiverTel="";
-		  //判断用户的输入
-		  var senderName=document.getElementById("senderName");
-		  var receiverName=document.getElementById("receiverName");
-		  var reg = /^[0-9]+.?[0-9]*$/;
-		  if (reg.test(senderName.value)) {
-			  console.log("用户输入了发件人电话，需要修改name的属性");
-			  senderName.name="senderTel";
-			  senderTel=$("#senderName").val().trim(); // 发件人电话
-			  //因为下面的ajax要捕捉name为senderName的val，所以如果改了#senderName的name值，这里就需要修改一个临时的name值
-			  var sn=document.getElementById("sn");
-			  sn.name="senderName";
-			  senderName=$("#rn").val().trim(); // 
-		  }else{
-			  senderName.name="senderName";
-			  senderName=$("#senderName").val().trim(); // 发件人名称 
-		  }
-		  if (reg.test(receiverName.value)) {
-			  console.log("用户输入了发件人电话，需要修改name的属性");
-			  receiverName.name="receiverTel";
-			  receiverTel=$("#receiverName").val().trim(); // 收件人电话
-			  //因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
-			  var rn=document.getElementById("rn");
-			  rn.name="receiverName";
-			  receiverName=$("#rn").val().trim(); // 
-			
-		  }else{
-			  receiverName.name="receiverName";
-			  receiverName=$("#receiverName").val().trim(); // 收件人名称 
-		  }
-		  //以上都是对判断用户是输入名字还是电话号码的判断
-		  var logisticCode = $("#logisticCode").val().trim(); // 快递单号
-		  var logisticStatus = $("#logisticStatus").val().trim(); // 物流订单状态
-		  var orderTimeStart = $("#orderTimeStart").val().trim(); // 下单时间段 开始
-		  var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
-		  console.log("属性："+orderTimeStart);
-		  console.log("属性："+logisticCode);
-		  $.ajax({
+		var senderName="";
+		var senderTel="";
+		var receiverName="";
+		var receiverTel="";
+		//判断用户的输入
+		var senderName=document.getElementById("senderName");
+		var receiverName=document.getElementById("receiverName");
+		var reg = /^[0-9]+.?[0-9]*$/;
+		if (reg.test(senderName.value)) {
+			console.log("用户输入了发件人电话，需要修改name的属性");
+			senderName.name="senderTel";
+			senderTel=$("#senderName").val().trim(); // 发件人电话
+			//因为下面的ajax要捕捉name为senderName的val，所以如果改了#senderName的name值，这里就需要修改一个临时的name值
+			var sn=document.getElementById("sn");
+			sn.name="senderName";
+			senderName=$("#rn").val().trim(); // 
+		}else{
+			senderName.name="senderName";
+			senderName=$("#senderName").val().trim(); // 发件人名称 
+		}
+		if (reg.test(receiverName.value)) {
+			console.log("用户输入了发件人电话，需要修改name的属性");
+			receiverName.name="receiverTel";
+			receiverTel=$("#receiverName").val().trim(); // 收件人电话
+			//因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
+			var rn=document.getElementById("rn");
+			rn.name="receiverName";
+			receiverName=$("#rn").val().trim(); // 
+		}else{
+			receiverName.name="receiverName";
+			receiverName=$("#receiverName").val().trim(); // 收件人名称 
+		}
+		//以上都是对判断用户是输入名字还是电话号码的判断
+		var logisticCode = $("#logisticCode").val().trim(); // 快递单号
+		var logisticStatus = $("#logisticStatus").val().trim(); // 物流订单状态
+		var orderTimeStart = $("#orderTimeStart").val().trim(); // 下单时间段 开始
+		var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
+		console.log("属性："+orderTimeStart);
+		console.log("属性："+logisticCode);
+		$.ajax({
 			type : "get",
 			url : "/kid/manage/logistic",
 			dataType : "json",
@@ -356,26 +222,25 @@
 				orderTimeStart : orderTimeStart,
 				orderTimeEnd  : orderTimeEnd
 			}
-			}).done(function(data) {
-				console.log(data);
-					html="";
-					// 首页商品信息
-					document.getElementById("express-info-list").innerHTML=html;
-					for (var i = 0; i < data.length; i++) {
-						html+= '<tr>';
-						html += '<td>'+data[i].orderId+'</td>';
-						html += '<td>'+data[i].shipperCode+'</td>';
-						html += '<td>'+data[i].logisticCode+'</td>';
-						html += '<td>'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
-						html += '<td>'+data[i].senderName+':'+data[i].senderTel+'</td>';
-						html += '<td>'+data[i].orderTitle+'</td>';
-						html += '<td>'+data[i].orderDetail+'</td>';
-						html+= '</tr>';
-					}
-					document.getElementById("express-info-list").innerHTML=html;
-	 		 });
-    	}
-	
+		}).done(function(data) {
+			console.log(data);
+			html="";
+			// 首页商品信息
+			document.getElementById("express-info-list").innerHTML=html;
+			for (var i = 0; i < data.length; i++) {
+				html+= '<tr>';
+				html += '<td>'+data[i].orderId+'</td>';
+				html += '<td>'+data[i].shipperCode+'</td>';
+				html += '<td>'+data[i].logisticCode+'</td>';
+				html += '<td>'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
+				html += '<td>'+data[i].senderName+':'+data[i].senderTel+'</td>';
+				html += '<td>'+data[i].orderTitle+'</td>';
+				html += '<td>'+data[i].orderDetail+'</td>';
+				html+= '</tr>';
+			}
+			document.getElementById("express-info-list").innerHTML=html;
+		});
+	}
 </script>
 
 </head>
@@ -384,9 +249,10 @@
 		<input type="hidden" name="sn" id="sn" >
 		<input type="hidden" name="rn"  id="rn"  >
 		<div class="header">
-			<div class="link">
+			<div class="link" style="margin-left: 10%; width: 300px">
 				<a href="KdiManage.html" >首页</a>
 				<a href="KdiPrint.html" >打印</a>
+				<a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a>
 			</div>
 		</div>
 		<div class="main">
@@ -422,23 +288,12 @@
 						<span>收件人信息:</span> 
 						<input id="receiverName" name="receiverName"  placeholder="姓名/手机" type="text" class="take-info" style="width: 215px;">
 					</div>
-				
-					<div class="input-all div-from-Other">
-						<span><a href="javascript:void(0)" id="addOrder">添加订单</a></span>|
-						<span><a href="javascript:void(0)" id="entryOrder">录入订单</a></span>|
-						<span><a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a></span>| 
-						<span><a href="javascript:void(0)" id="addSender">添加发件人</a></span>
-						<br /> 
-						<input type="button" value="导&nbsp;&nbsp;出" class="from-Other">&nbsp;&nbsp;&nbsp;&nbsp; 
-						<input type="button" value="导&nbsp;&nbsp;入" class="from-Other">
-					</div>
+					<div class="input-all div-from-Other"></div>
 						<div class="input-all" ></div>
 					<div class=" input-all div-from-sub">
 						<input style="margin-right: 30px;" type="button" onclick="reloadData();" value="查&nbsp;&nbsp;询" class="from-sub"> 
 						<input type="reset" value="清&nbsp;&nbsp;空" class="from-ret">
 					</div>
-				
-				
 				</form>
 			</div>
 			<div class="main-text">
@@ -455,10 +310,7 @@
 								<th width="196px">留言/备注</th>
 							</tr>
 						</thead>
-						<tbody id="express-info-list" >
-							
-						</tbody>
-
+						<tbody id="express-info-list" ></tbody>
 					</table>
 				</div>
 			</div>
@@ -469,47 +321,6 @@
 	<div class="bgPop"></div>
 	<!--弹出框-->
 	<div class="pop">
-		<!-- 添加订单 -->
-		<div id="orderDiv">
-			<div id="cloceDiv">
-				<div class="pop-top">
-					<h2>添加订单</h2>
-					<span class="pop-close">Ｘ</span>
-				</div>
-				<div class="pop-content" style="height: 560px">
-					<div class="pop-content-right" style="width: 500px">
-						<table>
-							<span>订单标题：<input id="orderTitle" style="margin-left: 30px;"></span></br>
-							<span>订单详情：
-								<textarea id="orderDetail" style="margin-top: -20px; margin-left: 111px; width: 350px; height: 50px;"></textarea>
-							</span></br>
-							<span>快递公司：</span>
-							<select id="getCourierCompany" style="width: 350px; height: 30px; margin-left: 32px;">
-								<option value="">请选择</option>
-							</select></br>
-							<span>发件人：</span>
-							<select id="getSender" style="width: 350px; height: 30px; margin-left: 48px;">
-								<option value="">请选择</option>
-							</select></br>
-							<span>收件人名称：<input id="receiverName" style="margin-left: 17px;"></span></br>
-							<span>收件人电话：<input id="receiverTel" style="margin-left: 17px;"></span></br>
-							<span>收件人手机：<input id="receiverMobile" style="margin-left: 17px;"></span></br>
-							<span>收件省份：<input id="receiverProvince" style="margin-left: 33px;"></span></br>
-							<span>收件城市：<input id="receiverCity" style="margin-left: 33px;"></span></br>
-							<span>收件区/县：<input id="receiverExpArea" style="margin-left: 27px;"></span></br>
-							<span>收件详细地址：<input id="receiverAddress"></span></br>
-							<span>收件地址邮编：<input id="receiverPostCode"></span>
-						</table>
-					</div>
-				</div>
-				<div class="pop-foot">
-					<input type="button" value="关&nbsp;&nbsp;闭"
-						class="pop-cancel pop-close"> <input type="button"
-						id="orderButton" value="提&nbsp;&nbsp;交" class="pop-ok">
-				</div>
-			</div>
-		</div>
-		
 		<!-- 添加快递公司 -->
 		<div id="courierCompanyDiv">
 			<div id="cloceDiv">
@@ -538,34 +349,6 @@
 				<div class="pop-foot">
 					<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">
 					<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addCourierCompanyButton">
-				</div>
-			</div>
-		</div>
-		
-		<!-- 添加发件人 -->
-		<div id="senderDiv">
-			<div id="cloceDiv">
-				<div class="pop-top">
-					<h2>添加发件人</h2>
-					<span class="pop-close">Ｘ</span>
-				</div>
-				<div class="pop-content" style="height: 370px">
-					<div class="pop-content-right" style="width: 650px">
-						<table>
-							<span>发件人名称: <input id="senderName" style="margin-left:17px;"></span></br>
-							<span>发件人电话: <input id="senderTel" style="margin-left:17px;"></span></br>
-							<span>发件人手机: <input id="senderMobile" style="margin-left:17px;"></span></br>
-							<span>发件省份: <input id="senderProvince" style="margin-left:33px;"></span></br>
-							<span>发件城市: <input id="senderCity" style="margin-left:33px;"></span></br>
-							<span>发件区/县: <input id="senderExpArea" style="margin-left:26px;"></span></br>
-							<span>发件详细地址: <input id="senderAddress"></span></br>
-							<span>发件地邮编: <input id="senderPostCode" style="margin-left:18px;"></span></br>
-						</table>
-					</div>
-				</div>
-				<div class="pop-foot">
-					<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">
-					<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addSenderButton">
 				</div>
 			</div>
 		</div>

@@ -16,13 +16,11 @@ import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
-import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
@@ -46,10 +44,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
 	@Resource
 	private KdiTraceSvc traceSvc;
-	
+
 	@Resource
 	private KdiSenderSvc kdiSenderSvc;
-	
+
 	@Resource
 	private KdNiaoSvc kdNiaoSvc;
 
@@ -93,62 +91,47 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
 	/**
 	 * 添加物流订单
+	 * 
 	 * @param to
 	 * @return
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo to) {
-		_log.info("添加物流订单的参数为: {}", to);
+	public AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo) {
+		_log.info("添加物流订单的参数为: {}", mo);
 		AddKdiLogisticRo addKdiLogisticRo = new AddKdiLogisticRo();
-		if (StringUtils.isAnyBlank(to.getOrderTitle(), to.getOrderDetail(), to.getCompanyCode(), to.getReceiverName(),
-				to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(), to.getReceiverAddress(),
-				to.getReceiverPostCode()) || to.getSenderId() == null) {
+		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getOrderDetail(), mo.getSenderName(),
+				mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(),
+				mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(),
+				mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
+				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
 			addKdiLogisticRo.setResult(AddKdiLogisticDic.INCORRECT_PARAMETER);
 			addKdiLogisticRo.setMsg("参数不正确");
 			return addKdiLogisticRo;
 		}
-		
-		if (to.getReceiverTel() == null || to.getReceiverMobile() == null) {
-			_log.info("添加物流订单时出现收件人联系方式为空");
-			addKdiLogisticRo.setResult(AddKdiLogisticDic.INCORRECT_PARAMETER);
-			addKdiLogisticRo.setMsg("参数不正确");
-			return addKdiLogisticRo;
-		}
-		
-		KdiSenderMo senderMo = new KdiSenderMo();
-		senderMo.setId(to.getSenderId());
-		_log.info("添加物流订单查询发件人信息的参数为: {}", senderMo);
-		// 查询发件人信息
-		List<KdiSenderMo> senderList = kdiSenderSvc.list(senderMo);
-		_log.info("添加物流订单查询发件人信息的返回值为: {}", String.valueOf(senderList));
-		if (senderList.size() == 0) {
-			addKdiLogisticRo.setResult(AddKdiLogisticDic.NOT_THIS_SENDER);
-			addKdiLogisticRo.setMsg("没有此发件人");
-			return addKdiLogisticRo;
-		}
-		
+
 		EOrderTo eOrderTo = new EOrderTo();
-		eOrderTo.setShipperCode(to.getCompanyCode());
+		eOrderTo.setShipperCode(mo.getShipperCode());
 		eOrderTo.setOrderId(_idWorker.getId());
-		eOrderTo.setOrderTitle(to.getOrderTitle());
-		eOrderTo.setOrderRemark(to.getOrderDetail());
-		eOrderTo.setSenderName(senderList.get(0).getSenderName());
-		eOrderTo.setSenderTel(senderList.get(0).getSenderTel());
-		eOrderTo.setSenderMobile(senderList.get(0).getSenderMobile());
-		eOrderTo.setSenderProvince(senderList.get(0).getSenderProvince());
-		eOrderTo.setSenderCity(senderList.get(0).getSenderCity());
-		eOrderTo.setSenderExpArea(senderList.get(0).getSenderExpArea());
-		eOrderTo.setSenderAddress(senderList.get(0).getSenderAddress());
-		eOrderTo.setSenderPostCode(senderList.get(0).getSenderPostCode());
-		eOrderTo.setReceiverName(to.getReceiverName());
-		eOrderTo.setReceiverTel(to.getReceiverTel());
-		eOrderTo.setReceiverMobile(to.getReceiverMobile());
-		eOrderTo.setReceiverProvince(to.getReceiverProvince());
-		eOrderTo.setReceiverCity(to.getReceiverCity());
-		eOrderTo.setReceiverExpArea(to.getReceiverExpArea());
-		eOrderTo.setReceiverAddress(to.getReceiverAddress());
-		eOrderTo.setReceiverPostCode(to.getReceiverPostCode());
+		eOrderTo.setOrderTitle(mo.getOrderTitle());
+		eOrderTo.setOrderRemark(mo.getOrderDetail());
+		eOrderTo.setSenderName(mo.getSenderName());
+		eOrderTo.setSenderTel(mo.getSenderTel());
+		eOrderTo.setSenderMobile(mo.getSenderMobile());
+		eOrderTo.setSenderProvince(mo.getSenderProvince());
+		eOrderTo.setSenderCity(mo.getSenderCity());
+		eOrderTo.setSenderExpArea(mo.getSenderExpArea());
+		eOrderTo.setSenderAddress(mo.getSenderAddress());
+		eOrderTo.setSenderPostCode(mo.getSenderPostCode());
+		eOrderTo.setReceiverName(mo.getReceiverName());
+		eOrderTo.setReceiverTel(mo.getReceiverTel());
+		eOrderTo.setReceiverMobile(mo.getReceiverMobile());
+		eOrderTo.setReceiverProvince(mo.getReceiverProvince());
+		eOrderTo.setReceiverCity(mo.getReceiverCity());
+		eOrderTo.setReceiverExpArea(mo.getReceiverExpArea());
+		eOrderTo.setReceiverAddress(mo.getReceiverAddress());
+		eOrderTo.setReceiverPostCode(mo.getReceiverPostCode());
 		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
 		// 调用电子面单
 		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);

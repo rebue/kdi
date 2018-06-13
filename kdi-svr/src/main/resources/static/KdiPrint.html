@@ -265,16 +265,18 @@
 		
 		// 删除发件人
 		$(document).on("click", "#deleteSender", function() {
+			
+			var is=window.confirm('确定删除吗？');
+			if(!is){
+				return;
+			}
 			var obj = $(this).parent().parent();
 			console.log(obj[0].cells[2].innerHTML);
+			console.log("参数:"+obj[0].cells[2].innerHTML);
 			$.ajax({
 				type : "delete",
-				url : "/kdi/sender/default",
+				url : "/kdi/sender/" + obj[0].cells[2].innerHTML,
 				dataType : "json",
-				data : {
-					id : checkboxArray[0].id,
-					isDefault : true
-				}
 			}).done(function(data) {
 				alert(data.msg);
 				window.location.reload();

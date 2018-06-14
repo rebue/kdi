@@ -234,13 +234,13 @@
 			document.getElementById("express-info-list").innerHTML=html;
 			for (var i = 0; i < data.length; i++) {
 				html+= '<tr>';
-				html += '<td>'+data[i].orderId+'</td>';
-				html += '<td>'+data[i].shipperCode+'</td>';
-				html += '<td>'+data[i].logisticCode+'</td>';
-				html += '<td>'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
-				html += '<td>'+data[i].senderName+':'+data[i].senderTel+'</td>';
-				html += '<td>'+data[i].orderTitle+'</td>';
-				html += '<td>'+data[i].orderDetail+'</td>';
+				html += '<td style="width:165px;" >'+data[i].orderId+'</td>';
+				html += '<td style="width:101px;" >'+data[i].shipperCode+'</td>';
+				html += '<td style="width:166px;" >'+data[i].logisticCode+'</td>';
+				html += '<td style="width:204px;" >'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
+				html += '<td style="width:204px;" >'+data[i].senderName+':'+data[i].senderTel+'</td>';
+				html += '<td style="width:204px;" >'+data[i].orderTitle+'</td>';
+				html += '<td style="width:204px;" >'+data[i].orderDetail+'</td>';
 				html+= '</tr>';
 			}
 			document.getElementById("express-info-list").innerHTML=html;
@@ -307,13 +307,13 @@
 					<table class="div-express-info">
 						<thead>
 							<tr>
-								<th width="138px">订单号</th>
-								<th width="88px">快递</th>
-								<th width="144px">快递单号</th>
-								<th width="248px">收件人信息</th>
-								<th width="248px">寄件人信息</th>
-								<th width="196px">商品内容</th>
-								<th width="196px">留言/备注</th>
+								<th width="165px">订单号</th>
+								<th width="100px">快递</th>
+								<th width="162px">快递单号</th>
+								<th width="197px">收件人信息</th>
+								<th width="198px">寄件人信息</th>
+								<th width="200px">商品内容</th>
+								<th width="200px">留言/备注</th>
 							</tr>
 						</thead>
 						<tbody id="express-info-list" ></tbody>

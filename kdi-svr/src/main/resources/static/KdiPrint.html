@@ -735,14 +735,24 @@
 						html+='<td>'+data.list[i][j]+'</td>';
 					}
 				}
-				html+='<td> <a href="javascript:viod(0);">删除</a> </td>'
+				html+='<td> <a href="javascript:void(0);" onclick="delReceiverInfo(this);" >删除</a> </td>'
 				html+="</tr>";
 			}
 			$("#receiverInfo").append(html);			
 		})
 	}
 	
-
+	/*
+	   删除发件人信息的页面数据，不删除数据库数据。
+     */
+	function delReceiverInfo(thisdel){
+		var is =window.confirm('确定删除');
+		if(!is){
+			return;
+		}
+		thisdel.parentNode.parentNode.parentNode.removeChild(thisdel.parentNode.parentNode);
+	}
+	
 	// 获取所有物流公司信息
 	function getLogisticsCompany() {
 		$.ajax({

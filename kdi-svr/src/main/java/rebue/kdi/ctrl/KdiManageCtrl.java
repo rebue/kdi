@@ -1,30 +1,26 @@
 package rebue.kdi.ctrl;
 
-import java.io.FileOutputStream;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
+import javax.servlet.MultipartConfigElement;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
-
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddkdiCompanyRo;
@@ -32,6 +28,14 @@ import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.to.ListKdiLogisticTo;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 public class KdiManageCtrl {
@@ -80,13 +84,98 @@ public class KdiManageCtrl {
 		return kdiCompanySvc.exAdd(mo);
 	}
 
-
-
-	@PostMapping("/kdi/excel")
-	Map<String, Object> uploadExcel(@RequestParam(value = "filename") MultipartFile file) {
-
-		return null;
+	/**
+	 * 读取excel表
+	 * 
+	 * @param excelFile
+	 * @param rowNum
+	 * @return
+	 * @throws Exception
+	 * @throws IOException
+	 */
+	public List<String[]> readExcel(File excelFile, int rowNum) throws Exception, IOException {
+		List<String[]> list = new ArrayList<String[]>();
+		Workbook rwb = null;
+		Cell cell = null;
+		InputStream stream = new FileInputStream(excelFile);
+		// 获取Excel文件对象
+		rwb = Workbook.getWorkbook(stream);
+		// 获取文件的指定工作表 默认的第一个
+		Sheet sheet = rwb.getSheet(0);
+		// 行数(表头的目录不需要，从1开始)
+		for (int i = rowNum - 1; i < sheet.getRows(); i++) {
+			String[] str = new String[sheet.getColumns()];
+			for (int j = 0; j < sheet.getColumns(); j++) {
+				cell = sheet.getCell(j, i);
+				str[j] = cell.getContents();
+			}
+			list.add(str);
+		}
+		return list;
 	}
 
+	/**
+	 * 上传excel表
+	 * 
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/kdi/excel")
+	Map<String, Object> uploadExcel(@RequestParam(value = "filename") MultipartFile file) throws Exception {
+		_log.info("上传文件的参数为:" + file);
+		// 创建临时文件夹
+		MultipartConfigFactory factory = new MultipartConfigFactory();
+		String location = System.getProperty("user.dir") + "/data/temp";
+		File tmpFile = new File(location);
+		if (!tmpFile.exists()) {
+			tmpFile.mkdirs();
+		}
+		factory.setLocation(location);
+		MultipartConfigElement tempPath = factory.createMultipartConfig();
+		_log.info("临时文件夹路径" + tempPath.getLocation());
+		Map<String, Object> result = new HashMap<>();
+		if (file.isEmpty()) {
+			result.put("msg", "文件为空不能上传");
+		}
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(tempPath.getLocation() + "/" + file.getOriginalFilename());
+			Files.write(path, bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		result.put("msg", "文件上传成功");
+		_log.info("文件上传成功");
+
+		// 读取excel
+		String excelFileName = tempPath.getLocation() + "/" + file.getOriginalFilename();
+		_log.info("文件全路径" + excelFileName);
+		List<String[]> list = null;
+		try {
+			list = readExcel(new File(excelFileName), 1);
+			for (int i = 0; i < list.size(); i++) {
+				String[] str = (String[]) list.get(i);
+				_log.info("excel表数据list" + Arrays.asList(str));
+
+			}
+			_log.info(list.toString());
+		} catch (BiffException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// 删除临时创建的文件
+		File delTempFile = new File(tempPath.getLocation() + "/" + file.getOriginalFilename());
+		if (delTempFile.exists() && delTempFile.isFile()) {
+			if (delTempFile.delete()) {
+				_log.info("临时文件删除成功");
+			}
+		} else {
+			_log.info("临时文件删除失败");
+		}
+		result.put("list", list);
+		return result;
+	}
 
 }

@@ -25,7 +25,7 @@ import rebue.kdi.svc.KdiSenderSvc;
 public class KdiSenderCtrl {
 
 	private final static Logger _log = LoggerFactory.getLogger(KdiSenderCtrl.class);
-	
+
 	@Resource
 	private KdiSenderSvc svc;
 
@@ -53,9 +53,10 @@ public class KdiSenderCtrl {
 		_log.info("添加发件人的参数为: {}", mo);
 		return svc.exAdd(mo);
 	}
-	
+
 	/**
 	 * 查询发件人信息
+	 * 
 	 * @param mo
 	 * @return
 	 */
@@ -66,9 +67,10 @@ public class KdiSenderCtrl {
 		_log.info("查询发件人信息的返回值为: {}", String.valueOf(list));
 		return list;
 	}
-	
+
 	/**
 	 * 修改发件人信息
+	 * 
 	 * @param mo
 	 * @return
 	 */
@@ -77,9 +79,10 @@ public class KdiSenderCtrl {
 		_log.info("修改发件人信息的参数为: {}", mo);
 		return svc.modifyKdiSender(mo);
 	}
-	
+
 	/**
 	 * 修改默认发件人
+	 * 
 	 * @param mo
 	 * @return
 	 */
@@ -88,7 +91,7 @@ public class KdiSenderCtrl {
 		_log.info("修改默认发件人的参数为: {}", mo);
 		return svc.modifyDefaultSender(mo);
 	}
-	
+
 	/**
 	 * 删除发件人
 	 * 
@@ -96,15 +99,13 @@ public class KdiSenderCtrl {
 	 */
 	@DeleteMapping("/kdi/sender/{id}")
 	Map<String, Object> del(@PathVariable("id") java.lang.Long id) {
-		_log.info("删除发件人参数："+id);
+		_log.info("删除发件人参数：" + id);
 		svc.del(id);
 		Map<String, Object> result = new HashMap<>();
-		result.put("msg","删除成功");
+		result.put("msg", "删除成功");
 		_log.info("delete kdisederMo success!");
 		return result;
-		
+
 	}
-	
-	
-	
+
 }

@@ -37,4 +37,14 @@ public class KdiCompanyCtrl {
 		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
 		return list;
 	}
+	
+	/**
+	 * 查询所有快递公司名称和编码
+	 * @return
+	 */
+	@GetMapping("/kdi/company/companynameandcode")
+	List<KdiCompanyMo> selectKdiCompanyNameAndCode() {
+		_log.info("开始查询快递公司名称和编码");
+		return svc.selectKdiCompanyNameAndCode();
+	}
 }

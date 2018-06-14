@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
+import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 
@@ -41,5 +42,16 @@ public class KdiLogisticCtrl {
 	EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
 		_log.info("录入订单的参数为: {}", mo);
 		return svc.entryLogistics(mo);
+	}
+	
+	/**
+	 * 后台调用电子面单接口
+	 * @param mo
+	 * @return
+	 */
+	@PostMapping("/kdi/logistic/exaddkdilogistic")
+	EOrderRo exaddKdiLogistic(KdiLogisticMo mo) {
+		_log.info("后台调用电子面单接口的参数为：{}", mo);
+		return svc.exaddKdiLogistic(mo);
 	}
 }

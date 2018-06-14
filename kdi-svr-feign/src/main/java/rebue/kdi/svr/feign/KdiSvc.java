@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
 import rebue.kdi.ro.LogisticRo;
@@ -60,4 +61,12 @@ public interface KdiSvc {
      */
     @GetMapping("/kdi/trace")
     LogisticRo getTraces(@RequestParam("shipperCode") String shipperCode, @RequestParam("logisticCode") String logisticCode);
+    
+    /**
+	 * 后台调用电子面单接口
+	 * @param mo
+	 * @return
+	 */
+	@PostMapping("/kdi/logistic/exaddkdilogistic")
+	EOrderRo exaddKdiLogistic(@RequestBody KdiLogisticMo mo);
 }

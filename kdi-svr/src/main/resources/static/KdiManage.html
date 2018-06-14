@@ -163,6 +163,11 @@
 			$("#courierCompanyDiv").hide();
 			$("#senderDiv").hide();
 		});
+		
+		// 导出物流订单信息
+		$(document).on("click", "#exportLogisticsOrder", function() {
+			
+		});
 	});
 
 	/**
@@ -288,12 +293,13 @@
 						<span>收件人信息:</span> 
 						<input id="receiverName" name="receiverName"  placeholder="姓名/手机" type="text" class="take-info" style="width: 215px; height: 30px;">
 					</div>
-					<div class="input-all div-from-Other"></div>
-						<div class="input-all" ></div>
-					<div class=" input-all div-from-sub">
+					<div class=" input-all div-from-take-info">
 						<input style="margin-right: 30px; width: 60px; height: 35px" type="button" onclick="reloadData();" value="查&nbsp;&nbsp;询" class="from-sub"> 
 						<input type="reset" style="width: 60px; height: 35px" value="清&nbsp;&nbsp;空" class="from-ret">
 					</div>
+					<!-- <div class="input-all div-from-take-info">
+						<input id="exportLogisticsOrder" style="margin-right: 90%; margin-top: 54px; width: 60px; height: 35px" type="button" value="导&nbsp;&nbsp;出"> 
+					</div> -->
 				</form>
 			</div>
 			<div class="main-text">

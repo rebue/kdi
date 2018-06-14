@@ -24,7 +24,7 @@
 		
 		// 清除发件人信息
 		$(document).on("click", "#clearSender", function() {
-		    $('#senderFrom')[0].reset();  
+			clearSenderInfo();
 		});
 		
 		// 清空收件人信息
@@ -94,7 +94,7 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "/kdi/sender/add",
+				url : "http://192.168.1.26:20080/kdi/sender/add",
 				dataType : "json",
 				data : {
 					senderName : senderName,
@@ -111,6 +111,22 @@
 				alert(data.msg);
 				window.location.reload();
 			});
+		});
+		
+		// 全选/取消全选发件人
+		$(document).on("click", "#checkAll", function() {
+			if ($("#checkAll").prop('checked')) {
+				$("input[name='senderIsDefault']").attr("checked", true);
+			} else {
+				$("input[name='senderIsDefault']").attr("checked", false);
+				clearSenderInfo();
+			}
+		});
+		
+		// 清空已选择的发件人
+		$(document).on("click", "#clearSenderChoice", function() {
+			$("input[name='senderIsDefault']").attr("checked", false);	
+			clearSenderInfo();
 		});
 		
 		// 修改发件人信息
@@ -174,7 +190,7 @@
 			}
 			$.ajax({
 				type : "put",
-				url : "/kdi/sender",
+				url : "http://192.168.1.26:20080/kdi/sender",
 				dataType : "json",
 				data : {
 					id : senderId,
@@ -229,7 +245,6 @@
 		// 设为默认发件人
 		$(document).on("click", "#setDefaultSender", function() {
 			var str = document.getElementsByName("senderIsDefault");
-			console.log(str);
 			var checkboxArray = new Array();
 			for (var i = 0; i < str.length; i++) {
 				if(str[i].checked == true) {
@@ -250,7 +265,7 @@
 			}
 			$.ajax({
 				type : "put",
-				url : "/kdi/sender/default",
+				url : "http://192.168.1.26:20080/kdi/sender/default",
 				dataType : "json",
 				data : {
 					id : checkboxArray[0].id,
@@ -264,7 +279,6 @@
 		
 		// 删除发件人
 		$(document).on("click", "#deleteSender", function() {
-			
 			var is=window.confirm('确定删除吗？');
 			if(!is){
 				return;
@@ -309,10 +323,6 @@
 			}
 			if (orderTitle == null || orderTitle == "" || orderTitle == "null") {
 				alert("订单标题不能为空");
-				return;
-			}
-			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
-				alert("订单详情不能为空");
 				return;
 			}
 			if	(senderName == null || senderName == "" || senderName == "null") {
@@ -373,7 +383,7 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "/kdi/logistic/add",
+				url : "http://192.168.1.26:20080/kdi/logistic/add",
 				dataType : "json",
 				data : {
 					shipperCode 	:	shipperCode,
@@ -443,10 +453,6 @@
 				alert("订单标题不能为空");
 				return;
 			}
-			if (orderDetail == null || orderDetail == "" || orderDetail == "null") {
-				alert("订单详情不能为空");
-				return;
-			}
 			if	(senderName == null || senderName == "" || senderName == "null") {
 				alert("发件人不能为空");
 				return ;
@@ -505,7 +511,7 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "/kdi/logistic/entry",
+				url : "http://192.168.1.26:20080/kdi/logistic/entry",
 				dataType : "json",
 				data : {
 					logisticCode	:	logisticCode,
@@ -536,11 +542,22 @@
 		});
 	});
 	
+	// 清除发件人信息
+	function clearSenderInfo() {
+		$('#senderFrom')[0].reset();
+		$("#selectSendProvinces").find("option")[0].remove();
+		$("#selectSendCity").find("option").remove();
+		$("#selectSendCounty").find("option").remove();
+		$("#selectSendProvinces").append('<option selected="selected">请选择</option>');
+		$("#selectSendCity").append("<option>请选择</option>");
+		$("#selectSendCounty").append("<option>请选择</option>");
+	}
+	
 	// 选择省份
 	function selectSendProvinces() {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20081/are/area/provinceall",
+			url : "http://192.168.1.26:20081/are/area/provinceall",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -597,7 +614,7 @@
 	function getAllLowerArea(areaCode, areaType) {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20081/are/area/alllowerarea",
+			url : "http://192.168.1.26:20081/are/area/alllowerarea",
 			dataType : "json",
 			data : {areaCode : areaCode}
 		}).done(function(data) {
@@ -633,7 +650,7 @@
 	function senderInfo() {
 		$.ajax({
 			type : "get",
-			url : "/kdi/sender",
+			url : "http://192.168.1.26:20080/kdi/sender",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -687,7 +704,7 @@
 	  var formData = new FormData($('#uploadForm')[0]);  
 		$.ajax({
 			type : "get",
-			url : "/kdi/excel/",
+			url : "http://192.168.1.26:20080/kdi/excel/",
 			dataType : "json",
 			data : fromData,
 		}).done(function(data) {
@@ -700,7 +717,7 @@
 	function getLogisticsCompany() {
 		$.ajax({
 			type : "get",
-			url : "/kdi/company/alllist",
+			url : "http://192.168.1.26:20080/kdi/company/alllist",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -919,15 +936,8 @@
 																		</colgroup>
 																		<thead class="ant-table-thead">
 																			<tr>
-																				<th class="">
-																					<span>
-																						<label class="ant-checkbox-wrapper">
-																							<span class="ant-checkbox">
-																								<input class="ant-checkbox-input" data-type="1" value="on" type="checkbox">
-																								<span class="ant-checkbox-inner"></span>
-																							</span>
-																						</label>
-																					</span>
+																				<th>
+																					<input id="checkAll" type="checkbox">
 																				</th>
 																				<th class=""><span>寄件人姓名</span></th>
 																				<th class=""><span>卖家ID</span></th>
@@ -970,22 +980,10 @@
 													<span>设为默认</span>
 												</button>
 											</div>
-											<div class="ant-col-3">
-												<button disabled="" type="button" class="ant-btn ant-btn-default ant-btn-sm">
-													<span>批量删除</span>
-												</button>
-											</div>
 											<div class="ant-col-12">
-												<button disabled="" type="button"
-													class="ant-btn ant-btn-primary ant-btn-sm">
+												<button type="button" id="clearSenderChoice" class="ant-btn ant-btn-primary ant-btn-sm">
 													<span>清空选择</span>
 												</button>
-											</div>
-											<div class="ant-col-6">
-												<span style="font-size: 15px; font-weight: 900;">已选择
-													<span style="color: red;">0</span>/
-													<span>0</span>
-												</span>
 											</div>
 										</div>
 									</div>
@@ -1032,7 +1030,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<textarea value="" id="orderDetail" class="ant-input ant-input-lg" style="min-width: 468px;" type="text"></textarea>
+															<textarea value="" id="orderDetail" placeholder="选填" class="ant-input ant-input-lg" style="min-width: 468px;" type="text"></textarea>
 														</div>
 													</div>
 												</div>

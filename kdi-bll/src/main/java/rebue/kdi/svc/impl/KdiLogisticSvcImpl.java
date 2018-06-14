@@ -19,6 +19,7 @@ import rebue.kdi.dic.EntryLogisticsDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
@@ -107,10 +108,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	public AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo) {
 		_log.info("添加物流订单的参数为: {}", mo);
 		AddKdiLogisticRo addKdiLogisticRo = new AddKdiLogisticRo();
-		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getOrderDetail(), mo.getSenderName(),
-				mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(),
-				mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(),
-				mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(),
+				mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(),
+				mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(),
+				mo.getReceiverAddress(), mo.getReceiverPostCode())
 				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
 				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
 			addKdiLogisticRo.setResult(AddKdiLogisticDic.INCORRECT_PARAMETER);
@@ -120,6 +121,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
 		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
 		eOrderTo.setOrderId(_idWorker.getId());
+		eOrderTo.setOrderRemark(mo.getOrderTitle());
 		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
 		// 调用电子面单
 		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);
@@ -138,6 +140,59 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	}
 
 	/**
+	 * 后台调用电子面单接口
+	 * @param mo
+	 * @return
+	 */
+	@Override
+	public EOrderRo exaddKdiLogistic(KdiLogisticMo mo) {
+		_log.info("添加物流订单信息的参数为：｛｝", mo);
+		EOrderRo eOrderRo = new EOrderRo();
+		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getReceiverName(),
+				mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(),
+				mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null) {
+			eOrderRo.setResult(EOrderResultDic.PARAM_ERROR);
+			eOrderRo.setFailReason("参数有误");
+			return eOrderRo;
+		}
+		
+		KdiSenderMo kdiSenderMo = new KdiSenderMo();
+		kdiSenderMo.setIsDefault(true);
+		_log.info("添加物流订单信息查询默认发件人信息的参数为：｛｝", kdiSenderMo);
+		// 查询默认发件人信息
+		List<KdiSenderMo> senderList = kdiSenderSvc.list(kdiSenderMo);
+		_log.info("添加物流订单信息查询默认发件人信息的返回值为：｛｝", String.valueOf(senderList));
+		if (senderList.size() == 0) {
+			_log.error("添加物流订单信息查询默认发件人时发现默认发件人为空");
+			eOrderRo.setResult(EOrderResultDic.PARAM_ERROR);
+			eOrderRo.setFailReason("请先设置默认发件人");
+			return eOrderRo;
+		}
+		
+		mo.setSenderName(senderList.get(0).getSenderName());
+		mo.setSenderTel(senderList.get(0).getSenderTel());
+		mo.setSenderMobile(senderList.get(0).getSenderMobile());
+		mo.setSenderProvince(senderList.get(0).getSenderProvince());
+		mo.setSenderCity(senderList.get(0).getSenderCity());
+		mo.setSenderExpArea(senderList.get(0).getSenderExpArea());
+		mo.setSenderAddress(senderList.get(0).getSenderAddress());
+		mo.setSenderPostCode(senderList.get(0).getSenderPostCode());
+		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
+		eOrderTo.setOrderRemark(mo.getOrderTitle());
+		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
+		// 调用电子面单
+		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);
+		_log.info("添加物流订单调用电子面单的返回值为: {}", eorder);
+		if (eorder.getResult() != EOrderResultDic.SUCCESS) {
+			_log.error("添加物流订单信息调用电子面单出错，订单编号为：｛｝", mo.getOrderId());
+			return eorder;
+		} else {
+			_log.info("添加物流订单信息调用电子面单成功．订单编号为：｛｝", mo.getOrderId());
+			return eorder;
+		}
+	}
+
+	/**
 	 * 录入订单
 	 * 
 	 * @param mo
@@ -148,10 +203,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	public EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
 		_log.info("录入订单的参数为: {}", mo);
 		EntryLogisticsRo logisticsRo = new EntryLogisticsRo();
-		if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getOrderDetail(),
-				mo.getSenderName(), mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(),
-				mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(),
-				mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+		if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(),
+				mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(),
+				mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(),
+				mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
 				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
 				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
 			logisticsRo.setResult(EntryLogisticsDic.INCORRECT_PARAMETER);

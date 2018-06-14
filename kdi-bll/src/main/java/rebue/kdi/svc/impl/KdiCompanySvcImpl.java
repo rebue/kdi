@@ -1,6 +1,7 @@
 package rebue.kdi.svc.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,5 +48,14 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 			ro.setMsg("添加失败");
 		}
 		return ro;
+	}
+	
+	/**
+	 * 查询所有快递公司名称和编码
+	 * @return
+	 */
+	@Override
+	public List<KdiCompanyMo> selectKdiCompanyNameAndCode() {
+		return _mapper.selectKdiCompanyNameAndCode();
 	}
 }

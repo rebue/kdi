@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import rebue.kdi.mo.KdiLogisticMo;
@@ -50,7 +51,7 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/logistic/exaddkdilogistic")
-	EOrderRo exaddKdiLogistic(KdiLogisticMo mo) {
+	EOrderRo exaddKdiLogistic(@RequestBody KdiLogisticMo mo) {
 		_log.info("后台调用电子面单接口的参数为：{}", mo);
 		return svc.exaddKdiLogistic(mo);
 	}

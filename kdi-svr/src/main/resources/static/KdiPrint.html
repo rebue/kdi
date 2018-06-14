@@ -683,15 +683,43 @@
 		});
 	}
 	
+	/*
+		上传文件
+	*/
 	function fileUpload(){
+		console.log("文件上传");
 	  var formData = new FormData($('#uploadForm')[0]);  
 		$.ajax({
-			type : "get",
-			url : "/kdi/excel/",
+			type : "post",
+			url : "/kdi/excel",
 			dataType : "json",
-			data : fromData,
+			data : formData,
+			processData: false,
+			contentType: false
 		}).done(function(data) {
-			
+			console.log(data);
+			var  html="";
+			for (var i = 1; i < data.list.length; i++) {
+				html+="<tr>";
+				html+='<td> <input type="checkbox" /> </td>';
+				for (var j = 0; j < data.list[i].length; j++) {
+					if(j==12){
+						html+='<td>'+data.list[i][j]+'</td>';
+					}
+					if(j==21){
+						html+='<td>'+data.list[i][j]+'</td>';
+					}
+					if(j==22){
+						html+='<td>'+data.list[i][j]+'</td>';
+					}
+					if(j==27){
+						html+='<td>'+data.list[i][j]+'</td>';
+					}
+				}
+				html+='<td> <a href="javascript:viod(0);">删除</a> </td>'
+				html+="</tr>";
+			}
+			$("#receiverInfo").append(html);			
 		})
 	}
 	
@@ -1002,7 +1030,7 @@
 										</div>
 										<div class="ant-col-3 ant-col-push-11" style="width:28.5%; ">
 											<form id="uploadForm" enctype="multipart/form-data" > 
-												<a href="javascript;" class="file">
+												<a  class="file">
 												选择文件
 													<input type="file" name="filename" id="upFile" onchange="fileUpload();" />
 												</a>
@@ -1152,7 +1180,7 @@
 													<div class="ant-table ant-table-large ant-table-bordered ant-table-empty ant-table-fixed-header ant-table-scroll-position-left">
 														<div class="ant-table-content">
 															<div class="ant-table-scroll">
-																<div class="ant-table-header" style="margin-bottom: -10px; padding-bottom: 0px;">
+																<div class="ant-table-header" style="margin-bottom: -10px;   padding-bottom: 0px;">
 																	<table class="ant-table-fixed" style="table-layout: fixed;">
 																		<colgroup>
 																			<col style="width: 16px; min-width: 16px;">
@@ -1176,15 +1204,17 @@
 																				</th>
 																				<th class=""><span>订单详情</span></th>
 																				<th class=""><span>收件人名称</span></th>
-																				<th class=""><span>收件人单位</span></th>
-																				<th class=""><span>收件人信息</span></th>
+																				<th class=""><span>收件人手机</span></th>
+																				<th class=""><span>收件人住址</span></th>
 																				<th class=""><span>操作</span></th>
 																			</tr>
 																		</thead>
+																		
+																																					
 																	</table>
 																</div>
 																<div class="ant-table-body"
-																	style="overflow-x: auto; max-height: 200px; overflow-y: scroll;">
+																	style="overflow-x: auto; max-height: 100px; overflow-y: scroll;">
 																	<table class="ant-table-fixed"
 																		style="table-layout: fixed;">
 																		<colgroup>
@@ -1195,12 +1225,11 @@
 																			<col style="width: 200px; min-width: 200px;">
 																			<col style="width: 60px; min-width: 60px;">
 																		</colgroup>
-																		<tbody class="ant-table-tbody"></tbody>
+																		<tbody class="ant-table-tbody" id="receiverInfo" >
+																		</tbody>
 																	</table>
 																</div>
-																<div class="ant-table-placeholder">
-																	<span><i class="anticon anticon-frown-o"></i>暂无数据</span>
-																</div>
+
 															</div>
 														</div>
 													</div>

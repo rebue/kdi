@@ -123,7 +123,12 @@ public class KdiManageCtrl {
 	 */
 	@PostMapping("/kdi/excel")
 	Map<String, Object> uploadExcel(@RequestParam(value = "filename") MultipartFile file) throws Exception {
-		_log.info("上传文件的参数为:" + file);
+		Map<String, Object> result = new HashMap<>();
+		_log.info("上传文件名和格式为:" + file.getOriginalFilename());
+		if(!file.getOriginalFilename().endsWith("xls") && !file.getOriginalFilename().endsWith("xlsx")) {
+			result.put("msg", "文件格式");			
+			return result;
+		}
 		// 创建临时文件夹
 		MultipartConfigFactory factory = new MultipartConfigFactory();
 		String location = System.getProperty("user.dir") + "/data/temp";
@@ -134,7 +139,6 @@ public class KdiManageCtrl {
 		factory.setLocation(location);
 		MultipartConfigElement tempPath = factory.createMultipartConfig();
 		_log.info("临时文件夹路径" + tempPath.getLocation());
-		Map<String, Object> result = new HashMap<>();
 		if (file.isEmpty()) {
 			result.put("msg", "文件为空不能上传");
 		}
@@ -157,7 +161,6 @@ public class KdiManageCtrl {
 			for (int i = 0; i < list.size(); i++) {
 				String[] str = (String[]) list.get(i);
 				_log.info("excel表数据list" + Arrays.asList(str));
-
 			}
 			_log.info(list.toString());
 		} catch (BiffException e) {

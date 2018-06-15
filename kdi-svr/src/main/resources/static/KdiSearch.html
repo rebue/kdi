@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="email=no,address=no,telephone=no">
+<title>大卖网络</title>
+<link rel="stylesheet" href="KdiSearch.css">
+<script type="text/javascript" src="../../lib/jquery-3.3.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		var deviceWidth = $(window).outerWidth();
+		if (deviceWidth > 640) {
+			$("html").css("font-size", "100px");
+		} else {
+			$("html").css("font-size", deviceWidth / 640 * 100 + 'px');
+		}
+	});
+</script>
+</head>
+
+<body>
+	<!-- content start -->
+	<section class="wrap">
+		<div class="search hiden">
+			<input type="text" placeholder="请输入您的手机号码/姓名" class="search-text">
+			<input type="button" class="search-btn">
+		</div>
+		<div class="main-text">
+			<div class="express-info">
+				<table class="div-express-info">
+					<thead>
+						<tr>
+							<th width="165px">订单公司</th>
+							<th width="162px">快递单号</th>
+						</tr>
+					</thead>
+					<tbody id="express-info-list">
+						<tr>
+							<td style="width: 165px;">百世快递</td>
+							<td style="width: 101px;">12345678910101213</td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<!-- content end -->
+</body>
+</html>

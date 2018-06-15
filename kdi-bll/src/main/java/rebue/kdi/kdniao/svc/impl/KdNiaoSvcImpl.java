@@ -329,6 +329,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				logisticMo.setPrintPage(printPage);
 				logisticMo.setUpdateTime(now);
 				logisticMo.setOrderTime(now);
+				_log.info("电子面单添加新的物流订单的参数为：{}", logisticMo);
 				logisticSvc.add(logisticMo);
 				ro.setResult(EOrderResultDic.SUCCESS);
 				ro.setLogisticId(logisticMo.getId());

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/6/15 16:25:44                           */
+/* Created on:     2018/6/15 16:54:53                           */
 /*==============================================================*/
 
 
@@ -41,7 +41,7 @@ CREATE TABLE KDI_LOGISTIC
 (
    ID                   BIGINT NOT NULL COMMENT '物流订单ID',
    SHIPPER_ID           BIGINT NOT NULL COMMENT '快递公司ID',
-   SHIPPER_CODE         CHAR(10) NOT NULL COMMENT '快递公司编码',
+   SHIPPER_CODE         VARCHAR(20) NOT NULL COMMENT '快递公司编码',
    SHIPPER_NAME         VARCHAR(100) NOT NULL COMMENT '快递公司名称',
    LOGISTIC_CODE        VARCHAR(30) NOT NULL COMMENT '物流订单号',
    LOGISTIC_STATUS      VARCHAR(3) NOT NULL DEFAULT '0' COMMENT '物流订单状态

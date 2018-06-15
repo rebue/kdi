@@ -7,287 +7,307 @@ package rebue.kdi.to;
  *
  */
 public class EOrderTo {
-    /**
-     * 快递公司编码
-     */
-    private String shipperCode;
-    /**
-     * 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
-     */
-    private Byte   payType;
-    /**
-     * 快递类型:1-标准快件
-     * 其余详细快递类型参考《快递公司快递业务类型.xlsx》
-     */
-    private Byte   expType;
-    /**
-     * 订单ID
-     */
-    private Long   orderId;
-    /**
-     * 订单标题
-     */
-    private String orderTitle;
-    /**
-     * 订单备注
-     */
-    private String orderRemark;
-    /**
-     * 发件人名称
-     */
-    private String senderName;
-    /**
-     * 发件人电话
-     */
-    private String senderTel;
-    /**
-     * 发件人手机
-     */
-    private String senderMobile;
-    /**
-     * 发件省
-     * (如广东省，不要缺少“省”; 如是直辖市，请直接传北京、上海等; 如是自治区，请直接传广西壮族自治区等)
-     */
-    private String senderProvince;
-    /**
-     * 发件市
-     * (如深圳市，不要缺少“市”)
-     */
-    private String senderCity;
-    /**
-     * 发件区/县
-     * (如福田区，不要缺少“区”或“县”)
-     */
-    private String senderExpArea;
-    /**
-     * 发件人详细地址
-     */
-    private String senderAddress;
-    /**
-     * 发件地邮编
-     * (为 EMS、YZPY时必填)
-     */
-    private String senderPostCode;
-    /**
-     * 收件人名称
-     */
-    private String receiverName;
-    /**
-     * 收件人电话
-     */
-    private String receiverTel;
-    /**
-     * 收件人手机
-     */
-    private String receiverMobile;
-    /**
-     * 收件省
-     * (如广东省，不要缺少“省”; 如是直辖市，请直接传北京、上海等; 如是自治区，请直接传广西壮族自治区等)
-     */
-    private String receiverProvince;
-    /**
-     * 收件市
-     * (如深圳市，不要缺少“市”)
-     */
-    private String receiverCity;
-    /**
-     * 收件区/县
-     * (如福田区，不要缺少“区”或“县”)
-     */
-    private String receiverExpArea;
-    /**
-     * 收件人详细地址
-     */
-    private String receiverAddress;
-    /**
-     * 收件地邮编
-     * (为 EMS、YZPY时必填)
-     */
-    private String receiverPostCode;
+	/**
+	 * 快递公司编码
+	 */
+	private String shipperCode;
+	/**
+	 * 快递公司ID
+	 */
+	private Long shipperId;
 
-    public String getShipperCode() {
-        return shipperCode;
-    }
+	/**
+	 * 快递公司名称
+	 */
+	private String shipperName;
+	/**
+	 * 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
+	 */
+	private Byte payType;
+	/**
+	 * 快递类型:1-标准快件 其余详细快递类型参考《快递公司快递业务类型.xlsx》
+	 */
+	private Byte expType;
+	/**
+	 * 订单ID
+	 */
+	private Long orderId;
+	/**
+	 * 订单标题
+	 */
+	private String orderTitle;
+	/**
+	 * 订单备注
+	 */
+	private String orderRemark;
+	/**
+	 * 发件人名称
+	 */
+	private String senderName;
+	/**
+	 * 发件人电话
+	 */
+	private String senderTel;
+	/**
+	 * 发件人手机
+	 */
+	private String senderMobile;
+	/**
+	 * 发件省 (如广东省，不要缺少“省”; 如是直辖市，请直接传北京、上海等; 如是自治区，请直接传广西壮族自治区等)
+	 */
+	private String senderProvince;
+	/**
+	 * 发件市 (如深圳市，不要缺少“市”)
+	 */
+	private String senderCity;
+	/**
+	 * 发件区/县 (如福田区，不要缺少“区”或“县”)
+	 */
+	private String senderExpArea;
+	/**
+	 * 发件人详细地址
+	 */
+	private String senderAddress;
+	/**
+	 * 发件地邮编 (为 EMS、YZPY时必填)
+	 */
+	private String senderPostCode;
+	/**
+	 * 收件人名称
+	 */
+	private String receiverName;
+	/**
+	 * 收件人电话
+	 */
+	private String receiverTel;
+	/**
+	 * 收件人手机
+	 */
+	private String receiverMobile;
+	/**
+	 * 收件省 (如广东省，不要缺少“省”; 如是直辖市，请直接传北京、上海等; 如是自治区，请直接传广西壮族自治区等)
+	 */
+	private String receiverProvince;
+	/**
+	 * 收件市 (如深圳市，不要缺少“市”)
+	 */
+	private String receiverCity;
+	/**
+	 * 收件区/县 (如福田区，不要缺少“区”或“县”)
+	 */
+	private String receiverExpArea;
+	/**
+	 * 收件人详细地址
+	 */
+	private String receiverAddress;
+	/**
+	 * 收件地邮编 (为 EMS、YZPY时必填)
+	 */
+	private String receiverPostCode;
 
-    public void setShipperCode(String shipperCode) {
-        this.shipperCode = shipperCode;
-    }
+	public String getShipperCode() {
+		return shipperCode;
+	}
 
-    public Byte getPayType() {
-        return payType;
-    }
+	public Long getShipperId() {
+		return shipperId;
+	}
 
-    public void setPayType(Byte payType) {
-        this.payType = payType;
-    }
+	public void setShipperId(Long shipperId) {
+		this.shipperId = shipperId;
+	}
 
-    public Byte getExpType() {
-        return expType;
-    }
+	public String getShipperName() {
+		return shipperName;
+	}
 
-    public void setExpType(Byte expType) {
-        this.expType = expType;
-    }
+	public void setShipperName(String shipperName) {
+		this.shipperName = shipperName;
+	}
 
-    public Long getOrderId() {
-        return orderId;
-    }
+	public void setShipperCode(String shipperCode) {
+		this.shipperCode = shipperCode;
+	}
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+	public Byte getPayType() {
+		return payType;
+	}
 
-    public String getOrderTitle() {
-        return orderTitle;
-    }
+	public void setPayType(Byte payType) {
+		this.payType = payType;
+	}
 
-    public void setOrderTitle(String orderTitle) {
-        this.orderTitle = orderTitle;
-    }
+	public Byte getExpType() {
+		return expType;
+	}
 
-    public String getOrderRemark() {
-        return orderRemark;
-    }
+	public void setExpType(Byte expType) {
+		this.expType = expType;
+	}
 
-    public void setOrderRemark(String orderRemark) {
-        this.orderRemark = orderRemark;
-    }
+	public Long getOrderId() {
+		return orderId;
+	}
 
-    public String getSenderName() {
-        return senderName;
-    }
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
+	public String getOrderTitle() {
+		return orderTitle;
+	}
 
-    public String getSenderTel() {
-        return senderTel;
-    }
+	public void setOrderTitle(String orderTitle) {
+		this.orderTitle = orderTitle;
+	}
 
-    public void setSenderTel(String senderTel) {
-        this.senderTel = senderTel;
-    }
+	public String getOrderRemark() {
+		return orderRemark;
+	}
 
-    public String getSenderMobile() {
-        return senderMobile;
-    }
+	public void setOrderRemark(String orderRemark) {
+		this.orderRemark = orderRemark;
+	}
 
-    public void setSenderMobile(String senderMobile) {
-        this.senderMobile = senderMobile;
-    }
+	public String getSenderName() {
+		return senderName;
+	}
 
-    public String getSenderProvince() {
-        return senderProvince;
-    }
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
 
-    public void setSenderProvince(String senderProvince) {
-        this.senderProvince = senderProvince;
-    }
+	public String getSenderTel() {
+		return senderTel;
+	}
 
-    public String getSenderCity() {
-        return senderCity;
-    }
+	public void setSenderTel(String senderTel) {
+		this.senderTel = senderTel;
+	}
 
-    public void setSenderCity(String senderCity) {
-        this.senderCity = senderCity;
-    }
+	public String getSenderMobile() {
+		return senderMobile;
+	}
 
-    public String getSenderExpArea() {
-        return senderExpArea;
-    }
+	public void setSenderMobile(String senderMobile) {
+		this.senderMobile = senderMobile;
+	}
 
-    public void setSenderExpArea(String senderExpArea) {
-        this.senderExpArea = senderExpArea;
-    }
+	public String getSenderProvince() {
+		return senderProvince;
+	}
 
-    public String getSenderAddress() {
-        return senderAddress;
-    }
+	public void setSenderProvince(String senderProvince) {
+		this.senderProvince = senderProvince;
+	}
 
-    public void setSenderAddress(String senderAddress) {
-        this.senderAddress = senderAddress;
-    }
+	public String getSenderCity() {
+		return senderCity;
+	}
 
-    public String getSenderPostCode() {
-        return senderPostCode;
-    }
+	public void setSenderCity(String senderCity) {
+		this.senderCity = senderCity;
+	}
 
-    public void setSenderPostCode(String senderPostCode) {
-        this.senderPostCode = senderPostCode;
-    }
+	public String getSenderExpArea() {
+		return senderExpArea;
+	}
 
-    public String getReceiverName() {
-        return receiverName;
-    }
+	public void setSenderExpArea(String senderExpArea) {
+		this.senderExpArea = senderExpArea;
+	}
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
+	public String getSenderAddress() {
+		return senderAddress;
+	}
 
-    public String getReceiverTel() {
-        return receiverTel;
-    }
+	public void setSenderAddress(String senderAddress) {
+		this.senderAddress = senderAddress;
+	}
 
-    public void setReceiverTel(String receiverTel) {
-        this.receiverTel = receiverTel;
-    }
+	public String getSenderPostCode() {
+		return senderPostCode;
+	}
 
-    public String getReceiverMobile() {
-        return receiverMobile;
-    }
+	public void setSenderPostCode(String senderPostCode) {
+		this.senderPostCode = senderPostCode;
+	}
 
-    public void setReceiverMobile(String receiverMobile) {
-        this.receiverMobile = receiverMobile;
-    }
+	public String getReceiverName() {
+		return receiverName;
+	}
 
-    public String getReceiverProvince() {
-        return receiverProvince;
-    }
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
 
-    public void setReceiverProvince(String receiverProvince) {
-        this.receiverProvince = receiverProvince;
-    }
+	public String getReceiverTel() {
+		return receiverTel;
+	}
 
-    public String getReceiverCity() {
-        return receiverCity;
-    }
+	public void setReceiverTel(String receiverTel) {
+		this.receiverTel = receiverTel;
+	}
 
-    public void setReceiverCity(String receiverCity) {
-        this.receiverCity = receiverCity;
-    }
+	public String getReceiverMobile() {
+		return receiverMobile;
+	}
 
-    public String getReceiverExpArea() {
-        return receiverExpArea;
-    }
+	public void setReceiverMobile(String receiverMobile) {
+		this.receiverMobile = receiverMobile;
+	}
 
-    public void setReceiverExpArea(String receiverExpArea) {
-        this.receiverExpArea = receiverExpArea;
-    }
+	public String getReceiverProvince() {
+		return receiverProvince;
+	}
 
-    public String getReceiverAddress() {
-        return receiverAddress;
-    }
+	public void setReceiverProvince(String receiverProvince) {
+		this.receiverProvince = receiverProvince;
+	}
 
-    public void setReceiverAddress(String receiverAddress) {
-        this.receiverAddress = receiverAddress;
-    }
+	public String getReceiverCity() {
+		return receiverCity;
+	}
 
-    public String getReceiverPostCode() {
-        return receiverPostCode;
-    }
+	public void setReceiverCity(String receiverCity) {
+		this.receiverCity = receiverCity;
+	}
 
-    public void setReceiverPostCode(String receiverPostCode) {
-        this.receiverPostCode = receiverPostCode;
-    }
+	public String getReceiverExpArea() {
+		return receiverExpArea;
+	}
 
-    @Override
-    public String toString() {
-        return "EOrderTo [shipperCode=" + shipperCode + ", payType=" + payType + ", expType=" + expType + ", orderId=" + orderId + ", orderTitle=" + orderTitle + ", orderRemark="
-                + orderRemark + ", senderName=" + senderName + ", senderTel=" + senderTel + ", senderMobile=" + senderMobile + ", senderProvince=" + senderProvince
-                + ", senderCity=" + senderCity + ", senderExpArea=" + senderExpArea + ", senderAddress=" + senderAddress + ", senderPostCode=" + senderPostCode + ", receiverName="
-                + receiverName + ", receiverTel=" + receiverTel + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince + ", receiverCity=" + receiverCity
-                + ", receiverExpArea=" + receiverExpArea + ", receiverAddress=" + receiverAddress + ", receiverPostCode=" + receiverPostCode + "]";
-    }
+	public void setReceiverExpArea(String receiverExpArea) {
+		this.receiverExpArea = receiverExpArea;
+	}
+
+	public String getReceiverAddress() {
+		return receiverAddress;
+	}
+
+	public void setReceiverAddress(String receiverAddress) {
+		this.receiverAddress = receiverAddress;
+	}
+
+	public String getReceiverPostCode() {
+		return receiverPostCode;
+	}
+
+	public void setReceiverPostCode(String receiverPostCode) {
+		this.receiverPostCode = receiverPostCode;
+	}
+
+	@Override
+	public String toString() {
+		return "EOrderTo [shipperCode=" + shipperCode + ", shipperId=" + shipperId + ", shipperName=" + shipperName
+				+ ", payType=" + payType + ", expType=" + expType + ", orderId=" + orderId + ", orderTitle="
+				+ orderTitle + ", orderRemark=" + orderRemark + ", senderName=" + senderName + ", senderTel="
+				+ senderTel + ", senderMobile=" + senderMobile + ", senderProvince=" + senderProvince + ", senderCity="
+				+ senderCity + ", senderExpArea=" + senderExpArea + ", senderAddress=" + senderAddress
+				+ ", senderPostCode=" + senderPostCode + ", receiverName=" + receiverName + ", receiverTel="
+				+ receiverTel + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince
+				+ ", receiverCity=" + receiverCity + ", receiverExpArea=" + receiverExpArea + ", receiverAddress="
+				+ receiverAddress + ", receiverPostCode=" + receiverPostCode + "]";
+	}
 
 }

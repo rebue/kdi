@@ -94,7 +94,7 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "http://192.168.1.26:20080/kdi/sender/add",
+				url : "/kdi/sender/add",
 				dataType : "json",
 				data : {
 					senderName : senderName,
@@ -190,7 +190,7 @@
 			}
 			$.ajax({
 				type : "put",
-				url : "http://192.168.1.26:20080/kdi/sender",
+				url : "/kdi/sender",
 				dataType : "json",
 				data : {
 					id : senderId,
@@ -265,7 +265,7 @@
 			}
 			$.ajax({
 				type : "put",
-				url : "http://192.168.1.26:20080/kdi/sender/default",
+				url : "/kdi/sender/default",
 				dataType : "json",
 				data : {
 					id : checkboxArray[0].id,
@@ -298,7 +298,9 @@
 		
 		// 添加订单
 		$(document).on("click", "#printExpress", function() {
-			var shipperCode			=	$("#selectLogisticsCompany").val().trim();		// 物流公司编号
+			var shipperCode			= 	$("#selectLogisticsCompany option:selected").data("id");	// 物流公司编码
+			var shipperId				=	$("#selectLogisticsCompany").val().trim();					// 物流公司编号
+			var shipperName			=	$("#selectLogisticsCompany option:selected").text(); 		// 物流公司名称
 			var orderTitle 			= 	$("#orderTitle").val().trim(); 						// 订单标题
 			var orderDetail 			= 	$("#orderDetail").val().trim(); 						// 订单详情
 			var senderName 			= 	$("#senderName").val().trim(); 						// 发件人名称
@@ -383,10 +385,12 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "http://192.168.1.26:20080/kdi/logistic/add",
+				url : "/kdi/logistic/add",
 				dataType : "json",
 				data : {
 					shipperCode 	:	shipperCode,
+					shipperId		:	shipperId,
+					shipperName		:	shipperName,
 					orderTitle		:	orderTitle,
 					orderDetail		:	orderDetail,
 					senderName		: 	senderName,
@@ -422,7 +426,9 @@
 		// 录入快递单
 		$(document).on("click", "#entryExpress", function() {
 			var logisticCode			= 	$("#logisticCode").val().trim();						// 物流订单号
-			var shipperCode			=	$("#selectLogisticsCompany").val().trim();		// 物流公司编号
+			var shipperCode			= 	$("#selectLogisticsCompany option:selected").data("id");	// 物流公司编码
+			var shipperId				=	$("#selectLogisticsCompany").val().trim();					// 物流公司编号
+			var shipperName			=	$("#selectLogisticsCompany option:selected").text(); 		// 物流公司名称
 			var orderTitle 			= 	$("#orderTitle").val().trim(); 						// 订单标题
 			var orderDetail 			= 	$("#orderDetail").val().trim(); 						// 订单详情
 			var senderName 			= 	$("#senderName").val().trim(); 						// 发件人名称
@@ -511,11 +517,13 @@
 			}
 			$.ajax({
 				type : "post",
-				url : "http://192.168.1.26:20080/kdi/logistic/entry",
+				url : "/kdi/logistic/entry",
 				dataType : "json",
 				data : {
 					logisticCode	:	logisticCode,
 					shipperCode 	:	shipperCode,
+					shipperId		:	shipperId,
+					shipperName		:	shipperName,
 					orderTitle		:	orderTitle,
 					orderDetail		:	orderDetail,
 					senderName		: 	senderName,
@@ -557,7 +565,7 @@
 	function selectSendProvinces() {
 		$.ajax({
 			type : "get",
-			url : "http://192.168.1.26:20081/are/area/provinceall",
+			url : "/are/area/provinceall",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -614,7 +622,7 @@
 	function getAllLowerArea(areaCode, areaType) {
 		$.ajax({
 			type : "get",
-			url : "http://192.168.1.26:20081/are/area/alllowerarea",
+			url : "/are/area/alllowerarea",
 			dataType : "json",
 			data : {areaCode : areaCode}
 		}).done(function(data) {
@@ -650,7 +658,7 @@
 	function senderInfo() {
 		$.ajax({
 			type : "get",
-			url : "http://192.168.1.26:20080/kdi/sender",
+			url : "/kdi/sender",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -700,15 +708,11 @@
 		});
 	}
 	
-	/*
-		上传文件
-	*/
+	//上传文件
 	function fileUpload(){
 		console.log("文件上传");
 	  var formData = new FormData($('#uploadForm')[0]);  
 		$.ajax({
-			type : "get",
-			url : "http://192.168.1.26:20080/kdi/excel/",
 			type : "post",
 			url : "/kdi/excel",
 			dataType : "json",
@@ -742,9 +746,7 @@
 		})
 	}
 	
-	/*
-	   删除发件人信息的页面数据，不删除数据库数据。
-     */
+	// 删除发件人信息的页面数据，不删除数据库数据。
 	function delReceiverInfo(thisdel){
 		var is =window.confirm('确定删除');
 		if(!is){
@@ -764,7 +766,7 @@
 			$("#selectLogisticsCompany").html('<option value ="">请选择</option>');
 			var html = '';
 			for (var i = 0; i < data.length; i++) {
-				html += '<option value ="' + data[i].companyCode + '">' + data[i].companyName + '</option>';
+				html += '<option data-id="' + data[i].id + '" value ="' + data[i].companyCode + '">' + data[i].companyName + '</option>';
 			}
 			$("#selectLogisticsCompany").append(html);
 		});

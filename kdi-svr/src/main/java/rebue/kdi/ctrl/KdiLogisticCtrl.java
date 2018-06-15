@@ -13,6 +13,7 @@ import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.svc.KdiLogisticSvc;
+import rebue.kdi.to.AddKdiLogisticTo;
 
 @RestController
 public class KdiLogisticCtrl {
@@ -29,7 +30,7 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/logistic/add")
-	AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo) {
+	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo mo) {
 		_log.info("添加物流订单的参数为: {}", mo);
 		return svc.addKdiLogistic(mo);
 	}
@@ -40,7 +41,7 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/logistic/entry")
-	EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
+	EntryLogisticsRo entryLogistics(AddKdiLogisticTo mo) {
 		_log.info("录入订单的参数为: {}", mo);
 		return svc.entryLogistics(mo);
 	}
@@ -51,7 +52,7 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/logistic/exaddkdilogistic")
-	EOrderRo exaddKdiLogistic(@RequestBody KdiLogisticMo mo) {
+	EOrderRo exaddKdiLogistic(@RequestBody AddKdiLogisticTo mo) {
 		_log.info("后台调用电子面单接口的参数为：{}", mo);
 		return svc.exaddKdiLogistic(mo);
 	}

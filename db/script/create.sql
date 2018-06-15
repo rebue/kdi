@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/6/11 9:23:11                            */
+/* Created on:     2018/6/15 16:25:44                           */
 /*==============================================================*/
 
 
@@ -40,7 +40,9 @@ ALTER TABLE KDI_COMPANY COMMENT '快递公司信息';
 CREATE TABLE KDI_LOGISTIC
 (
    ID                   BIGINT NOT NULL COMMENT '物流订单ID',
-   SHIPPER_CODE         VARCHAR(10) NOT NULL COMMENT '快递公司编码',
+   SHIPPER_ID           BIGINT NOT NULL COMMENT '快递公司ID',
+   SHIPPER_CODE         CHAR(10) NOT NULL COMMENT '快递公司编码',
+   SHIPPER_NAME         VARCHAR(100) NOT NULL COMMENT '快递公司名称',
    LOGISTIC_CODE        VARCHAR(30) NOT NULL COMMENT '物流订单号',
    LOGISTIC_STATUS      VARCHAR(3) NOT NULL DEFAULT '0' COMMENT '物流订单状态
             0-无轨迹
@@ -83,7 +85,7 @@ CREATE TABLE KDI_LOGISTIC
    RECEIVER_POST_CODE   CHAR(6) COMMENT '收件地邮编',
    PRINT_PAGE           TEXT COMMENT '打印页面',
    PRIMARY KEY (ID),
-   KEY AK_SHIPPER_LOGISTIC_CODE (SHIPPER_CODE, LOGISTIC_CODE),
+   KEY AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE),
    UNIQUE KEY AK_ORDER_ID (ORDER_ID)
 );
 

@@ -26,6 +26,7 @@ import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
+import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
@@ -79,9 +80,8 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	public Long getNewId() {
 		return _idWorker.getId();
 	}
-
-	/**
-	 * 根据快递公司编码和快递单号获取物流订单
+	
+	 /* 根据快递公司编码和快递单号获取物流订单
 	 * 
 	 * @param shipperCode
 	 *            快递公司编码
@@ -105,7 +105,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public AddKdiLogisticRo addKdiLogistic(KdiLogisticMo mo) {
+	public AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo mo) {
 		_log.info("添加物流订单的参数为: {}", mo);
 		AddKdiLogisticRo addKdiLogisticRo = new AddKdiLogisticRo();
 		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(),
@@ -145,7 +145,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	 * @return
 	 */
 	@Override
-	public EOrderRo exaddKdiLogistic(KdiLogisticMo mo) {
+	public EOrderRo exaddKdiLogistic(AddKdiLogisticTo mo) {
 		_log.info("添加物流订单信息的参数为：｛｝", mo);
 		EOrderRo eOrderRo = new EOrderRo();
 		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getReceiverName(),
@@ -200,7 +200,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public EntryLogisticsRo entryLogistics(KdiLogisticMo mo) {
+	public EntryLogisticsRo entryLogistics(AddKdiLogisticTo mo) {
 		_log.info("录入订单的参数为: {}", mo);
 		EntryLogisticsRo logisticsRo = new EntryLogisticsRo();
 		if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(),
@@ -213,12 +213,13 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 			logisticsRo.setMsg("参数不正确");
 			return logisticsRo;
 		}
+		KdiLogisticMo kdiLogisticMo = dozerMapper.map(mo, KdiLogisticMo.class);
 		Date now = new Date();
-		mo.setOrderId(_idWorker.getId());
-		mo.setOrderTime(now);
-		mo.setUpdateTime(now);
+		kdiLogisticMo.setOrderId(_idWorker.getId());
+		kdiLogisticMo.setOrderTime(now);
+		kdiLogisticMo.setUpdateTime(now);
 		_log.info("录入订单的请求参数为: {}", mo);
-		int result = add(mo);
+		int result = add(kdiLogisticMo);
 		if (result != 1) {
 			logisticsRo.setResult(EntryLogisticsDic.FAILT);
 			logisticsRo.setMsg("下单失败");

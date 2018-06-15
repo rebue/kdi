@@ -15,6 +15,46 @@
 		} else {
 			$("html").css("font-size", deviceWidth / 640 * 100 + 'px');
 		}
+		
+		//获取快递公司和快递单号
+		$(document).on("click", ".search-btn", function() {
+			console.log("获取快递公司");
+			var receiverName=document.getElementById("receiverName");
+			var reg = /^[0-9]+.?[0-9]*$/;
+			if (reg.test(receiverName.value)) {
+				console.log("用户输入了收件人电话，需要修改name的属性");
+				receiverName.name="receiverTel";
+				receiverTel=$("#receiverName").val().trim(); // 收件人电话
+				//因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
+				var rn=document.getElementById("rn");
+				rn.name="receiverName";
+				receiverName=$("#rn").val().trim(); // 
+			}else{
+				receiverName.name="receiverName";
+				receiverName=$("#receiverName").val().trim(); // 收件人名称 
+			}
+			$.ajax({
+				type : "post",
+				url : "/kid/logistic",
+				dataType : "json",
+				data : {
+					receiverTel : receiverTel,
+					receiverName : receiverName
+				}
+			}).done(function(data) {
+				console.log(data);
+				html="";
+				// 首页商品信息
+				for (var i = 0; i < data.length; i++) {
+					html+= '<tr>';
+						
+					html+= '</tr>';
+				}
+				document.getElementById("express-info-list").innerHTML=html;
+			});
+			
+		});
+		
 	});
 </script>
 </head>
@@ -23,7 +63,8 @@
 	<!-- content start -->
 	<section class="wrap">
 		<div class="search hiden">
-			<input type="text" placeholder="请输入您的手机号码/姓名" class="search-text">
+			<input type="hidden" name="rn"  id="rn"  >
+			<input type="text" id="receiverName" name="receiverName"  placeholder="请输入您的手机号码/姓名" class="search-text">
 			<input type="button" class="search-btn">
 		</div>
 		<div class="main-text">
@@ -36,9 +77,6 @@
 						</tr>
 					</thead>
 					<tbody id="express-info-list">
-						<tr>
-							<td style="width: 165px;">百世快递</td>
-							<td style="width: 101px;">12345678910101213</td>
 					</tbody>
 				</table>
 			</div>

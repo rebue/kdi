@@ -104,5 +104,12 @@ public interface KdiLogisticMapper extends MybatisBaseMapper<KdiLogisticMo, Long
     
     List<KdiLogisticMo> kdiLogisticList (ListKdiLogisticTo to);
     
+    /**
+     * 微信端查询快递信息
+     * @param mo
+     * @return
+     */
+    List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo);
+    
     
 }

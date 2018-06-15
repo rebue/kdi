@@ -55,4 +55,15 @@ public class KdiLogisticCtrl {
 		_log.info("后台调用电子面单接口的参数为：{}", mo);
 		return svc.exaddKdiLogistic(mo);
 	}
+	
+	/**
+	 * 根据微信端的条件查询快递公司和订单号
+	 * @param mo
+	 * @return
+	 */
+	KdiLogisticMo listLogisticWx(KdiLogisticMo mo) {
+		_log.info("微信端口查询快递公司和快递单号", mo);
+		return null;
+	}
+	
 }

@@ -18,11 +18,14 @@ import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.dic.EntryLogisticsDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
+import rebue.kdi.ro.ExaddKdiLogisticRo;
+import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
@@ -58,6 +61,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	private KdNiaoSvc kdNiaoSvc;
 
 	@Resource
+	private KdiCompanySvc kdiCompanySvc;
+
+	@Resource
 	private Mapper dozerMapper;
 
 	/**
@@ -80,13 +86,13 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	public Long getNewId() {
 		return _idWorker.getId();
 	}
-	
-	 /* 根据快递公司编码和快递单号获取物流订单
+
+	/*
+	 * 根据快递公司编码和快递单号获取物流订单
 	 * 
-	 * @param shipperCode
-	 *            快递公司编码
-	 * @param logisticCode
-	 *            快递单号
+	 * @param shipperCode 快递公司编码
+	 * 
+	 * @param logisticCode 快递单号
 	 */
 	@Override
 	public KdiLogisticMo getOne(String shipperCode, String logisticCode) {
@@ -141,21 +147,23 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
 	/**
 	 * 后台调用电子面单接口
+	 * 
 	 * @param mo
 	 * @return
 	 */
 	@Override
-	public EOrderRo exaddKdiLogistic(AddKdiLogisticTo mo) {
+	public ExaddKdiLogisticRo exaddKdiLogistic(AddKdiLogisticTo mo) {
 		_log.info("添加物流订单信息的参数为：｛｝", mo);
-		EOrderRo eOrderRo = new EOrderRo();
-		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getReceiverName(),
-				mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(),
-				mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null) {
-			eOrderRo.setResult(EOrderResultDic.PARAM_ERROR);
-			eOrderRo.setFailReason("参数有误");
-			return eOrderRo;
+		ExaddKdiLogisticRo kdiLogisticRo = new ExaddKdiLogisticRo();
+		if (StringUtils.isAnyBlank(mo.getOrderTitle(), mo.getReceiverName(), mo.getReceiverProvince(),
+				mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null
+				|| mo.getShipperId() == null) {
+			kdiLogisticRo.setResult(EOrderResultDic.PARAM_ERROR);
+			kdiLogisticRo.setFailReason("参数有误");
+			return kdiLogisticRo;
 		}
-		
+
 		KdiSenderMo kdiSenderMo = new KdiSenderMo();
 		kdiSenderMo.setIsDefault(true);
 		_log.info("添加物流订单信息查询默认发件人信息的参数为：｛｝", kdiSenderMo);
@@ -164,11 +172,14 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("添加物流订单信息查询默认发件人信息的返回值为：｛｝", String.valueOf(senderList));
 		if (senderList.size() == 0) {
 			_log.error("添加物流订单信息查询默认发件人时发现默认发件人为空");
-			eOrderRo.setResult(EOrderResultDic.PARAM_ERROR);
-			eOrderRo.setFailReason("请先设置默认发件人");
-			return eOrderRo;
+			kdiLogisticRo.setResult(EOrderResultDic.PARAM_ERROR);
+			kdiLogisticRo.setFailReason("请先设置默认发件人");
+			return kdiLogisticRo;
 		}
-		
+
+		// 根据快递公司id获取快递公司信息
+		KdiCompanyMo companyMo = kdiCompanySvc.getById(mo.getShipperId());
+
 		mo.setSenderName(senderList.get(0).getSenderName());
 		mo.setSenderTel(senderList.get(0).getSenderTel());
 		mo.setSenderMobile(senderList.get(0).getSenderMobile());
@@ -179,16 +190,22 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		mo.setSenderPostCode(senderList.get(0).getSenderPostCode());
 		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
 		eOrderTo.setOrderRemark(mo.getOrderTitle());
+		eOrderTo.setShipperCode(companyMo.getCompanyCode());
+		eOrderTo.setShipperName(companyMo.getCompanyName());
+		eOrderTo.setShipperId(companyMo.getId());
 		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
 		// 调用电子面单
 		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);
 		_log.info("添加物流订单调用电子面单的返回值为: {}", eorder);
 		if (eorder.getResult() != EOrderResultDic.SUCCESS) {
 			_log.error("添加物流订单信息调用电子面单出错，订单编号为：｛｝", mo.getOrderId());
-			return eorder;
+			return kdiLogisticRo;
 		} else {
 			_log.info("添加物流订单信息调用电子面单成功．订单编号为：｛｝", mo.getOrderId());
-			return eorder;
+			kdiLogisticRo = dozerMapper.map(eorder, ExaddKdiLogisticRo.class);
+			kdiLogisticRo.setShipperCode(companyMo.getCompanyCode());
+			kdiLogisticRo.setShipperName(companyMo.getCompanyName());
+			return kdiLogisticRo;
 		}
 	}
 

@@ -6,6 +6,7 @@ import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
+import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.MybatisBaseSvc;
@@ -43,7 +44,7 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @param mo
 	 * @return
 	 */
-	EOrderRo exaddKdiLogistic(AddKdiLogisticTo mo);
+	ExaddKdiLogisticRo exaddKdiLogistic(AddKdiLogisticTo mo);
 
 	/* 根据快递公司编码和快递单号获取物流订单
 	 * 

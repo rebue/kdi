@@ -12,6 +12,7 @@ import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
+import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 
@@ -52,7 +53,7 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/logistic/exaddkdilogistic")
-	EOrderRo exaddKdiLogistic(@RequestBody AddKdiLogisticTo mo) {
+	ExaddKdiLogisticRo exaddKdiLogistic(@RequestBody AddKdiLogisticTo mo) {
 		_log.info("后台调用电子面单接口的参数为：{}", mo);
 		return svc.exaddKdiLogistic(mo);
 	}

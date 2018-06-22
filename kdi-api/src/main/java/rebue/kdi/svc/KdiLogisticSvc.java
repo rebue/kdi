@@ -4,7 +4,6 @@ import java.util.List;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
-import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.to.AddKdiLogisticTo;
@@ -54,5 +53,12 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 *            快递单号
 	 */
 	KdiLogisticMo getOne(String shipperCode, String logisticCode); 
+	
+	/**
+	 * 根据微信端的参数获取快递公司和快递单号
+	 * @param mo
+	 * @return
+	 */
+	List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo); 
 
 }

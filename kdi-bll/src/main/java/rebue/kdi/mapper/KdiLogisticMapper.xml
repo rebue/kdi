@@ -777,4 +777,23 @@
       </if>
     </where>
   </select>
+  
+   <select id="kdiLogisticWx" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
+    <!--
+       根据微信端传入的参数查询快递公司和订单号
+    -->
+    select 
+    	SHIPPER_NAME,LOGISTIC_CODE
+    from KDI_LOGISTIC
+    <where>
+ 
+      <if test="receiverName != null and receiverName != ''">
+        and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
+      </if>
+      <if test="receiverTel != null and receiverTel != ''">
+        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR}
+      </if>
+	ORDER BY ORDER_TIME DESC
+    </where>
+  </select>
 </mapper>

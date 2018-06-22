@@ -1,16 +1,13 @@
 package rebue.kdi.ctrl;
-
+import java.util.List;
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.AddKdiLogisticRo;
-import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiLogisticSvc;
@@ -63,9 +60,10 @@ public class KdiLogisticCtrl {
 	 * @param mo
 	 * @return
 	 */
-	KdiLogisticMo listLogisticWx(KdiLogisticMo mo) {
+	@PostMapping("/kid/logistic/wx")
+	List<KdiLogisticMo> listLogisticWx(KdiLogisticMo mo) {
 		_log.info("微信端口查询快递公司和快递单号", mo);
-		return null;
+		return svc.kdiLogisticWx(mo);
 	}
 	
 }

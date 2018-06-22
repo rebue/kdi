@@ -6,7 +6,7 @@
 <meta name="format-detection" content="email=no,address=no,telephone=no">
 <title>大卖网络</title>
 <link rel="stylesheet" href="KdiSearch.css">
-<script type="text/javascript" src="../../lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
 <script>
 	$(document).ready(function() {
 		var deviceWidth = $(window).outerWidth();
@@ -18,6 +18,8 @@
 		
 		//获取快递公司和快递单号
 		$(document).on("click", ".search-btn", function() {
+			var receiverTel="";
+			var receiverName="";
 			console.log("获取快递公司");
 			var receiverName=document.getElementById("receiverName");
 			var reg = /^[0-9]+.?[0-9]*$/;
@@ -33,9 +35,13 @@
 				receiverName.name="receiverName";
 				receiverName=$("#receiverName").val().trim(); // 收件人名称 
 			}
+			if(receiverTel=="" && receiverName==""){
+				console.log("参数为空");
+				return;
+			}
 			$.ajax({
 				type : "post",
-				url : "/kid/logistic",
+				url : "/kid/logistic/wx",
 				dataType : "json",
 				data : {
 					receiverTel : receiverTel,
@@ -44,11 +50,18 @@
 			}).done(function(data) {
 				console.log(data);
 				html="";
-				// 首页商品信息
-				for (var i = 0; i < data.length; i++) {
-					html+= '<tr>';
-						
-					html+= '</tr>';
+				if(data==""){
+					html+= '<tr >';
+					html+='<td>查询无数据</td>';
+					html+='<td>查询无数据</td>';
+					html+= '</tr>'; 
+				}else {
+					for (var i = 0; i < data.length; i++) {
+						html+= '<tr >';
+						html+='<td>'+data[i].shipperName+ '</td>';
+						html+='<td>'+data[i].logisticCode + '</td>';
+						html+= '</tr>'; 
+					}
 				}
 				document.getElementById("express-info-list").innerHTML=html;
 			});
@@ -58,12 +71,12 @@
 	});
 </script>
 </head>
-
 <body>
 	<!-- content start -->
 	<section class="wrap">
+		<div class="head" ><h2>快递查询</h2></div>
 		<div class="search hiden">
-			<input type="hidden" name="rn"  id="rn"  >
+			<input type="hidden" name="receiverTel"  id="rn"  >
 			<input type="text" id="receiverName" name="receiverName"  placeholder="请输入您的手机号码/姓名" class="search-text">
 			<input type="button" class="search-btn">
 		</div>
@@ -73,7 +86,7 @@
 					<thead>
 						<tr>
 							<th width="165px">订单公司</th>
-							<th width="162px">快递单号</th>
+							<th width="152px">快递单号</th>
 						</tr>
 					</thead>
 					<tbody id="express-info-list">

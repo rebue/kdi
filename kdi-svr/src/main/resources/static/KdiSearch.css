@@ -19,7 +19,7 @@ body, h1, h2, h3, h4, h5, h6, p, form {
 body {
 	font: menu;
 	font-size: 0.14rem;
-	color: #333;
+	color: #555753;
 }
 
 a img, input, button, textarea {
@@ -63,12 +63,12 @@ body {
 }
 
 .search {
-	padding: 0.25rem 0rem;
+	padding: 0rem 0.1rem 0.25rem;
 }
 
 .search-text {
 	float: left;
-	width: 5.5rem;
+	width: 5.3rem;
 	height: 0.9rem;
 	line-height: 0.55rem;
 	padding: 0 0.1rem;
@@ -85,6 +85,20 @@ body {
 	background: #ff7268 url(search-btn.png) center no-repeat;
 	background-size: 0.33rem 0.33rem;
 }
+
+.express-info{
+	padding:0rem 0.1rem;
+}
+
+.head{
+		width:5rem;
+		height:0.5rem;
+		margin:0.17rem auto 0.2rem;
+		text-align:center;
+		line-height:0.5rem;
+		letter-spacing: 0.1rem;
+		font-size:0.26rem;
+	}
 
 .div-express-info th {
 	height: 42px;

@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <title>订单打印</title>
 <link href="KdiPrint.css" rel="stylesheet">
-<script type="text/javascript" src="../../lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		// 加载省份
@@ -285,10 +285,10 @@
 			}
 			var obj = $(this).parent().parent();
 			console.log(obj[0].cells[2].innerHTML);
-			console.log("参数:"+obj[0].cells[2].innerHTML);
+			console.log("参数:"+obj[0].cells[0].childNodes[2].value);
 			$.ajax({
 				type : "delete",
-				url : "/kdi/sender/" + obj[0].cells[2].innerHTML,
+				url : "/kdi/sender/" + obj[0].cells[0].childNodes[2].value,
 				dataType : "json",
 			}).done(function(data) {
 				alert(data.msg);
@@ -565,7 +565,7 @@
 	function selectSendProvinces() {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20081/are/area/provinceall",
+			url : "http://127.0.0.1:20180/are/area/provinceall",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -622,7 +622,7 @@
 	function getAllLowerArea(areaCode, areaType) {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20081/are/area/alllowerarea",
+			url : "http://127.0.0.1:20180/are/area/lowerareaall",
 			dataType : "json",
 			data : {areaCode : areaCode}
 		}).done(function(data) {
@@ -674,6 +674,7 @@
 				} else {
 					html += '		<input id="' + data[i].id + '" name="senderIsDefault" type="checkbox">';
 				}
+				html += '<input type="hidden" value="'+data[i].id+'" >';
 				html += '	</td>';
 				html += '	<td class="">' + data[i].senderName + '</td>';
 				html += '	<td  class=""></td>';
@@ -720,6 +721,9 @@
 			processData: false,
 			contentType: false
 		}).done(function(data) {
+			if(data.list==null){
+				return;
+			}
 			console.log(data);
 			var  html="";
 			for (var i = 1; i < data.list.length; i++) {
@@ -759,7 +763,7 @@
 	function getLogisticsCompany() {
 		$.ajax({
 			type : "get",
-			url : "http://192.168.1.26:20080/kdi/company/alllist",
+			url : "/kdi/company/alllist",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);

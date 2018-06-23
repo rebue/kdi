@@ -256,4 +256,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("获取物流订单的参数为: {}", to);
 		return _mapper.kdiLogisticList(to);
 	}
+
+	@Override
+	public  List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo) {
+		_log.info("获取快递公司和快递单号的参数为：", mo);
+		return _mapper.kdiLogisticWx(mo);
+	}
 }

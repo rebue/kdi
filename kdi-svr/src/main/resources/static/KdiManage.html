@@ -211,8 +211,6 @@
 		var logisticStatus = $("#logisticStatus").val().trim(); // 物流订单状态
 		var orderTimeStart = $("#orderTimeStart").val().trim(); // 下单时间段 开始
 		var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
-		console.log("属性："+orderTimeStart);
-		console.log("属性："+logisticCode);
 		$.ajax({
 			type : "get",
 			url : "/kid/manage/logistic",

@@ -565,7 +565,7 @@
 	function selectSendProvinces() {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20180/are/area/provinceall",
+			url : "http://127.0.0.1:20081/are/area/provinceall",
 			dataType : "json",
 		}).done(function(data) {
 			console.log(data);
@@ -622,7 +622,7 @@
 	function getAllLowerArea(areaCode, areaType) {
 		$.ajax({
 			type : "get",
-			url : "http://127.0.0.1:20180/are/area/lowerareaall",
+			url : "http://127.0.0.1:20081/are/area/lowerareaall",
 			dataType : "json",
 			data : {areaCode : areaCode}
 		}).done(function(data) {
@@ -674,7 +674,7 @@
 				} else {
 					html += '		<input id="' + data[i].id + '" name="senderIsDefault" type="checkbox">';
 				}
-				html += '<input type="hidden" value="'+data[i].id+'" >';
+				html += '<input type="hidden" value="'+data[i].id+ '">';
 				html += '	</td>';
 				html += '	<td class="">' + data[i].senderName + '</td>';
 				html += '	<td  class=""></td>';
@@ -715,7 +715,7 @@
 	  var formData = new FormData($('#uploadForm')[0]);  
 		$.ajax({
 			type : "post",
-			url : "/kdi/excel",
+			url : "/kdi-svr/kdi/excel",
 			dataType : "json",
 			data : formData,
 			processData: false,

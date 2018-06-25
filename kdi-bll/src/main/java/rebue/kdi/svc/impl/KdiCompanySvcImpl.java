@@ -58,4 +58,12 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 	public List<KdiCompanyMo> selectKdiCompanyNameAndCode() {
 		return _mapper.selectKdiCompanyNameAndCode();
 	}
+
+	/**
+	 * 根据快递名称查询快递公司信息
+	 */
+	@Override
+	public List<KdiCompanyMo> selectKdiCompanyInfo(KdiCompanyMo mo) {
+		return _mapper.selectSelective(mo);
+	}
 }

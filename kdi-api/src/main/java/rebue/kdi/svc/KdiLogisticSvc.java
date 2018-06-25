@@ -52,8 +52,7 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @param logisticCode
 	 *            快递单号
 	 */
-	KdiLogisticMo getOne(String shipperCode, String logisticCode); 
-	
+	KdiLogisticMo getOne(String shipperCode, String logisticCode);
 	/**
 	 * 根据微信端的参数获取快递公司和快递单号
 	 * @param mo

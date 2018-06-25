@@ -18,5 +18,10 @@ public interface KdiCompanySvc extends MybatisBaseSvc<KdiCompanyMo, java.lang.Lo
 	 * @return
 	 */
 	List<KdiCompanyMo> selectKdiCompanyNameAndCode();
-
+	
+	/**
+	 * 根据快递公司名称查询递公司信息
+	 */
+	
+	List<KdiCompanyMo> selectKdiCompanyInfo(KdiCompanyMo mo);
 }

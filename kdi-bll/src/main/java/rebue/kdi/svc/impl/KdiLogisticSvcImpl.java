@@ -115,7 +115,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("添加物流订单的参数为: {}", mo);
 		AddKdiLogisticRo addKdiLogisticRo = new AddKdiLogisticRo();
 		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(),
-				mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(),
+				mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(),mo.getShipperName(),
 				mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(),
 				mo.getReceiverAddress(), mo.getReceiverPostCode())
 				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
@@ -124,8 +124,21 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 			addKdiLogisticRo.setMsg("参数不正确");
 			return addKdiLogisticRo;
 		}
-
+		KdiCompanyMo kdiMo = new KdiCompanyMo();
+		_log.info("查询快递公司信息的参数为: {}", mo.getShipperName());
+		kdiMo.setCompanyName(mo.getShipperName());
+		List<KdiCompanyMo> list = kdiCompanySvc.selectKdiCompanyInfo(kdiMo);
+		
+		if(list.size()==0) {
+			_log.info("快递公司在数据库中不存在");
+			addKdiLogisticRo.setMsg("快递公司不存在");
+			return addKdiLogisticRo;
+		}
+		_log.info("查询到快递公司信息为: {}", list);
 		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
+		eOrderTo.setCustomerName(list.get(0).getCompanyAccount());
+		eOrderTo.setCustomerPwd(list.get(0).getCompanyPwd());
+		eOrderTo.setPayType(list.get(0).getPayType());
 		eOrderTo.setOrderId(_idWorker.getId());
 		eOrderTo.setOrderRemark(mo.getOrderTitle());
 		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
@@ -256,7 +269,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("获取物流订单的参数为: {}", to);
 		return _mapper.kdiLogisticList(to);
 	}
-
+	
 	@Override
 	public  List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo) {
 		_log.info("获取快递公司和快递单号的参数为：", mo);

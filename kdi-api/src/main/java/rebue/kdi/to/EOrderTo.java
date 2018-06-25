@@ -104,6 +104,32 @@ public class EOrderTo {
 	 * 收件地邮编 (为 EMS、YZPY时必填)
 	 */
 	private String receiverPostCode;
+	
+	/**
+	 * 电子面单客户号
+	 */
+	private String customerName;
+	
+	/**
+	 *电子面单密码 
+	 */
+	private String customerPwd;
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPwd() {
+		return customerPwd;
+	}
+
+	public void setCustomerPwd(String customerPwd) {
+		this.customerPwd = customerPwd;
+	}
 
 	public String getShipperCode() {
 		return shipperCode;
@@ -307,7 +333,8 @@ public class EOrderTo {
 				+ ", senderPostCode=" + senderPostCode + ", receiverName=" + receiverName + ", receiverTel="
 				+ receiverTel + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince
 				+ ", receiverCity=" + receiverCity + ", receiverExpArea=" + receiverExpArea + ", receiverAddress="
-				+ receiverAddress + ", receiverPostCode=" + receiverPostCode + "]";
+				+ receiverAddress + ", receiverPostCode=" + receiverPostCode + ", customerName=" + customerName
+				+ ", customerPwd=" + customerPwd + "]";
 	}
 
 }

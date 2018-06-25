@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>com.github.rebue.common-pom</groupId>
 		<artifactId>sb-parent</artifactId>
-		<version>1.0.7</version>
+		<version>1.0.8</version>
+		<relativePath/>
 	</parent>
 
 	<groupId>com.github.rebue.kdi</groupId>
 	<artifactId>kdi</artifactId>
-	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<description>快递API服务</description>
 
@@ -47,12 +47,12 @@
 			<dependency>
 				<groupId>com.github.rebue.kdi</groupId>
 				<artifactId>kdi-api</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.8</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.rebue.kdi</groupId>
 				<artifactId>kdi-bll</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.8</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -44,6 +44,7 @@ import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
+import rebue.wheel.HttpClientUtils;
 import rebue.wheel.OkhttpUtils;
 
 @Service
@@ -103,7 +104,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	/**
 	 * 电子面单的url
 	 */
-	private final static String EORDER_URL = "https://api.kdniao.cc/api/EOrderService";
+	private final static String EORDER_URL = "http://api.kdniao.cc/api/EOrderService";
 	private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.cc:8081/api/eorderservice";
 
 	/**
@@ -229,17 +230,12 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			// 应用级参数
 			String requestData = "{";
 			requestData += "\"ShipperCode\":\"" + to.getShipperCode() + "\","; // 快递公司编码
-
+			requestData += "\"CustomerName\":\"" + to.getCustomerName() + "\",";// 电子面单客户号
+			requestData += "\"CustomerPwd\":\"" + to.getCustomerPwd() + "\",";// 电子面单密码/密钥
 			// 从配置中获取快递公司电子面单的参数
 			@SuppressWarnings("unchecked")
 			Map<String, Object> shipper = (Map<String, Object>) shippers.get(to.getShipperCode());
 			if (shipper != null) {
-				String customerName = (String) shipper.get("customername"); // 电子面单客户号
-				if (customerName != null)
-					requestData += "\"CustomerName\":\"" + customerName + "\",";
-				String customerPwd = (String) shipper.get("customerpwd"); // 电子面单密码/密钥
-				if (customerPwd != null)
-					requestData += "\"CustomerPwd\":\"" + customerPwd + "\",";
 				String sendSite = (String) shipper.get("sendsite"); // 收件网点标识（名称）
 				if (sendSite != null)
 					requestData += "\"SendSite\":\"" + sendSite + "\",";
@@ -301,6 +297,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			requestData += "}";
 
 			requestMap.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
+
 			// 系统级参数
 			requestMap.put("EBusinessID", _ebusinessid);
 			requestMap.put("RequestType", "1007");
@@ -315,13 +312,25 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			if (_isSandBox)
 				url = EORDER_URL_SANDBOX;
 			_log.info("向快递鸟服务器发出请求-电子面单：{}", url);
-			Map<String, Object> resultMap = jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
+			// Map<String, Object> resultMap =
+			// jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
+			Map<String, Object> resultMap = jsonParser.parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
+//			Map<String, Object> resultMap = jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
 			if ((boolean) resultMap.get("Success")) {
 				_log.info("电子面单的请求返回成功");
 				@SuppressWarnings("unchecked")
 				Map<String, Object> orderMap = (Map<String, Object>) resultMap.get("Order");
 				String logisticCode = (String) orderMap.get("LogisticCode");
 				String printPage = String.valueOf(resultMap.get("PrintTemplate"));
+				_log.info("返回的打印模板：{}", printPage);
+				printPage = printPage.replaceAll("<td class=\"f11\">", "<td class=\"b f11\">");
+				printPage = printPage.replaceAll("<td class=\"f8\">", "<td class=\"b f11\">");
+				printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
+				printPage = printPage.replace("<td width=\"90\" rowspan=\"2\" class=\"xx10 vt\">","<td width=\"1\" rowspan=\"2\" class=\"xx10 vt\">");
+				printPage = printPage.replace("<tr height=\"44\">","<tr height=\"70\">");
+				printPage = printPage.replace("width: 375px;","width: 400px;");
+				printPage = printPage.replace("<img class=\"mb-3\" width=\"270\"","<img class=\"mb-3\" width=\"370\"");
+				_log.info("替换后打印模板：{}", printPage);
 				Date now = new Date();
 				// 添加新的物流订单
 				KdiLogisticMo logisticMo = dozerMapper.map(to, KdiLogisticMo.class);
@@ -349,7 +358,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		} catch (IOException e) {
 			_log.error("请求快递鸟API服务器失败", e);
 			ro.setResult(EOrderResultDic.FAILT);
-			ro.setFailReason("请求快递鸟API服务器失败");
+			ro.setFailReason("请求快递鸟API服务器失败:" + e.getMessage());
 			return ro;
 		} catch (DuplicateKeyException e) {
 			String msg = "重复下单: {}" + to.getOrderId();

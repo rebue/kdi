@@ -777,8 +777,7 @@
       </if>
     </where>
   </select>
-  
-   <select id="kdiLogisticWx" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
+  <select id="kdiLogisticWx" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
     <!--
        根据微信端传入的参数查询快递公司和订单号
     -->

@@ -417,9 +417,13 @@
 					return;
 				}
 				var printPage = data.printPage;
-				window.document.body.innerHTML = printPage;
-				window.print();
-				location.reload();
+// 				window.document.body.innerHTML = printPage;
+// 				window.print();
+				var printWindow = window.open();
+				printWindow.document.body.innerHTML = printPage;
+				printWindow.print();
+				printWindow.close();
+			//	location.reload();
 			});
 		});
 		
@@ -545,7 +549,7 @@
 				}
 			}).done(function(data) {
 				alert(data.msg);
-				location.reload();
+			//	location.reload();
 			});
 		});
 	});

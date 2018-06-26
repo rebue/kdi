@@ -328,8 +328,13 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
 				printPage = printPage.replace("<td width=\"90\" rowspan=\"2\" class=\"xx10 vt\">","<td width=\"1\" rowspan=\"2\" class=\"xx10 vt\">");
 				printPage = printPage.replace("<tr height=\"44\">","<tr height=\"70\">");
-				printPage = printPage.replace("width: 375px;","width: 400px;");
+				printPage = printPage.replace("width: 375px;","width: 450px;");
 				printPage = printPage.replace("<img class=\"mb-3\" width=\"270\"","<img class=\"mb-3\" width=\"370\"");
+				printPage = printPage.replace("<table class=\"print_paper\" height=\"74\">","<table class=\"print_paper\" height=\"100\">");
+				printPage = printPage.replace("<td width=\"77\" class=\"tc\">","<td width=\"1\" class=\"tc\">");
+				printPage = printPage.replace("<td width=\"157\" class=\"f7\">","<td width=\"257\" class=\"f7\">");
+				printPage = printPage.replace("<img class=\"mb-3\" width=\"176\"","<img class=\"mb-3\" width=\"250\"");
+				printPage = printPage.replace("<td class=\"tc f14 b\">","<td class=\"tc f18 b\" style=\"line-height: 1;letter-spacing: 8px;\">");
 				_log.info("替换后打印模板：{}", printPage);
 				Date now = new Date();
 				// 添加新的物流订单

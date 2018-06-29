@@ -306,7 +306,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("not arrival");
 		}
-
+		_log.info("请求电子面单报文：{}", requestMap);
 		try {
 			String url = EORDER_URL;
 			if (_isSandBox)
@@ -315,7 +315,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			// Map<String, Object> resultMap =
 			// jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
 			Map<String, Object> resultMap = jsonParser.parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
-//			Map<String, Object> resultMap = jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
+			// Map<String, Object> resultMap =
+			// jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
 			if ((boolean) resultMap.get("Success")) {
 				_log.info("电子面单的请求返回成功");
 				@SuppressWarnings("unchecked")
@@ -323,18 +324,42 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				String logisticCode = (String) orderMap.get("LogisticCode");
 				String printPage = String.valueOf(resultMap.get("PrintTemplate"));
 				_log.info("返回的打印模板：{}", printPage);
-				printPage = printPage.replaceAll("<td class=\"f11\">", "<td class=\"b f11\">");
-				printPage = printPage.replaceAll("<td class=\"f8\">", "<td class=\"b f11\">");
-				printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
-				printPage = printPage.replace("<td width=\"90\" rowspan=\"2\" class=\"xx10 vt\">","<td width=\"1\" rowspan=\"2\" class=\"xx10 vt\">");
-				printPage = printPage.replace("<tr height=\"44\">","<tr height=\"70\">");
-				printPage = printPage.replace("width: 375px;","width: 450px;");
-				printPage = printPage.replace("<img class=\"mb-3\" width=\"270\"","<img class=\"mb-3\" width=\"370\"");
-				printPage = printPage.replace("<table class=\"print_paper\" height=\"74\">","<table class=\"print_paper\" height=\"100\">");
-				printPage = printPage.replace("<td width=\"77\" class=\"tc\">","<td width=\"1\" class=\"tc\">");
-				printPage = printPage.replace("<td width=\"157\" class=\"f7\">","<td width=\"257\" class=\"f7\">");
-				printPage = printPage.replace("<img class=\"mb-3\" width=\"176\"","<img class=\"mb-3\" width=\"250\"");
-				printPage = printPage.replace("<td class=\"tc f14 b\">","<td class=\"tc f18 b\" style=\"line-height: 1;letter-spacing: 8px;\">");
+				if (to.getShipperCode().equals("HTKY")) {
+					printPage = printPage.replaceAll("<td class=\"f11\">", "<td class=\"b f11\">");
+					printPage = printPage.replaceAll("<td class=\"f8\">", "<td class=\"b f11\">");
+					printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
+					printPage = printPage.replace("<td width=\"90\" rowspan=\"2\" class=\"xx10 vt\">",
+							"<td width=\"1\" rowspan=\"2\" class=\"xx10 vt\">");
+					printPage = printPage.replace("<tr height=\"44\">", "<tr height=\"70\">");
+					printPage = printPage.replace("width: 375px;", "width: 450px;");
+					printPage = printPage.replace("<img class=\"mb-3\" width=\"270\"",
+							"<img class=\"mb-3\" width=\"370\"");
+					printPage = printPage.replace("<table class=\"print_paper\" height=\"74\">",
+							"<table class=\"print_paper\" height=\"100\">");
+					printPage = printPage.replace("<td width=\"77\" class=\"tc\">", "<td width=\"1\" class=\"tc\">");
+					printPage = printPage.replace("<td width=\"157\" class=\"f7\">", "<td width=\"257\" class=\"f7\">");
+					printPage = printPage.replace("<img class=\"mb-3\" width=\"176\"",
+							"<img class=\"mb-3\" width=\"250\"");
+					printPage = printPage.replace("<td class=\"tc f14 b\">",
+							"<td class=\"tc f18 b\" style=\"line-height: 1;letter-spacing: 8px;\">");
+				}else if(to.getShipperCode().equals("YZPY")) {
+					printPage = printPage.replace("width: 375px;", "width: 450px;");
+					printPage = printPage.replaceAll("<td class=\"f11 vt\">", "<td class=\"f11 b vt\">");
+					printPage = printPage.replaceAll("<td class=\"f9 lh14 vt\" rowspan=\"2\" width=\"92\">", "<td class=\"f9 lh14 vt\" rowspan=\"2\" width=\"1\">");
+					printPage = printPage.replaceAll("<td class=\"f9 vt\">", "<td class=\"f11 b vt\">");
+					printPage = printPage.replaceAll("<img width=\"270\"", "<img width=\"330\"");
+					printPage = printPage.replaceAll("<td class=\"tc f15 lh14 b fam\">", "<td class=\"tc f15 lh14 b fam\" style = \"letter-spacing: 10px;\">");
+					printPage = printPage.replaceAll("<td class=\"tc\" width=\"74\">", "<td class=\"tc\" width=\"1\">");
+					printPage = printPage.replaceAll("<td class=\"f8\" width=\"166\">", "<td class=\"f8\" width=\"200\">");
+					printPage = printPage.replaceAll("<img width=\"176\" height=\"30\"", "<img width=\"220\" height=\"30\"");
+					printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
+					printPage = printPage.replaceAll("服务</div>", "</div>");
+					printPage = printPage.replaceAll("付款方式：寄付月结", "");
+					printPage = printPage.replaceAll("<tr height=\"48\">", "<tr height=\"70\">");
+					printPage = printPage.replaceAll("<tr height=\"37\">", "<tr height=\"60\">");
+					printPage = printPage.replaceAll("已检视","客户号：80000010128574");
+					printPage = printPage.replaceAll("<div class=\"abs\" style=\"top: 85px;right: 5px;\">","<div class=\"abs b\" style=\"top: 85px;right: 5px;\">");
+				}
 				_log.info("替换后打印模板：{}", printPage);
 				Date now = new Date();
 				// 添加新的物流订单

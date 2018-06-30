@@ -1,5 +1,7 @@
 package rebue.kdi.svr.feign;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
@@ -63,13 +66,10 @@ public interface KdiSvc {
 	@GetMapping("/kdi/trace")
 	LogisticRo getTraces(@RequestParam("shipperCode") String shipperCode,
 			@RequestParam("logisticCode") String logisticCode);
-
+	
 	/**
-	 * 后台调用电子面单接口
-	 * 
-	 * @param mo
-	 * @return
+	 * 查询发件人信息
 	 */
-	@PostMapping("/kdi/logistic/exaddkdilogistic")
-	ExaddKdiLogisticRo exaddKdiLogistic(@RequestBody KdiLogisticMo mo);
+	@GetMapping("/kdi/sender")
+	List<KdiSenderMo> getSenderInfo();
 }

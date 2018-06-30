@@ -71,5 +71,5 @@ public interface KdiSvc {
 	 * 查询发件人信息
 	 */
 	@GetMapping("/kdi/sender")
-	List<KdiSenderMo> getSenderInfo();
+	List<KdiSenderMo> getSenderInfo(KdiSenderMo mo);
 }

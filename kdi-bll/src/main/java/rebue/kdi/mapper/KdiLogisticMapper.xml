@@ -776,6 +776,7 @@
         and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR}
       </if>
     </where>
+     	ORDER BY ORDER_TIME DESC
   </select>
   <select id="kdiLogisticWx" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
     <!--

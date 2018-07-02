@@ -767,13 +767,16 @@
         and SENDER_NAME = #{senderName,jdbcType=VARCHAR}
       </if>
       <if test="senderTel != null and senderTel != ''">
-        and SENDER_TEL = #{senderTel,jdbcType=VARCHAR}
+        and SENDER_TEL = #{senderTel,jdbcType=VARCHAR} or
+        SENDER_MOBILE = #{senderTel,jdbcType=VARCHAR}
+        
       </if>
       <if test="receiverName != null and receiverName != ''">
         and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
       </if>
       <if test="receiverTel != null and receiverTel != ''">
-        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR}
+        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or
+        RECEIVER_MOBILE  = #{receiverTel,jdbcType=VARCHAR}
       </if>
     </where>
      	ORDER BY ORDER_TIME DESC
@@ -791,7 +794,8 @@
         and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
       </if>
       <if test="receiverTel != null and receiverTel != ''">
-        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR}
+        and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or
+        RECEIVER_MOBILE  = #{receiverTel,jdbcType=VARCHAR}
       </if>
 	ORDER BY ORDER_TIME DESC
     </where>

@@ -67,6 +67,11 @@ public class KdiManageCtrl {
 	@GetMapping("/kid/manage/logistic")
 	List<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to) {
 		_log.info("list KdiLogisticMo:" + to);
+		//如果下单结束时间不为空，将其加一天，以防开始和结束时间重合查询不到数据
+		if( to.getOrderTimeEnd()!=null & !"".equals(to.getOrderTimeEnd())) {
+			String endTime=to.getOrderTimeEnd()+" 23:59:59";
+			to.setOrderTimeEnd(endTime);
+		}
 		List<KdiLogisticMo> result = kdiLogisticSvc.kdiLogisticList(to);
 		_log.info("result: " + result);
 		return result;

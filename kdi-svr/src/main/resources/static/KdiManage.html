@@ -213,7 +213,7 @@
 		var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
 		$.ajax({
 			type : "get",
-			url : "/kdi-svr/kid/manage/logistic",
+			url : "/kid/manage/logistic",
 			dataType : "json",
 			data : {
 				senderTel : senderTel,
@@ -235,8 +235,16 @@
 				html += '<td style="width:165px;" >'+data[i].orderId+'</td>';
 				html += '<td style="width:101px;" >'+data[i].shipperName+'</td>';
 				html += '<td style="width:166px;" >'+data[i].logisticCode+'</td>';
-				html += '<td style="width:204px;" >'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
-				html += '<td style="width:204px;" >'+data[i].senderName+':'+data[i].senderTel+'</td>';
+				if(data[i].receiverMobile==""){
+					html += '<td style="width:204px;" >'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
+				}else{
+					html += '<td style="width:204px;" >'+data[i].receiverName+':'+data[i].receiverMobile+'</td>';
+				}
+				if(data[i].senderMobile==""){
+					html += '<td style="width:204px;" >'+data[i].senderName+':'+data[i].senderTel+'</td>';
+				}else{
+					html += '<td style="width:204px;" >'+data[i].senderName+':'+data[i].senderMobile+'</td>';
+				}
 				html += '<td style="width:204px;" >'+data[i].orderTitle+'</td>';
 				html += '<td style="width:204px;" >'+data[i].orderTime+'</td>';
 				html+= '</tr>';

@@ -754,7 +754,7 @@
        <if test="logisticCode != null and logisticCode != ''">
         and LOGISTIC_CODE = #{logisticCode,jdbcType=VARCHAR}
       </if>
-      <if test="logisticStatus != null and logisticStatus != ''">
+      <if test="logisticStatus != null and logisticStatus != '' ">
         and LOGISTIC_STATUS = #{logisticStatus,jdbcType=VARCHAR}
       </if>
       <if test="orderTimeStart != null and orderTimeStart !='' ">
@@ -778,6 +778,7 @@
         and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or
         RECEIVER_MOBILE  = #{receiverTel,jdbcType=VARCHAR}
       </if>
+       and   LOGISTIC_STATUS !=0
     </where>
      	ORDER BY ORDER_TIME DESC
   </select>

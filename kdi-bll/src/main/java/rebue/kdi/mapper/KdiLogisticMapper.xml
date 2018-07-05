@@ -764,7 +764,7 @@
 		and ORDER_TIME &lt;= "${orderTimeEnd}"
 	   </if>
        <if test="senderName != null and senderName != ''">
-        and SENDER_NAME = #{senderName,jdbcType=VARCHAR}
+        and SENDER_NAME LIKE '%${senderName}%'
       </if>
       <if test="senderTel != null and senderTel != ''">
         and SENDER_TEL = #{senderTel,jdbcType=VARCHAR} or
@@ -772,7 +772,7 @@
         
       </if>
       <if test="receiverName != null and receiverName != ''">
-        and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
+        and RECEIVER_NAME LIKE'%${receiverName}%'
       </if>
       <if test="receiverTel != null and receiverTel != ''">
         and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or
@@ -791,7 +791,7 @@
     <where>
  
       <if test="receiverName != null and receiverName != ''">
-        and RECEIVER_NAME = #{receiverName,jdbcType=VARCHAR}
+        and RECEIVER_NAME LIKE '%${receiverName}%' 
       </if>
       <if test="receiverTel != null and receiverTel != ''">
         and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or

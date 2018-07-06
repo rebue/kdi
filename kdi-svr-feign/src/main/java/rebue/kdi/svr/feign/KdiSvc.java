@@ -1,17 +1,15 @@
 package rebue.kdi.svr.feign;
-
 import java.util.List;
-
+import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
-import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.SubscribeTraceRo;
@@ -71,5 +69,14 @@ public interface KdiSvc {
 	 * 查询发件人信息
 	 */
 	@GetMapping("/kdi/sender")
-	List<KdiSenderMo> getSenderInfo(KdiSenderMo mo);
+	List<KdiSenderMo> getSenderInfo(@RequestParam Map<String, Object> map);
+	
+	/**
+	 * 查询所有快递公司信息
+	 * @return
+	 */
+	@GetMapping("/kdi/company/alllist")
+	List<KdiCompanyMo> kdiCompanyList();
+	
+	
 }

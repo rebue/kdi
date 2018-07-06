@@ -32,6 +32,7 @@ import rebue.kdi.dic.SubscribeTraceResultDic;
 import rebue.kdi.kdniao.ro.KdNiaoUpdateTraceRo;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.kdniao.util.KdNiaoSignUtils;
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiTraceMo;
 import rebue.kdi.ro.EOrderRo;
@@ -40,6 +41,7 @@ import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.ShipperRo;
 import rebue.kdi.ro.SubscribeTraceRo;
 import rebue.kdi.ro.TraceRo;
+import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.EOrderTo;
@@ -72,24 +74,13 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	@Value("${kdi.kdniao.apikey}")
 	private String _apikey;
 
-	/**
-	 * 读取yml配置文件中的属性
-	 */
-	private Map<String, Object> shippers;
-
-	public Map<String, Object> getShippers() {
-		return shippers;
-	}
-
-	public void setShippers(Map<String, Object> shippers) {
-		this.shippers = shippers;
-	}
-
+	
 	@Resource
 	private KdiLogisticSvc logisticSvc;
 	@Resource
 	private KdiTraceSvc traceSvc;
-
+	@Resource
+	private KdiCompanySvc companySvc;
 	@Resource
 	private JsonParser jsonParser;
 	@Resource
@@ -197,6 +188,27 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public EOrderRo eorder(EOrderTo to) {
+		//根据快递公司id获取选中的快递公司编码
+		List<KdiCompanyMo> allConpany=companySvc.listAll();
+		KdiCompanyMo selectCompany= new KdiCompanyMo();
+		if(allConpany==null) {
+			_log.info("获取到的快递公司为空");
+			return null;
+		}else {
+			_log.info("获取快递公司的返回值是",allConpany );
+			for (int i = 0; i < allConpany.size(); i++) {
+				if(allConpany.get(i).getId().equals(to.getShipperId())) {
+					selectCompany=allConpany.get(i);
+					_log.info("选择的快递公司是："+selectCompany );
+					_log.info("选择的快递公司帐号是："+selectCompany.getCompanyAccount() );
+					_log.info("选择的快递公司密码是："+selectCompany.getCompanyPwd());
+				};
+			};
+		}
+		to.setShipperCode(selectCompany.getCompanyCode());
+		to.setCustomerName(selectCompany.getCompanyAccount());
+		to.setCustomerPwd(selectCompany.getCompanyPwd());
+		to.setShipperName(selectCompany.getCompanyName());
 		_log.info("快递鸟电子面单：{}", to);
 		EOrderRo ro = new EOrderRo();
 
@@ -232,24 +244,10 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			requestData += "\"ShipperCode\":\"" + to.getShipperCode() + "\","; // 快递公司编码
 			requestData += "\"CustomerName\":\"" + to.getCustomerName() + "\",";// 电子面单客户号
 			requestData += "\"CustomerPwd\":\"" + to.getCustomerPwd() + "\",";// 电子面单密码/密钥
-			// 从配置中获取快递公司电子面单的参数
-			@SuppressWarnings("unchecked")
-			Map<String, Object> shipper = (Map<String, Object>) shippers.get(to.getShipperCode());
-			if (shipper != null) {
-				String sendSite = (String) shipper.get("sendsite"); // 收件网点标识（名称）
-				if (sendSite != null)
-					requestData += "\"SendSite\":\"" + sendSite + "\",";
-				String monthCode = (String) shipper.get("monthcode"); // 月结编号
-				if (monthCode != null)
-					requestData += "\"MonthCode\":\"" + monthCode + "\",";
-			}
-
 			// 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
 			Byte payType = to.getPayType();
 			if (payType == null) {
-				if (shipper != null)
-					payType = Byte.valueOf(shipper.get("paytype").toString()); // 从配置中取出快递公司的参数
-				else
+
 					payType = (byte) PayTypeDic.ON_THE_SPOT.getCode(); // 默认现付
 			}
 			requestData += "\"PayType\":" + payType + ","; // 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付

@@ -798,7 +798,7 @@
         and RECEIVER_TEL = #{receiverTel,jdbcType=VARCHAR} or
         RECEIVER_MOBILE  = #{receiverTel,jdbcType=VARCHAR}
       </if>
-       and   LOGISTIC_STATUS !=0
+<!--        and   LOGISTIC_STATUS !=0 -->
     </where>
         ORDER BY ORDER_TIME DESC
   </select>

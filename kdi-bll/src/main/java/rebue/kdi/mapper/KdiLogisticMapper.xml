@@ -748,7 +748,9 @@
        因为传入参数和传出不同，所以添加了这个方法
     -->
     select 
-    <include refid="Base_Column_List" />
+   		ORDER_ID,SHIPPER_NAME,LOGISTIC_CODE,RECEIVER_NAME,RECEIVER_TEL,RECEIVER_MOBILE,
+   		SENDER_NAME,SENDER_TEL,SENDER_MOBILE,ORDER_TIME,ORDER_TITLE
+   		
     from KDI_LOGISTIC
     <where>
        <if test="logisticCode != null and logisticCode != ''">

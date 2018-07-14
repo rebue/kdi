@@ -22,5 +22,5 @@ public interface KdiTraceSvc extends MybatisBaseSvc<KdiTraceMo, java.lang.Long> 
      *            物流订单ID
      */
     List<KdiTraceMo> list(Long logisticId);
-
+    
 }

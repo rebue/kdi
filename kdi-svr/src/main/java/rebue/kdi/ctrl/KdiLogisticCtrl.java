@@ -1,16 +1,19 @@
 package rebue.kdi.ctrl;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiLogisticSvc;
+import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 
 @RestController
@@ -21,20 +24,11 @@ public class KdiLogisticCtrl {
 	@Resource
 	private KdiLogisticSvc svc;
 	
-	/**
-	 * 添加物流订单
-	 * 
-	 * @param to
-	 * @return
-	 */
-	@PostMapping("/kdi/logistic/add")
-	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo mo) {
-		_log.info("添加物流订单的参数为: {}", mo);
-		return svc.addKdiLogistic(mo);
-	}
+	@Resource
+	private KdiTraceSvc traceSvc;
 	
 	/**
-	 * 录入订单
+	 * 添加物流订单记录
 	 * @param mo
 	 * @return
 	 */

@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="email=no,address=no,telephone=no">
+<title>物流轨迹查询</title>
+<link rel="stylesheet" href="lib/framework7/css/framework7.css">
+<script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="KdiSearch.css">
+<script type="text/javascript">
+	function getQueryParams() {
+		var result = {};
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			result[pair[0]]=pair[1];
+		}
+		return result;
+	}
+
+	$(document).ready(function(){
+		var deviceWidth = $(window).outerWidth();
+		if (deviceWidth > 640) {
+			$("html").css("font-size", "100px");
+		} else {
+			$("html").css("font-size",
+					deviceWidth / 640 * 100 + 'px');
+		}
+		//获取url中的的参数
+		var params = getQueryParams();
+		var shipperName = decodeURI(params.shipperName);
+		var logisticId = params.logisticId;
+		var logisticCode = params.logisticCode;
+		html = shipperName+" ："+logisticCode
+		document.getElementById("logisticsCompany").innerHTML = html;
+		$.ajax({
+			type : "post",
+			url : "/kdi-svr/kdi/trace/getTrace",
+			dataType : "json",
+			data : {
+				logisticId : logisticId
+			}
+		}).done(function(data) {
+			console.log(data);
+			html = "";
+			if (data == "") {
+				html += '查询无数据';
+				
+			} else {
+	// 			document.getElementById("trace-info-head").innerHTML = "<tr><th width=\"165px\">时间</th><th width=\"162px\">物流轨迹</th></tr>";
+				for (var i = 0; i < data.length; i++) {
+					html += '<div class="timeline-item">';
+					html += '<div class="timeline-item-date">'+ data[i].happenTime+ '</font></div>';
+					html += '<div class="timeline-item-divider"></div>';
+					html += '<div class="timeline-item-inner">'+ data[i].traceDesc + '</div>';
+					html += '</div>';
+				}
+				html+='<div class="timeline-item"><div class="timeline-item-date"></div><div class="timeline-item-divider"></div><div class="timeline-item-content"></div></div>'
+				
+			}
+			document.getElementById("trace-info-list").innerHTML = html;
+		})
+	}
+	)
+</script>
+<style type="text/css">
+#logisticsCompany {
+	font-size: 0.3rem;
+	float: left;
+	margin:0 0 0 0.3rem;
+}
+</style>
+</head>
+<body>
+	<section class="wrap">
+		<div id="banner" class="banner">
+			<a href="https://mp.weixin.qq.com/s/TTOM3jibBDp0mM2Ajegi6w"> <img
+				src="banner.png" class="img" /></a>
+		</div>
+		<div id="head">
+			<div id="logisticsCompany">
+<!-- 				<label>中通快递:&nbsp;&nbsp;&nbsp;</label> <label>logisticId</label> -->
+			</div>
+		</div>
+		<div style="width: 6rem; height: 0.7rem; border-bottom: solid #CDCDC1 0.3px; margin:0.3px;"></div>
+		<div style="width: 6rem; height: 0.3rem;"></div>
+		<div class="logisticsInfo">
+			<table class="div-trace-info">
+				<thead id="trace-info-head">
+
+				</thead>
+				<tbody id="trace-info-list" class="trace-info-list ios">
+				</tbody>
+			</table>
+		</div>
+<!-- 		<div id="erweima"> -->
+<!-- 			<img src="erweima.png" class="img" onclick="return false" /> -->
+<!-- 		</div> -->
+	</section>
+</body>
+<script type="text/javascript">
+	
+</script>
+
+</html>

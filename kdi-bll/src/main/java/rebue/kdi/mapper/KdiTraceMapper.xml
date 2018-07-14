@@ -178,6 +178,7 @@
         and CITY = #{city,jdbcType=VARCHAR}
       </if>
     </where>
+    ORDER BY HAPPEN_TIME DESC
   </select>
   <select id="existByPrimaryKey" parameterType="java.lang.Long" resultType="boolean">
     <!--

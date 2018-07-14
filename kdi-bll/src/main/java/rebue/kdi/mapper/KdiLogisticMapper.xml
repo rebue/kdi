@@ -789,7 +789,7 @@
        根据微信端传入的参数查询快递公司和订单号
     -->
     select 
-    	SHIPPER_NAME,LOGISTIC_CODE
+    	ID,SHIPPER_NAME,LOGISTIC_CODE
     from KDI_LOGISTIC
     <where>
  

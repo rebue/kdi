@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>打单首页</title>
+<link href="KdiManage.css" rel="stylesheet">
+<script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="lib/laydate/laydate.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//获取订单数据
+		reloadData();
+		
+		// 创建添加订单div
+		$(document).on("click", "#addOrder", function() {
+			$('.bgPop,.pop').show();
+			$("#orderDiv").show();
+			$(".pop").css("min-height", "650px");
+			// 获取所有快递公司
+			getCourierCompany();
+			// 获取所有发件人
+			getSender();
+		});
+
+		// 创建添加快递公司div
+		$(document).on("click", "#addCourierCompany", function() {
+			$(".pop").css("min-height", "250px");
+			$(".pop").css("height", "330px");
+			$('.bgPop,.pop').show();
+			$("#courierCompanyDiv").show();
+		});
+
+		// 创建添加发件人div
+		$(document).on("click", "#addSender", function() {
+			$(".pop").css("min-height", "250px");
+			$(".pop").css("height", "460px");
+			$('.bgPop,.pop').show();
+			$("#senderDiv").show();
+			$(".pop").append(html);
+		});
+
+		// 添加快递公司
+		$(document).on("click", "#addCourierCompanyButton", function() {
+			// 快递公司名称
+			var companyName = $("#courierCompanyName").val();
+			// 快递公司账号
+			var companyAccount = $("#courierCompanyAccount").val();
+			// 快递公司密码
+			var companyPwd = $("#courierCompanyPassWord").val();
+			// 快递公司编码
+			var companyCode = $("#courierCompanyCode").val();
+			// 支付类型
+			var payType = $("#payType").val();
+			if (companyName == null || companyName == "" || companyName == "null") {
+				alert("快递公司名称不能为空");
+				return;
+			}
+			if (companyAccount == null || companyAccount == "" || companyAccount == "null") {
+				alert("快递公司账号不能为空");
+				return;
+			}
+			if (companyPwd == null || companyPwd == "" || companyPwd == "null") {
+				alert("快递公司密码不能为空");
+				return;
+			}
+			if (companyCode == null || companyCode == "" || companyCode == "null") {
+				alert("快递公司编码不能为空");
+				return;
+			}
+			if (payType == null || payType == "" || payType == "null") {
+				alert("支付类型不能为空");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi-svr/kdi/company/add",
+				dataType : "json",
+				data : {
+					companyName : companyName,
+					companyAccount : companyAccount,
+					companyPwd : companyPwd,
+					companyCode : companyCode,
+					payType : payType
+				}
+			}).done(function(data) {
+				alert(data.msg);
+				window.location.reload();
+			});
+		});
+
+		// 添加发件人
+		$(document).on("click", "#addSenderButton", function() {
+			// 发件人名称
+			var senderName = $("#senderName").val();
+			// 发件人电话
+			var senderTel = $("#senderTel").val();
+			// 发件人手机
+			var senderMobile = $("#senderMobile").val();
+			// 发件省份
+			var senderProvince = $("#senderProvince").val();
+			// 发件城市
+			var senderCity = $("#senderCity").val();
+			// 发件区县
+			var senderExpArea = $("#senderExpArea").val();
+			// 发件详细地址
+			var senderAddress = $("#senderAddress").val();
+			// 发件地邮编
+			var senderPostCode = $("#senderPostCode").val();
+
+			if (senderName == null || senderName == "" || senderName == "null") {
+				alert("发件人不能为空");
+				return;
+			}
+			if (senderProvince == null || senderProvince == "" || senderProvince == "null") {
+				alert("发件省份不能为空");
+				return;
+			}
+			if (senderCity == null || senderCity == "" || senderCity == "null") {
+				alert("发件城市不能为空");
+				return;
+			}
+			if (senderExpArea == null || senderExpArea == "" || senderExpArea == "null") {
+				alert("发件区/县不能为空");
+				return;
+			}
+			if (senderAddress == null || senderAddress == "" || senderAddress == "null") {
+				alert("发件详细地址不能为空");
+				return;
+			}
+			if (senderPostCode == null || senderPostCode == "" || senderPostCode == "null") {
+				alert("发件地邮编不能为空");
+				return;
+			}
+			if (senderTel == null || senderTel == "" || senderTel == "null"
+					&& senderMobile == null || senderMobile == "" || senderMobile == "null") {
+				alert("发件人电话和手机必须填一个");
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/kdi-svr/kdi/sender/add",
+				dataType : "json",
+				data : {
+					senderName : senderName,
+					senderTel : senderTel,
+					senderMobile : senderMobile,
+					senderProvince : senderProvince,
+					senderCity : senderCity,
+					senderExpArea : senderExpArea,
+					senderAddress : senderAddress,
+					senderPostCode : senderPostCode
+				}
+			}).done(function(data) {
+				alert(data.msg);
+				window.location.reload();
+			});
+		});
+
+		// 关闭并删除div
+		$(document).on("click", ".pop-close", function() {
+			$('.bgPop,.pop').hide();
+			$("#orderDiv").hide();
+			$("#courierCompanyDiv").hide();
+			$("#senderDiv").hide();
+		});
+		
+		// 导出物流订单信息
+		$(document).on("click", "#exportLogisticsOrder", function() {
+			
+		});
+	});
+
+	/**
+	* 加载首页信息
+	*/ 
+	function reloadData(){
+		var senderName="";
+		var senderTel="";
+		var receiverName="";
+		var receiverTel="";
+		//判断用户的输入
+		var senderName=document.getElementById("senderName");
+		var receiverName=document.getElementById("receiverName");
+		var reg = /^[0-9]+.?[0-9]*$/;
+		if (reg.test(senderName.value)) {
+			console.log("用户输入了发件人电话，需要修改name的属性");
+			senderName.name="senderTel";
+			senderTel=$("#senderName").val().trim(); // 发件人电话
+			//因为下面的ajax要捕捉name为senderName的val，所以如果改了#senderName的name值，这里就需要修改一个临时的name值
+			var sn=document.getElementById("sn");
+			sn.name="senderName";
+			senderName=$("#rn").val().trim(); // 
+		}else{
+			senderName.name="senderName";
+			senderName=$("#senderName").val().trim(); // 发件人名称 
+		}
+		if (reg.test(receiverName.value)) {
+			console.log("用户输入了发件人电话，需要修改name的属性");
+			receiverName.name="receiverTel";
+			receiverTel=$("#receiverName").val().trim(); // 收件人电话
+			//因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
+			var rn=document.getElementById("rn");
+			rn.name="receiverName";
+			receiverName=$("#rn").val().trim(); // 
+		}else{
+			receiverName.name="receiverName";
+			receiverName=$("#receiverName").val().trim(); // 收件人名称 
+		}
+		//以上都是对判断用户是输入名字还是电话号码的判断
+		var logisticCode = $("#logisticCode").val().trim(); // 快递单号
+		var logisticStatus = $("#logisticStatus").val().trim(); // 物流订单状态
+		var orderTimeStart = $("#orderTimeStart").val().trim(); // 下单时间段 开始
+		var orderTimeEnd = $("#orderTimeEnd").val().trim(); // 下单时间段 结束
+		console.log("属性："+orderTimeStart);
+		console.log("属性："+logisticCode);
+		$.ajax({
+			type : "get",
+			url : "/kdi-svr/kid/manage/logistic",
+			dataType : "json",
+			data : {
+				senderTel : senderTel,
+				senderName : senderName,
+				receiverTel : receiverTel,
+				receiverName : receiverName,
+				logisticCode : logisticCode,
+				logisticStatus : logisticStatus,
+				orderTimeStart : orderTimeStart,
+				orderTimeEnd  : orderTimeEnd
+			}
+		}).done(function(data) {
+			console.log(data);
+			html="";
+			// 首页商品信息
+			document.getElementById("express-info-list").innerHTML=html;
+			for (var i = 0; i < data.length; i++) {
+				html+= '<tr>';
+				html += '<td style="width:165px;" >'+data[i].orderId+'</td>';
+				html += '<td style="width:101px;" >'+data[i].shipperCode+'</td>';
+				html += '<td style="width:166px;" >'+data[i].logisticCode+'</td>';
+				html += '<td style="width:204px;" >'+data[i].receiverName+':'+data[i].receiverTel+'</td>';
+				html += '<td style="width:204px;" >'+data[i].senderName+':'+data[i].senderTel+'</td>';
+				html += '<td style="width:204px;" >'+data[i].orderTitle+'</td>';
+				html += '<td style="width:204px;" >'+data[i].orderDetail+'</td>';
+				html+= '</tr>';
+			}
+			document.getElementById("express-info-list").innerHTML=html;
+		});
+	}
+</script>
+
+</head>
+<body>
+	<div class="wrap">
+		<input type="hidden" name="sn" id="sn" >
+		<input type="hidden" name="rn"  id="rn"  >
+		<div class="header">
+			<div class="link" style="margin-left: 10%; width: 300px">
+				<a href="KdiManage.html" >首页</a>
+				<a href="KdiPrint.html" >打印</a>
+				<a href="javascript:void(0)" id="addCourierCompany">添加快递公司</a>
+			</div>
+		</div>
+		<div class="main">
+			<div class="search-form">
+				<form id="fm"  class="main-form" >
+					<div class=" input-all div-from-tiem ">
+						<span>下单时间:</span> 
+						<input id="orderTimeStart" name="orderTimeStart" readonly="readonly" style="width: 100px; height: 30px;"  type="text" class="from-tiem-start "> 
+						<span>至:</span> 
+						<input id="orderTimeEnd" name="orderTimeEnd" readonly="readonly" style="width: 100px; height: 30px;"  type="text" class="from-tiem-end ">
+					</div>
+					<div class=" input-all  div-from-send-out">
+						<span>物流订单状态:</span>
+						 <select name="logisticStatus" id="logisticStatus" style="width: 232px; height: 30px;">
+						 	<option value="" >全部</option>
+							<option value="0" >无轨迹</option>
+							<option value="1" >已揽收</option>
+							<option value="2" >在途中</option>
+							<option value="3" >以签收</option>
+							<option value="4" >问题件</option>
+							<option></option>
+						</select>
+					</div>
+					<div class=" input-all div-from-info-id">
+						<span>快递单号:</span> 
+						<input id="logisticCode" name="logisticCode" style="width: 210px; height: 30px;" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" placeholder="快递单号" class="from-info-id-start">
+					</div>
+					<div class=" input-all div-from-Send-info">
+						<span>寄件人信息:</span> 
+						<input  id="senderName" name="senderName"   placeholder="姓名/手机" type="text" class="Send-info" style="width: 215px; height: 30px;">
+					</div>
+					<div class=" input-all div-from-take-info">
+						<span>收件人信息:</span> 
+						<input id="receiverName" name="receiverName"  placeholder="姓名/手机" type="text" class="take-info" style="width: 215px; height: 30px;">
+					</div>
+					<div class=" input-all div-from-take-info">
+						<input style="margin-right: 30px; width: 60px; height: 35px" type="button" onclick="reloadData();" value="查&nbsp;&nbsp;询" class="from-sub"> 
+						<input type="reset" style="width: 60px; height: 35px" value="清&nbsp;&nbsp;空" class="from-ret">
+					</div>
+					<!-- <div class="input-all div-from-take-info">
+						<input id="exportLogisticsOrder" style="margin-right: 90%; margin-top: 54px; width: 60px; height: 35px" type="button" value="导&nbsp;&nbsp;出"> 
+					</div> -->
+				</form>
+			</div>
+			<div class="main-text">
+				<div class="express-info">
+					<table class="div-express-info">
+						<thead>
+							<tr>
+								<th width="165px">订单号</th>
+								<th width="100px">快递</th>
+								<th width="162px">快递单号</th>
+								<th width="197px">收件人信息</th>
+								<th width="198px">寄件人信息</th>
+								<th width="200px">商品内容</th>
+								<th width="200px">留言/备注</th>
+							</tr>
+						</thead>
+						<tbody id="express-info-list" ></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="foot"></div>
+	</div>
+	<!--遮罩层-->
+	<div class="bgPop"></div>
+	<!--弹出框-->
+	<div class="pop">
+		<!-- 添加快递公司 -->
+		<div id="courierCompanyDiv">
+			<div id="cloceDiv">
+				<div class="pop-top">
+					<h2>添加快递公司</h2>
+					<span class="pop-close">Ｘ</span>
+				</div>
+				<div class="pop-content" style="height: 250px">
+					<div class="pop-content-right" style="width: 500px">
+						<table>
+							<span>快递公司名称：<input id="courierCompanyName"></span></br>
+							<span>快递公司账号：<input id="courierCompanyAccount"></span></br>
+							<span>快递公司密码：<input id="courierCompanyPassWord"></span></br>
+							<span>快递公司编码：<input id="courierCompanyCode"></span></br>
+							<span>支付类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="lname"></span>
+							<select id="payType" style="width: 355px; height: 30px; margin-left:4px; margin-top: 10px;">
+								<option value ="">请选择</option>
+								<option value ="1">现付</option>
+								<option value ="2">到付</option>
+								<option value ="3">月结</option>
+								<option value ="4">第三方付</option>
+							</select>
+						</table>
+					</div>
+				</div>
+				<div class="pop-foot">
+					<input type="button" value="关&nbsp;&nbsp;闭" class="pop-cancel pop-close">
+					<input type="button" value="提&nbsp;&nbsp;交" class="pop-ok" id="addCourierCompanyButton">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	laydate.skin('molv');
+	laydate({
+		elem : '#orderTimeStart'
+	});
+	laydate({
+		elem : '#orderTimeEnd'
+	});
+</script>
+</html>

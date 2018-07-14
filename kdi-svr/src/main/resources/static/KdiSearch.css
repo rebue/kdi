@@ -1,7 +1,5 @@
 @charset "utf-8";
-/* 爱尚礼品 CSS Document by zyx 2016-10-14 */
 
-/* Common style */
 html {
 	height:100%;
 	-webkit-box-sizing: border-box;
@@ -47,10 +45,11 @@ table {
 body {
 	height:100%;
 	background: #eeeeee;
+/* 	margin:0 0.5rem 0 0.1rem; */
 }
 
 .con {
-	width: 6.4rem;
+	width: 6.2rem;
 	margin: 0 auto;
 }
 
@@ -60,8 +59,10 @@ body {
 
 .wrap {
 	height:100%;
-	width: 6.4rem;
+	width: 6rem;
 	position: relative;
+	margin:0 0.5rem 0 0.1rem;
+	overflow-y:scroll;
 /* 	z-index: 99; */
 }
 
@@ -73,23 +74,29 @@ body {
 .img{
 	padding: 0rem 0.1rem;
 	height: auto; 
-	width: 6.4rem; 
+	width: 6rem; 
 }
 
 .search {
 	padding: 0rem 0.1rem 0.25rem;
 }
 
-.search-text {
+.searchtext {
 	float: left;
-	width: 5.3rem;
+	width: 4.9rem;
 	height: 0.9rem;
 	line-height: 0.55rem;
 	padding: 0 0.1rem;
 	border: 1px solid #729fcf;
 	border-top-left-radius: 0.05rem;
 	border-bottom-left-radius: 0.05rem;
-	font-size: 0.4rem;
+	font-size: 0.35rem;
+	border-radius: 10px 0 0 10px;
+}
+
+input[type=text]{
+	font-size: 0.35rem;
+	background:#fff;
 	border-radius: 10px 0 0 10px;
 }
 
@@ -145,3 +152,37 @@ body {
 /* 	position:absolute;  */
 	bottom:0;
 }
+
+.trace-info-list{
+	font-size:0.3rem;
+	margin:0.1rem;
+}
+
+.timeline-item-date{
+	width: 1.7rem;
+/* 	height:2rem; */
+	
+}
+
+.timeline-item-inner{
+	margin:0 0 0 0.2rem;
+}
+
+ul{
+
+}
+
+li{
+	height:1rem;
+	font-size:0.3rem;
+	top: 50%;
+}
+
+
+
+
+
+
+
+
+

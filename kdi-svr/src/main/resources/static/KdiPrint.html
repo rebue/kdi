@@ -12,6 +12,8 @@
 <link href="KdiPrint.css" rel="stylesheet">
 <script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+	
 	$(document).ready(function() {
 		// 加载省份
 		selectSendProvinces();
@@ -22,6 +24,8 @@
 		// 加载物流公司
 		getLogisticsCompany();
 		
+		//获取当前时间戳
+		var timestamp = new Date().getTime();
 		// 清除发件人信息
 		$(document).on("click", "#clearSender", function() {
 			clearSenderInfo();
@@ -35,6 +39,7 @@
 		    $("#selectRecipientCity").append("<option>请选择</option>");
 		    $("#selectRecipientCounty").append("<option>请选择</option>");
 		});
+		
 		
 		// 添加发件人
 		$(document).on("click", "#addSenderButton", function() {
@@ -298,7 +303,7 @@
 		
 		// 添加订单
 		$(document).on("click", "#printExpress", function() {
-			var shipperId			= 	$("#selectLogisticsCompany option:selected").data("id");	// 物流公司编码
+			var shipperId			= 	$("#selectLogisticsCompany option:selected").data("id");	// 物流公司ID
 			var shipperCode				=	$("#selectLogisticsCompany").val().trim();					// 物流公司编号
 			var shipperName			=	$("#selectLogisticsCompany option:selected").text(); 		// 物流公司名称
 			var orderTitle 			= 	$("#orderTitle").val().trim(); 						// 订单标题
@@ -383,11 +388,13 @@
 				alert("收件人手机和电话必须填写一个");
 				return;
 			}
+			
 			$.ajax({
 				type : "post",
-				url : "/kdi/logistic/add",
+				url : "/kdi/eorder",
 				dataType : "json",
-				data : {
+				contentType: "application/json",
+				data : JSON.stringify({
 					shipperCode 	:	shipperCode,
 					shipperId		:	shipperId,
 					shipperName		:	shipperName,
@@ -408,22 +415,23 @@
 					receiverCity		:	receiverCity,
 					receiverExpArea	:	receiverExpArea,
 					receiverAddress	:	receiverAddress,
-					receiverPostCode	:	receiverPostCode
-				}
+					receiverPostCode	:	receiverPostCode,
+					orderId : timestamp
+				})
+				
 			}).done(function(data) {
 				console.log(data);
 				if (data.result != 1) {
 					alert(data.msg);
 					return;
 				}
+				timestamp = new Date().getTime();
 				var printPage = data.printPage;
-// 				window.document.body.innerHTML = printPage;
-// 				window.print();
 				var printWindow = window.open();
 				printWindow.document.body.innerHTML = printPage;
 				printWindow.print();
-// 				printWindow.close();
-			//	location.reload();
+				printWindow.close();
+				
 			});
 		});
 		
@@ -719,7 +727,7 @@
 	  var formData = new FormData($('#uploadForm')[0]);  
 		$.ajax({
 			type : "post",
-			url : "/kdi-svr/kdi/excel",
+			url : "/kdi/excel",
 			dataType : "json",
 			data : formData,
 			processData: false,
@@ -774,7 +782,7 @@
 			$("#selectLogisticsCompany").html('<option value ="">请选择</option>');
 			var html = '';
 			for (var i = 0; i < data.length; i++) {
-				html += '<option data-id="' + data[i].id + '" value ="' + data[i].companyCode + '">' + data[i].companyName + '</option>';
+				html += '<option data-id="' + data[i].id + '" value ="' + data[i].id + '">' + data[i].companyName + '</option>';
 			}
 			$("#selectLogisticsCompany").append(html);
 		});
@@ -1132,7 +1140,7 @@
 													</div>
 													<div class="ant-col-14 ant-form-item-control-wrapper">
 														<div class="ant-form-item-control ">
-															<input value="" id="receiverPostCode" class="ant-input ant-input-lg" type="text">
+															<input value="000000" id="receiverPostCode" class="ant-input ant-input-lg" type="text">
 														</div>
 													</div>
 												</div>

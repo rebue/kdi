@@ -69,6 +69,6 @@ public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Lo
         KdiTraceMo condition = new KdiTraceMo();
         condition.setLogisticId(logisticId);
         return list(condition);
-    }
+    } 
 
 }

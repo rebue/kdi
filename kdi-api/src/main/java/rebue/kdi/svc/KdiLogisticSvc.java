@@ -17,13 +17,6 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
      */
     Long getNewId();
 
-    /**
-     * 添加物流订单
-     * @param to
-     * @return
-     */
-	AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo mo);
-	
 	/**
 	 * 获取物流订单
 	 * @param to

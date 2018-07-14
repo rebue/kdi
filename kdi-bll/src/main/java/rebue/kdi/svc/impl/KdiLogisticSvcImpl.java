@@ -104,61 +104,6 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	}
 
 	/**
-	 * 添加物流订单
-	 * 
-	 * @param to
-	 * @return
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public AddKdiLogisticRo addKdiLogistic(AddKdiLogisticTo mo) {
-		_log.info("添加物流订单的参数为: {}", mo);
-		AddKdiLogisticRo addKdiLogisticRo = new AddKdiLogisticRo();
-		if (StringUtils.isAnyBlank(mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(),
-				mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(),mo.getShipperName(),
-				mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(),
-				mo.getReceiverAddress(), mo.getReceiverPostCode())
-				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
-				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
-			addKdiLogisticRo.setResult(AddKdiLogisticDic.INCORRECT_PARAMETER);
-			addKdiLogisticRo.setMsg("参数不正确");
-			return addKdiLogisticRo;
-		}
-		KdiCompanyMo kdiMo = new KdiCompanyMo();
-		_log.info("查询快递公司信息的参数为: {}", mo.getShipperName());
-		kdiMo.setCompanyName(mo.getShipperName());
-		List<KdiCompanyMo> list = kdiCompanySvc.selectKdiCompanyInfo(kdiMo);
-		
-		if(list.size()==0) {
-			_log.info("快递公司在数据库中不存在");
-			addKdiLogisticRo.setMsg("快递公司不存在");
-			return addKdiLogisticRo;
-		}
-		_log.info("查询到快递公司信息为: {}", list);
-		EOrderTo eOrderTo = dozerMapper.map(mo, EOrderTo.class);
-		eOrderTo.setCustomerName(list.get(0).getCompanyAccount());
-		eOrderTo.setCustomerPwd(list.get(0).getCompanyPwd());
-		eOrderTo.setPayType(list.get(0).getPayType());
-		eOrderTo.setOrderId(_idWorker.getId());
-		eOrderTo.setOrderRemark(mo.getOrderTitle());
-		_log.info("添加物流订单调用电子面单的参数为: {}", eOrderTo);
-		// 调用电子面单
-		EOrderRo eorder = kdNiaoSvc.eorder(eOrderTo);
-		_log.info("添加物流订单调用电子面单的返回值为: {}", eorder);
-		if (eorder.getResult() != EOrderResultDic.SUCCESS) {
-			_log.error("添加物流订单调用电子面单出错, 返回值为: {}", eorder);
-			addKdiLogisticRo.setResult(AddKdiLogisticDic.ERROR);
-			addKdiLogisticRo.setMsg(eorder.getFailReason());
-			return addKdiLogisticRo;
-		}
-		_log.info("添加物流订单调用电子面单成功, 返回值为: {}", eorder);
-		addKdiLogisticRo.setMsg("添加成功");
-		addKdiLogisticRo.setPrintPage(eorder.getPrintPage());
-		addKdiLogisticRo.setResult(AddKdiLogisticDic.SUCCESS);
-		return addKdiLogisticRo;
-	}
-
-	/**
 	 * 后台调用电子面单接口
 	 * 
 	 * @param mo
@@ -223,7 +168,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	}
 
 	/**
-	 * 录入订单
+	 * 添加物流订单记录
 	 * 
 	 * @param mo
 	 * @return
@@ -269,7 +214,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("获取物流订单的参数为: {}", to);
 		return _mapper.kdiLogisticList(to);
 	}
-	
+	/**
+	 * 根据快递单号查询物流轨迹
+	 */
 	@Override
 	public  List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo) {
 		_log.info("获取快递公司和快递单号的参数为：", mo);

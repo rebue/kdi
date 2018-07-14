@@ -2,104 +2,110 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
 <meta name="format-detection" content="email=no,address=no,telephone=no">
 <title>大卖网络</title>
+<link rel="stylesheet" href="lib/framework7/css/framework7.min.css">
 <link rel="stylesheet" href="KdiSearch.css">
 <script type="text/javascript" src="lib/jquery-3.3.1.min.js"></script>
 <script>
-	$(document).ready(function() {
-		var deviceWidth = $(window).outerWidth();
-		if (deviceWidth > 640) {
-			$("html").css("font-size", "100px");
-		} else {
-			$("html").css("font-size", deviceWidth / 640 * 100 + 'px');
-		}
-
-		//获取快递公司和快递单号
-		$(document).on("click", ".search-btn", function() {
-			var receiverTel = "";
-			var receiverName = "";
-			console.log("获取快递公司");
-			var receiverName = document.getElementById("receiverName");
-			var reg = /^[0-9]+.?[0-9]*$/;
-			if (reg.test(receiverName.value)) {
-				console.log("用户输入了收件人电话，需要修改name的属性");
-				receiverName.name = "receiverTel";
-				receiverTel = $("#receiverName").val().trim(); // 收件人电话
-				//因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
-				var rn = document.getElementById("rn");
-				rn.name = "receiverName";
-				receiverName = $("#rn").val().trim(); // 
-			} else {
-				receiverName.name = "receiverName";
-				receiverName = $("#receiverName").val().trim(); // 收件人名称 
-			}
-			if (receiverTel == "" && receiverName == "") {
-				console.log("参数为空");
-				return;
-			}
-			$.ajax({
-				type : "post",
-				url : "/kdi-svr/kid/logistic/wx",
-				dataType : "json",
-				data : {
-					receiverTel : receiverTel,
-					receiverName : receiverName
-				}
-			}).done(function(data) {
-				console.log(data);
-				html = "";
-				if (data == "") {
-					html += '<tr >';
-					html += '<td>查询无数据</td>';
-					html += '<td>查询无数据</td>';
-					html += '</tr>';
-				} else {
-					document.getElementById("div-express-head").innerHTML="<tr><th width=\"165px\">订单公司</th><th width=\"162px\">快递单号</th></tr>";
-					for (var i = 0; i < data.length; i++) {
-						html += '<tr >';
-						html += '<td>' + data[i].shipperName + '</td>';
-						html += '<td>' + data[i].logisticCode + '</td>';
-						html += '</tr>';
-					}
-				}
-				document.getElementById("express-info-list").innerHTML = html;
-			});
-
-		});
-
-	});
+	$(document).ready(
+					function() {
+						var deviceWidth = $(window).outerWidth();
+						if (deviceWidth > 640) {
+							$("html").css("font-size", "100px");
+						} else {
+							$("html").css("font-size",
+									deviceWidth / 640 * 100 + 'px');
+						}
+						//获取快递公司和快递单号
+						$(document).on("click",".search-btn",function() {
+											var receiverTel = "";
+											var receiverName = "";
+											console.log("获取快递公司");
+											var receiverName = document.getElementById("receiverName");
+											var reg = /^[0-9]+.?[0-9]*$/;
+											if (reg.test(receiverName.value)) {
+												console.log("用户输入了收件人电话，需要修改name的属性");
+												receiverName.name = "receiverTel";
+												receiverTel = $("#receiverName").val().trim(); // 收件人电话
+												//因为下面的ajax要捕捉name为receiverName的val，所以如果改了#receiverName的name值，这里就需要修改一个临时的name值
+												var rn = document.getElementById("rn");
+												rn.name = "receiverName";
+												receiverName = $("#rn").val().trim(); // 
+											} else {
+												receiverName.name = "receiverName";
+												receiverName = $("#receiverName").val().trim(); // 收件人名称 
+											}
+											if (receiverTel == ""&& receiverName == "") {
+												console.log("参数为空");
+												return;
+											}
+											$.ajax(
+													{
+														type : "post",
+														url : "/kdi-svr/kid/logistic/wx",
+														dataType : "json",
+														data : {
+															receiverTel : receiverTel,
+															receiverName : receiverName
+														}
+													}).done(
+															function(data) {
+																console.log(data);
+																html = "";
+																if (data == "") {
+																	html += '查询无数据';
+																} else {
+																	html += '<div class="list links-list">';
+																	html += '<ul>';
+																	for (var i = 0; i < data.length; i++) {
+																		var shipperName =encodeURI(data[i].shipperName);
+																		html += '<li><a href =KdiTrace.html?shipperName='+shipperName+'&logisticId='+data[i].id+'&logisticCode='+data[i].logisticCode+' class = \'item-link intem-content\'>';
+																		html += '<div class = \"intem-inner\"><div class=\'item-title\'>'+data[i].shipperName+':'+ data[i].logisticCode+'</div></div></a></li>';
+																	}
+																	html += '</ul>';
+																	html += '</div>';
+																}
+																document.getElementById("express-info-list").innerHTML = html;
+															});
+															
+										});
+					});
 </script>
+<link rel="stylesheet" href="KdiSearch.css">
 </head>
 <body>
 	<section class="wrap">
 		<div id="banner" class="banner">
-			<a href="https://mp.weixin.qq.com/s/TTOM3jibBDp0mM2Ajegi6w">
-			 <img src="banner.png" class="img"/></a>
+			<a href="https://mp.weixin.qq.com/s/TTOM3jibBDp0mM2Ajegi6w"> <img
+				src="banner.png" class="img" /></a>
 		</div>
 		<div class="head">
 			<h2>快递查询</h2>
 		</div>
 		<div class="search hiden">
 			<input type="hidden" name="receiverTel" id="rn"> 
-			<input type="text" id="receiverName" name="receiverName"
-				placeholder="请输入您的手机号码/姓名" class="search-text"> 
-			<input type="button" class="search-btn">
+			<input
+				type="text" id="receiverName" name="receiverName"
+				placeholder="请输入您的手机号码/姓名" class="searchtext"> 
+			<input
+				type="button" class="search-btn">
 		</div>
 		<div class="main-text">
 			<div class="express-info">
 				<table class="div-express-info">
-					<thead id = "div-express-head">
-						
+					<thead id="div-express-head">
+
 					</thead>
-					<tbody id="express-info-list">
+					<tbody id="express-info-list" class = 'trace-info-list md'>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div><br><br><br></div>
+		<div>
+			<br> <br> <br>
+		</div>
 		<div id="erweima">
 			<img src="erweima.png" class="img" onclick="return false" />
 		</div>
@@ -112,7 +118,13 @@
 	$(window).resize(function() {
 		$('.wrap').height(HEIGHT);
 	});
-	
+
+	function queryLogistics(logisticCode,shipperName) {
+		if(shipperName.indexOf("百世")>-1){
+			shipperCode = 'HTKY'
+		}
+		window.location.href = 'KdiTrace.html?shipperCode=' + shipperCode+'&logisticId='+logisticCode;
+	}
 </script>
 
 </html>

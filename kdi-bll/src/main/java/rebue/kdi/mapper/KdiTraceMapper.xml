@@ -40,7 +40,7 @@
       This element was generated on 2018-06-15 17:03:19.
     -->
     delete from KDI_TRACE
-    where ID = #{id,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT} and ID != 0
   </delete>
   <insert id="insert" parameterType="rebue.kdi.mo.KdiTraceMo">
     <!--

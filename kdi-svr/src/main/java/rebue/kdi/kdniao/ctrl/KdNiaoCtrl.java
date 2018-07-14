@@ -16,18 +16,23 @@ import rebue.kdi.kdniao.svc.KdNiaoSvc;
 @RestController
 public class KdNiaoCtrl {
 
-    private final static Logger _log = LoggerFactory.getLogger(KdNiaoCtrl.class);
+	private final static Logger _log = LoggerFactory.getLogger(KdNiaoCtrl.class);
 
-    @Resource
-    private KdNiaoSvc           svc;
+	@Resource
+	private KdNiaoSvc svc;
 
-    /**
-     * 更新物流轨迹
-     */
-    @PostMapping("/kdi/kdniao/trace")
-    KdNiaoUpdateTraceRo updateTrace(@RequestParam Map<String, Object> paramMap) {
-        _log.info("update logistic trace : {}", paramMap);
-        return svc.updateTrace(paramMap);
-    }
+	/**
+	 * 更新物流轨迹
+	 */
+	@PostMapping("/kdi/kdniao/trace")
+	KdNiaoUpdateTraceRo updateTrace(@RequestParam Map<String, Object> paramMap) {
+		_log.info("update logistic trace : {}", paramMap);
+		try {
+			return svc.updateTrace(paramMap);
+		} catch (Exception e) {
+			_log.error("更新物流轨迹出现异常", e);
+			throw e;
+		}
+	}
 
 }

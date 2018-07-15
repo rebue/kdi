@@ -4,8 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{9DF240A7-E05A-4C62-A083-0959328C98DE}" Name="kdi" Selected="Yes" Type="{5F45F978-C4F3-4E35-A3FC-AF3318663A0F}" URL="kdi.ldm"/>
-		<Model Expanded="Yes" ID="{C0C7DF10-28AA-42AD-9A4C-5FB68D41A564}" Name="kdi-mysql" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="kdi-mysql.pdm"/>
+		<Model Expanded="Yes" ID="{9DF240A7-E05A-4C62-A083-0959328C98DE}" Name="kdi" Type="{5F45F978-C4F3-4E35-A3FC-AF3318663A0F}" URL="kdi.ldm"/>
+		<Model Expanded="Yes" ID="{B016A9B0-990F-4E85-812D-895FFD92517A}" Name="kdi-mysql" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="kdi-mysql.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

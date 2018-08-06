@@ -114,6 +114,35 @@ public class EOrderTo {
 	 *电子面单密码 
 	 */
 	private String customerPwd;
+	
+	/**
+	 * 电子面单月结账号
+	 * @return
+	 */
+	private String monthCode;
+	
+	/**
+	 * 电子面单sendsite
+	 * @return
+	 */
+	
+	private String sendsite;
+
+	public String getMonthCode() {
+		return monthCode;
+	}
+
+	public void setMonthCode(String monthCode) {
+		this.monthCode = monthCode;
+	}
+
+	public String getSendsite() {
+		return sendsite;
+	}
+
+	public void setSendsite(String sendsite) {
+		this.sendsite = sendsite;
+	}
 
 	public String getCustomerName() {
 		return customerName;
@@ -334,7 +363,7 @@ public class EOrderTo {
 				+ receiverTel + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince
 				+ ", receiverCity=" + receiverCity + ", receiverExpArea=" + receiverExpArea + ", receiverAddress="
 				+ receiverAddress + ", receiverPostCode=" + receiverPostCode + ", customerName=" + customerName
-				+ ", customerPwd=" + customerPwd + "]";
+				+ ", customerPwd=" + customerPwd + ", monthCode=" + monthCode + ", sendsite=" + sendsite + "]";
 	}
 
 }

@@ -60,7 +60,7 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 	}
 
 	/**
-	 * 根据快递名称查询快递公司信息
+	 * 根据快递公司信息查询快递公司
 	 */
 	@Override
 	public List<KdiCompanyMo> selectKdiCompanyInfo(KdiCompanyMo mo) {

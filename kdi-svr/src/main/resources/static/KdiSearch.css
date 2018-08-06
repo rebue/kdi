@@ -59,9 +59,8 @@ body {
 
 .wrap {
 	height:100%;
-	width: 6rem;
+	width: 100%;
 	position: relative;
-	margin:0 0.5rem 0 0.1rem;
 	overflow-y:scroll;
 /* 	z-index: 99; */
 }
@@ -78,7 +77,10 @@ body {
 }
 
 .search {
-	padding: 0rem 0.1rem 0.25rem;
+	width:95%;
+	margin:0 auto;
+	padding-left:2.1%;
+	
 }
 
 .searchtext {
@@ -91,13 +93,12 @@ body {
 	border-top-left-radius: 0.05rem;
 	border-bottom-left-radius: 0.05rem;
 	font-size: 0.35rem;
-	border-radius: 10px 0 0 10px;
 }
 
 input[type=text]{
 	font-size: 0.35rem;
 	background:#fff;
-	border-radius: 10px 0 0 10px;
+	padding-left:0.1rem;
 }
 
 .search-btn {
@@ -107,7 +108,6 @@ input[type=text]{
 	background: #ff7268 url(search-btn.png) center no-repeat;
 /* 	background:url(search-btn.png) center no-repeat; */
 	background-size: 0.33rem 0.33rem;
-	border-radius: 0 10px 10px 0;
 }
 
 .express-info{
@@ -151,12 +151,18 @@ input[type=text]{
 #erweima{
 /* 	position:absolute;  */
 	bottom:0;
+	width:95%;
+	margin:0 auto;
+	padding-left:0.5%;
 }
 
 .trace-info-list{
 	font-size:0.3rem;
 	margin:0.1rem;
+	backgroumd:red;
 }
+
+
 
 .timeline-item-date{
 	width: 1.7rem;

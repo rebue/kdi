@@ -1,10 +1,7 @@
 package rebue.kdi.svc.impl;
-
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
@@ -12,18 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import rebue.kdi.dic.AddKdiLogisticDic;
 import rebue.kdi.dic.EOrderResultDic;
-import rebue.kdi.dic.EntryLogisticsDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
-import rebue.kdi.ro.AddKdiLogisticRo;
 import rebue.kdi.ro.EOrderRo;
-import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
@@ -175,18 +167,18 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public EntryLogisticsRo entryLogistics(AddKdiLogisticTo mo) {
+	public int entryLogistics(AddKdiLogisticTo mo) {
 		_log.info("录入订单的参数为: {}", mo);
-		EntryLogisticsRo logisticsRo = new EntryLogisticsRo();
 		if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(),
 				mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(),
 				mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(),
 				mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
 				|| StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
 				|| StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
-			logisticsRo.setResult(EntryLogisticsDic.INCORRECT_PARAMETER);
-			logisticsRo.setMsg("参数不正确");
-			return logisticsRo;
+			
+			_log.info("录入订单的参数不正确，参数为: {}", mo);
+
+			return -1;
 		}
 		KdiLogisticMo kdiLogisticMo = dozerMapper.map(mo, KdiLogisticMo.class);
 		Date now = new Date();
@@ -196,14 +188,12 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("录入订单的请求参数为: {}", mo);
 		int result = add(kdiLogisticMo);
 		if (result != 1) {
-			logisticsRo.setResult(EntryLogisticsDic.FAILT);
-			logisticsRo.setMsg("下单失败");
-			return logisticsRo;
+
+			return -1;
 		}
 		_log.info("录入订单成功, {}", now);
-		logisticsRo.setResult(EntryLogisticsDic.SUCCESS);
-		logisticsRo.setMsg("录入成功");
-		return logisticsRo;
+
+		return 1;
 	}
 
 	/**

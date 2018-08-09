@@ -1,10 +1,6 @@
 package rebue.kdi.svc;
-
 import java.util.List;
-
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.ro.AddKdiLogisticRo;
-import rebue.kdi.ro.EntryLogisticsRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.ListKdiLogisticTo;
@@ -29,7 +25,7 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @param mo
 	 * @return
 	 */
-	EntryLogisticsRo entryLogistics(AddKdiLogisticTo mo);
+	int entryLogistics(AddKdiLogisticTo mo);
 
 	/**
 	 * 后台调用电子面单接口

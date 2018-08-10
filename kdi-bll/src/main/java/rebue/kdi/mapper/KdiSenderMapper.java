@@ -2,6 +2,8 @@ package rebue.kdi.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.robotech.mapper.MybatisBaseMapper;
 
@@ -86,4 +88,11 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
      * @mbg.generated 2018-07-21 15:20:45
      */
     boolean existSelective(KdiSenderMo record);
+    
+    /**
+     * 获取默认发件人信息
+     * @return
+     */
+    @Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1")
+    KdiSenderMo getDefaultSender();
 }

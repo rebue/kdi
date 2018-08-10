@@ -28,5 +28,12 @@ public interface KdiSenderSvc extends MybatisBaseSvc<KdiSenderMo, java.lang.Long
 	 * @return
 	 */
 	ModifyKdiSenderRo modifyKdiSender(KdiSenderMo mo);
+	
+	/**
+	 * 查找默认发件人信息
+	 * @param mo
+	 * @return
+	 */
+	KdiSenderMo getDefaultSender();
 
 }

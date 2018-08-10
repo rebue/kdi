@@ -152,4 +152,10 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 		senderRo.setMsg("修改成功");
 		return senderRo;
 	}
+
+	@Override
+	public KdiSenderMo getDefaultSender() {
+		_log.info("获取默认发件人信息");
+		return _mapper.getDefaultSender();
+	}
 }

@@ -1,5 +1,4 @@
 package rebue.kdi.ctrl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -16,19 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.ro.AddkdiCompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.to.ListKdiLogisticTo;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -77,17 +71,7 @@ public class KdiManageCtrl {
 		return result;
 	}
 
-	/**
-	 * 添加快递公司
-	 * 
-	 * @param mo
-	 * @return
-	 */
-	@PostMapping("/kdi/company/add")
-	AddkdiCompanyRo addkdiCompany(KdiCompanyMo mo) {
-		_log.info("添加快递公司的参数为: {}", mo);
-		return kdiCompanySvc.exAdd(mo);
-	}
+
 
 	/**
 	 * 读取excel表

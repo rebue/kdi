@@ -32,12 +32,13 @@ public class KdiCompanyCtrl {
 	/**
 	 * 查询所有快递公司信息
 	 * 更新备注：原来的路径是/kdi/company/alllist，为了迎合新系统的格式将alllist去掉
+	 * 
 	 * @return
 	 */
 	@GetMapping("/kdi/company")
-	List<KdiCompanyMo> kdiCompanyList() {
+	List<KdiCompanyMo> kdiCompanyList( KdiCompanyMo mo) {
 		_log.info("开始查询快递公司信息");
-		List<KdiCompanyMo> list = svc.listAll();
+		List<KdiCompanyMo> list = svc.selectKdiCompanyInfo(mo);
 		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
 		return list;
 	}

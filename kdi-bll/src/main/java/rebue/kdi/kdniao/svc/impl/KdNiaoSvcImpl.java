@@ -206,14 +206,14 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		_log.info("快递鸟电子面单：{}", to);
 		EOrderRo ro = new EOrderRo();
 		_log.info("检验参数是否正确");
-		if (to.getOrderId() == null
+		if (to.getOrderId() == null||to.getOrganizeId()==null
 				|| StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(),
 						to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
 						to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
 						to.getReceiverAddress())
 				|| StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile())
 				|| StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
-			_log.warn("没有填写必要的参数:{}", to);
+			_log.warn("没有填写必要的参数:{}", to);	
 			ro.setResult(EOrderResultDic.PARAM_ERROR);
 			return ro;
 		}
@@ -386,7 +386,6 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 					printPage = printPage.replaceAll("<div class=\"abs\" style=\"top: 85px;right: 5px;\">",
 							"<div class=\"abs b\" style=\"top: 85px;right: 5px;\">");
 				}
-				_log.info("替换后打印模板：{}", printPage);
 				Date now = new Date();
 				// 添加新的物流订单
 				KdiLogisticMo logisticMo = dozerMapper.map(to, KdiLogisticMo.class);
@@ -394,6 +393,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				logisticMo.setPrintPage(printPage);
 				logisticMo.setUpdateTime(now);
 				logisticMo.setOrderTime(now);
+				logisticMo.setOrganizeId(to.getOrganizeId());
 				_log.info("电子面单添加新的物流订单的参数为：{}", logisticMo);
 				logisticSvc.add(logisticMo);
 				ro.setResult(EOrderResultDic.SUCCESS);

@@ -1,5 +1,7 @@
 package rebue.kdi.to;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 电子面单接口的参数类型
  * 
@@ -127,6 +129,20 @@ public class EOrderTo {
 	 */
 	
 	private String sendsite;
+	
+	/**
+	 * 组织ID
+	 */
+	
+    private Long organizeId;
+
+	public Long getOrganizeId() {
+		return organizeId;
+	}
+
+	public void setOrganizeId(Long organizeId) {
+		this.organizeId = organizeId;
+	}
 
 	public String getMonthCode() {
 		return monthCode;

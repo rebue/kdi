@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
@@ -199,10 +201,11 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	/**
 	 * 查询物流订单信息
 	 */
-	@Override
-	public List<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to) {
+	@Override 
+	public PageInfo<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to,int pageNum, int pageSize) {
 		_log.info("获取物流订单的参数为: {}", to);
-		return _mapper.kdiLogisticList(to);
+		_log.info("kdiLogisticList: ro-{}; pageNum-{}; pageSize-{}", to, pageNum, pageSize);
+		return PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(() -> _mapper.kdiLogisticList(to));
 	}
 	/**
 	 * 根据快递单号查询物流轨迹

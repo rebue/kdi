@@ -1,5 +1,8 @@
 package rebue.kdi.svc;
 import java.util.List;
+
+import com.github.pagehelper.PageInfo;
+
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.to.AddKdiLogisticTo;
@@ -18,7 +21,7 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @param to
 	 * @return
 	 */
-	List<KdiLogisticMo>  kdiLogisticList (ListKdiLogisticTo to);
+	PageInfo<KdiLogisticMo>  kdiLogisticList (ListKdiLogisticTo to ,int pageNum, int pageSize);
 
 	/**
 	 * 录入订单

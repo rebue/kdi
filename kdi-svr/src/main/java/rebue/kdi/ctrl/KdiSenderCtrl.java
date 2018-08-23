@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import rebue.kdi.dic.ModifyDefaultSenderDic;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.AddKdiSenderRo;
 import rebue.kdi.ro.ModifyDefaultSenderRo;
@@ -62,7 +64,7 @@ public class KdiSenderCtrl {
 	 * @return
 	 */
 	@PostMapping("/kdi/sender/add")
-	AddKdiSenderRo addKdiSender(KdiSenderMo mo) {
+	AddKdiSenderRo addKdiSender(@RequestBody KdiSenderMo mo) {
 		_log.info("添加发件人的参数为: {}", mo);
 		return svc.exAdd(mo);
 	}
@@ -100,9 +102,18 @@ public class KdiSenderCtrl {
 	 * @return
 	 */
 	@PutMapping("/kdi/sender/default")
-	ModifyDefaultSenderRo modifyDefaultSender(KdiSenderMo mo) {
+	ModifyDefaultSenderRo modifyDefaultSender(@RequestBody KdiSenderMo mo) {
 		_log.info("修改默认发件人的参数为: {}", mo);
-		return svc.modifyDefaultSender(mo);
+		ModifyDefaultSenderRo senderRo = new ModifyDefaultSenderRo();
+		try {
+			senderRo =svc.setDefaultSender(mo);
+			return senderRo;
+		}catch(Exception e ) {
+			_log.error("修改默认发件人时出错, 发件人编号为: {}", mo.getId());
+			senderRo.setResult(ModifyDefaultSenderDic.ERROR);
+			senderRo.setMsg("修改失败");
+			return senderRo;
+		}
 	}
 
 	/**

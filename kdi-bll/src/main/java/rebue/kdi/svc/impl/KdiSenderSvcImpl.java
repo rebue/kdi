@@ -29,30 +29,32 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 
 	/**
 	 * 添加发件人
+	 * 
 	 * @param mo
 	 * @return
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public AddKdiSenderRo exAdd(KdiSenderMo mo) {
-		if (mo.getIsDefault()) {
-			KdiSenderMo senderMo = new KdiSenderMo();
-			senderMo.setIsDefault(true);
-			List<KdiSenderMo> senderList = list(senderMo);
-			_log.info("添加发件人查询默认发件人的返回值为: {}", String.valueOf(senderList));
-			if (senderList.size() != 0) {
-				for (KdiSenderMo kdiSenderMo : senderList) {
-					senderMo = new KdiSenderMo();
-					senderMo.setId(kdiSenderMo.getId());
-					senderMo.setIsDefault(false);
-					_mapper.updateByPrimaryKeySelective(senderMo);
-				}
-			}
-		}
+		// if (mo.getIsDefault()) {
+		// KdiSenderMo senderMo = new KdiSenderMo();
+		// senderMo.setIsDefault(true);
+		// List<KdiSenderMo> senderList = list(senderMo);
+		// _log.info("添加发件人查询默认发件人的返回值为: {}", String.valueOf(senderList));
+		// if (senderList.size() != 0) {
+		// for (KdiSenderMo kdiSenderMo : senderList) {
+		// senderMo = new KdiSenderMo();
+		// senderMo.setId(kdiSenderMo.getId());
+		// senderMo.setIsDefault(false);
+		// _mapper.updateByPrimaryKeySelective(senderMo);
+		// }
+		// }
+		// }
 		// 如果id为空那么自动生成分布式id
 		if (mo.getId() == null || mo.getId() == 0) {
 			mo.setId(_idWorker.getId());
 		}
+		mo.setIsDefault(false);
 		mo.setEntryTime(new Date());
 		_log.info("添加发件人的参数为: {}", mo);
 		int result = add(mo);
@@ -69,9 +71,10 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 		}
 		return ro;
 	}
-	
+
 	/**
 	 * 修改发件人信息
+	 * 
 	 * @param mo
 	 * @return
 	 */
@@ -82,7 +85,7 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 		ModifyKdiSenderRo modifyKdiSenderRo = new ModifyKdiSenderRo();
 		if (mo.getIsDefault()) {
 			_log.info("修改发件人信息修改默认发件人的参数为: {}", mo);
-			ModifyDefaultSenderRo modifyDefaultSenderResult = modifyDefaultSender(mo);
+			ModifyDefaultSenderRo modifyDefaultSenderResult = setDefaultSender(mo);
 			_log.info("修改发件人信息修改默认发件人的返回值为: {}", modifyDefaultSenderResult);
 			if (modifyDefaultSenderResult.getResult() == ModifyDefaultSenderDic.SUCCESS) {
 				modifyKdiSenderRo.setResult(ModifyKdiSenderDic.SUCCESS);
@@ -108,14 +111,15 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 			return modifyKdiSenderRo;
 		}
 	}
-	
+
 	/**
-	 * 修改默认发件人
+	 * 设置默认发件人
+	 * 
 	 * @return
 	 */
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public ModifyDefaultSenderRo modifyDefaultSender(KdiSenderMo mo) {
+	public ModifyDefaultSenderRo setDefaultSender(KdiSenderMo mo) {
 		_log.info("修改默认发件人的请求参数为: {}", mo);
 		ModifyDefaultSenderRo senderRo = new ModifyDefaultSenderRo();
 		KdiSenderMo senderMo = new KdiSenderMo();
@@ -140,12 +144,14 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 			}
 		}
 		_log.info("修改默认发件人的参数为: {}", mo);
-		int updateDefaultSenderResult = _mapper.updateByPrimaryKeySelective(mo);
+		int updateDefaultSenderResult = _mapper.setDefaultSender(mo.getId());
+		_log.info("设置默认发件人返回值: {}", updateDefaultSenderResult);
 		if (updateDefaultSenderResult != 1) {
-			_log.error("修改默认发件人时出错, 发件人编号为: {}", mo.getId());
-			senderRo.setResult(ModifyDefaultSenderDic.ERROR);
-			senderRo.setMsg("修改失败");
-			return senderRo;
+			throw new RuntimeException();
+//			_log.error("修改默认发件人时出错, 发件人编号为: {}", mo.getId());
+//			senderRo.setResult(ModifyDefaultSenderDic.ERROR);
+//			senderRo.setMsg("修改失败");
+//			return senderRo;
 		}
 		_log.info("修改默认发件人成功, 发件人编号为: {}", mo.getId());
 		senderRo.setResult(ModifyDefaultSenderDic.SUCCESS);

@@ -2,7 +2,9 @@ package rebue.kdi.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.robotech.mapper.MybatisBaseMapper;
@@ -95,4 +97,9 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
      */
     @Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1")
     KdiSenderMo getDefaultSender();
+    
+    @Update("UPDATE KDI_SENDER SET IS_DEFAULT = 1 WHERE ID = #{id}")
+    int setDefaultSender(@Param("id") Long id);
 }
+
+

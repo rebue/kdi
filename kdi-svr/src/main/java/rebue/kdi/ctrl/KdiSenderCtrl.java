@@ -1,26 +1,19 @@
 package rebue.kdi.ctrl;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import rebue.kdi.dic.ModifyDefaultSenderDic;
 import rebue.kdi.mo.KdiSenderMo;
-import rebue.kdi.ro.AddKdiSenderRo;
+import rebue.kdi.ro.KdiSenderRo;
 import rebue.kdi.ro.ModifyDefaultSenderRo;
-import rebue.kdi.ro.ModifyKdiSenderRo;
 import rebue.kdi.svc.KdiSenderSvc;
 
 @RestController
@@ -57,17 +50,109 @@ public class KdiSenderCtrl {
 		return mo;
 	}
 
+
+	
+	/*
+	 * 更新备注:原来的路径是/kdi/sender/add，为了迎合新框架的格式改为/kdi/sender
+	 */
+    @PostMapping("/kdi/sender")
+    KdiSenderRo add(@RequestBody KdiSenderMo mo) throws Exception {
+        _log.info("add KdiSenderMo:" + mo);
+        KdiSenderRo ro = new KdiSenderRo();
+        int result = svc.add(mo);
+        if (result == 1) {
+            String msg = "添加成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "添加失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+    }
+    
 	/**
-	 * 添加发件人
+	 * 修改发件人信息
 	 * 
 	 * @param mo
 	 * @return
 	 */
-	@PostMapping("/kdi/sender/add")
-	AddKdiSenderRo addKdiSender(@RequestBody KdiSenderMo mo) {
-		_log.info("添加发件人的参数为: {}", mo);
-		return svc.exAdd(mo);
-	}
+    @PutMapping("/kdi/sender")
+    KdiSenderRo modify(@RequestBody KdiSenderMo mo) throws Exception {
+        _log.info("modify KdiSenderMo:" + mo);
+        KdiSenderRo ro = new KdiSenderRo();
+        int result = svc.modify(mo);
+        if (result == 1) {
+            String msg = "修改成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "修改失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+
+    }
+    
+    /**
+     * 删除发件人
+     *
+     * 
+     */
+    @DeleteMapping("/kdi/sender")
+    KdiSenderRo del(@RequestParam("id") java.lang.Long id) {
+        _log.info("del 发件人:" + id);
+        int result = svc.del(id);
+        KdiSenderRo ro = new KdiSenderRo();
+        if (result == 1) {
+            String msg = "删除成功";
+            _log.info("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "删除失败，找不到该记录";
+            _log.error("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+    }
+    
+    /**
+     *
+     *获取单个发件人
+     */
+    @GetMapping("/kdi/sender/getbyid")
+    KdiSenderRo getById(@RequestParam("id") java.lang.Long id) {
+        _log.info("get KdiSenderMo by id: " + id);
+        KdiSenderMo result = svc.getById(id);
+        _log.info("get: " + result);
+        KdiSenderRo ro = new KdiSenderRo();
+        if (result == null) {
+            String msg = "获取失败，没有找到该条记录";
+            _log.error("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        } else {
+            String msg = "获取成功";
+            _log.info("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            ro.setRecord(result);
+            return ro;
+        }
+    }
+    
 
 	/**
 	 * 查询发件人信息
@@ -83,17 +168,9 @@ public class KdiSenderCtrl {
 		return list;
 	}
 
-	/**
-	 * 修改发件人信息
-	 * 
-	 * @param mo
-	 * @return
-	 */
-	@PutMapping("/kdi/sender")
-	ModifyKdiSenderRo modifyKdiSender(KdiSenderMo mo) {
-		_log.info("修改发件人信息的参数为: {}", mo);
-		return svc.modifyKdiSender(mo);
-	}
+
+
+
 
 	/**
 	 * 修改默认发件人
@@ -102,7 +179,7 @@ public class KdiSenderCtrl {
 	 * @return
 	 */
 	@PutMapping("/kdi/sender/default")
-	ModifyDefaultSenderRo modifyDefaultSender(@RequestBody KdiSenderMo mo) {
+	ModifyDefaultSenderRo setDefaultSender(@RequestBody KdiSenderMo mo) {
 		_log.info("修改默认发件人的参数为: {}", mo);
 		ModifyDefaultSenderRo senderRo = new ModifyDefaultSenderRo();
 		try {
@@ -116,20 +193,6 @@ public class KdiSenderCtrl {
 		}
 	}
 
-	/**
-	 * 删除发件人
-	 * 
-	 * @mbg.generated
-	 */
-	@DeleteMapping("/kdi/sender/{id}")
-	Map<String, Object> del(@PathVariable("id") java.lang.Long id) {
-		_log.info("删除发件人参数：" + id);
-		svc.del(id);
-		Map<String, Object> result = new HashMap<>();
-		result.put("msg", "删除成功");
-		_log.info("delete kdisederMo success!");
-		return result;
 
-	}
 
 }

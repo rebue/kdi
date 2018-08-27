@@ -95,12 +95,23 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
      * 获取默认发件人信息
      * @return
      */
-    @Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1")
-    KdiSenderMo getDefaultSender();
+    @Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1 AND ORGID = #{orgId}")
+    KdiSenderMo getDefaultSender(Long orgId);
     
+    /**
+     * 设置默认发件人
+     * @param id
+     * @return
+     */
     @Update("UPDATE KDI_SENDER SET IS_DEFAULT = 1 WHERE ID = #{id}")
     int setDefaultSender(@Param("id") Long id);
     
+    /**
+     * 根据组织ID获取发件人
+     * @param organizeId
+     * @return
+     */
+    @Select("SELECT * FROM KDI_SENDER WHERE ORGID = #{orgId}")
     List<KdiSenderMo> selectByOrganizeId(Long organizeId);
 }
 

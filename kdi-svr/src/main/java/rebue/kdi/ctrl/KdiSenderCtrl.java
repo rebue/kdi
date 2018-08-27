@@ -38,14 +38,14 @@ public class KdiSenderCtrl {
 	}
 	
 	/**
-	 * 获取默认发件人信息
+	 * 根据组织ID获取默认发件人信息
 	 * 
 	 * @return
 	 */
 	@GetMapping("/kdi/sender/default")
-	KdiSenderMo getDefaultSender() {
+	KdiSenderMo getDefaultSender(@RequestParam("orgId") java.lang.Long orgId ) {
 		_log.info("开始查询默认发件人信息");
-		KdiSenderMo mo = svc.getDefaultSender();
+		KdiSenderMo mo = svc.getDefaultSender(orgId);
 		_log.info("查询到的发件人信息为: {}", String.valueOf(mo));
 		return mo;
 	}

@@ -99,9 +99,9 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
 	}
 
 	@Override
-	public KdiSenderMo getDefaultSender() {
+	public KdiSenderMo getDefaultSender(Long orgId) {
 		_log.info("获取默认发件人信息");
-		return _mapper.getDefaultSender();
+		return _mapper.getDefaultSender(orgId);
 	}
 	
 	@Override

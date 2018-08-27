@@ -1,7 +1,9 @@
 package rebue.kdi.svc.impl;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
@@ -9,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
@@ -21,7 +25,7 @@ import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
-import rebue.kdi.svc.KdiSenderSvcbak;
+import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
@@ -49,7 +53,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	private KdiTraceSvc traceSvc;
 
 	@Resource
-	private KdiSenderSvcbak kdiSenderSvc;
+	private KdiSenderSvc kdiSenderSvc;
 
 	@Resource
 	private KdNiaoSvc kdNiaoSvc;

@@ -1,28 +1,4 @@
 package rebue.kdi.ctrl;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import javax.servlet.MultipartConfigElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.svc.KdiCompanySvc;
-import rebue.kdi.svc.KdiLogisticSvc;
-import rebue.kdi.svc.KdiSenderSvcbak;
-import rebue.kdi.to.ListKdiLogisticTo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,6 +6,30 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.MultipartConfigElement;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import rebue.kdi.svc.KdiCompanySvc;
+import rebue.kdi.svc.KdiLogisticSvc;
+import rebue.kdi.svc.KdiSenderSvc;
 
 @RestController
 public class KdiManageCtrl {
@@ -47,7 +47,7 @@ public class KdiManageCtrl {
 	private KdiCompanySvc kdiCompanySvc;
 
 	@Resource
-	private KdiSenderSvcbak kdiSenderSvc;
+	private KdiSenderSvc kdiSenderSvc;
 
 
 

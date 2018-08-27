@@ -21,7 +21,7 @@ import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
-import rebue.kdi.svc.KdiSenderSvc;
+import rebue.kdi.svc.KdiSenderSvcbak;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
@@ -49,7 +49,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	private KdiTraceSvc traceSvc;
 
 	@Resource
-	private KdiSenderSvc kdiSenderSvc;
+	private KdiSenderSvcbak kdiSenderSvc;
 
 	@Resource
 	private KdNiaoSvc kdNiaoSvc;

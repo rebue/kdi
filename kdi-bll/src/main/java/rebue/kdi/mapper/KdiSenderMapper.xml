@@ -326,4 +326,12 @@
       </if>
     </where>
   </select>
+  
+  <select id="selectByOrganizeId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from KDI_SENDER
+    where ID = #{organizeId,jdbcType=BIGINT}
+  </select>
+  
 </mapper>

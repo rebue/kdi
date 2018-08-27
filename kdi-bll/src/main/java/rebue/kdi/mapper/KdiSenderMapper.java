@@ -100,6 +100,8 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
     
     @Update("UPDATE KDI_SENDER SET IS_DEFAULT = 1 WHERE ID = #{id}")
     int setDefaultSender(@Param("id") Long id);
+    
+    List<KdiSenderMo> selectByOrganizeId(Long organizeId);
 }
 
 

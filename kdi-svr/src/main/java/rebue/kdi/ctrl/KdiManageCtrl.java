@@ -21,7 +21,7 @@ import jxl.read.biff.BiffException;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
-import rebue.kdi.svc.KdiSenderSvc;
+import rebue.kdi.svc.KdiSenderSvcbak;
 import rebue.kdi.to.ListKdiLogisticTo;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,7 +47,7 @@ public class KdiManageCtrl {
 	private KdiCompanySvc kdiCompanySvc;
 
 	@Resource
-	private KdiSenderSvc kdiSenderSvc;
+	private KdiSenderSvcbak kdiSenderSvc;
 
 
 

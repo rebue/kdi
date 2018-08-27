@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/8/13 14:25:31                           */
+/* Created on:     2018/8/24 11:31:16                           */
 /*==============================================================*/
 
 
@@ -30,6 +30,7 @@ create table KDI_COMPANY
             4-第三方付',
    ENTRY_TIME           datetime not null comment '录入时间',
    ORGANIZE_ID          bigint not null comment '组织ID',
+   IS_DEFAULT           bool not null comment '是否为默认公司（true：默认  false：不是默认）',
    primary key (ID)
 );
 

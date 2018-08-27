@@ -58,4 +58,33 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 	public List<KdiCompanyMo> selectKdiCompanyInfo(KdiCompanyMo mo) {
 		return _mapper.selectSelective(mo);
 	}
+	
+	/**
+	 * 设置为默认快递公司
+	 */
+	@Override
+	public int setDefaultCompany(KdiCompanyMo mo) {
+		_log.info("设置为默认快递公司的参数为: {}", mo);
+		int i=_mapper.setDefaultCompany(mo);
+		_log.info("设置为默认快递公司的返回值为: {}", i);
+		if(i==1) {
+			int j=setCompany(mo);
+			if(j>1) {
+				i=1;
+			}else {
+				i=-1;
+			}
+		}
+		return i;
+	}
+	
+	/**
+	 * 设置不是默认快递公司
+	 */
+	@Override
+	public int setCompany(KdiCompanyMo mo) {
+		_log.info("设置不是默认快递公司的参数为: {}", mo);
+		return _mapper.setCompany(mo);
+
+	}
 }

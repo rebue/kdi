@@ -155,6 +155,31 @@ public class KdiCompanyCtrl {
             return ro;
         }
     }
+    
+    /**
+     * 
+     *设置为默认快递公司
+     * 
+     */
+    @PutMapping("/kdi/company/default")
+    KdiCompanyRo modifyDefuteCompany(@RequestBody KdiCompanyMo mo) throws Exception {
+        _log.info("modify KdiCompanyMo:" + mo);
+        KdiCompanyRo ro = new KdiCompanyRo();
+        int result = svc.setDefaultCompany(mo);
+        if (result == 1) {
+            String msg = "设置默认成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "设置默认失败失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
 	
-	
+    }
+    
 }

@@ -11,6 +11,17 @@ public interface KdiCompanySvc extends MybatisBaseSvc<KdiCompanyMo, java.lang.Lo
 	 * 添加快递公司
 	 */
 	int add(KdiCompanyMo mo);
+	
+	/**
+	 * 设置默认快递公司
+	 */
+	int setDefaultCompany(KdiCompanyMo mo);
+	
+	/**
+	 * 设置不是默认快递公司
+	 */
+	int setCompany(KdiCompanyMo mo);
+
 
 	/**
 	 * 查询所有快递公司名称和编码

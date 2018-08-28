@@ -198,7 +198,7 @@ public class KdiSenderCtrl {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/kdi/sender/listByOrganizeId")
+	@GetMapping("/kdi/sender/listSenderByOrgId")
 	List<KdiSenderMo> listSenderByOrganizeId(Long orgId) {
 		_log.info("开始根据组织ID查询发件人信息");
 		List<KdiSenderMo> list = svc.listSenderByOrganizeId(orgId);

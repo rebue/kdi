@@ -95,7 +95,7 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1 AND ORGID = #{orgId}")
+	@Select("SELECT * FROM KDI_SENDER WHERE IS_DEFAULT = 1 AND ORG_ID = #{orgId}")
 	KdiSenderMo getDefaultSender(Long orgId);
 
 	/**
@@ -113,6 +113,6 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
 	 * @param orgId
 	 * @return
 	 */
-	@Select("SELECT * FROM KDI_SENDER WHERE ORGID = #{orgId}")
+	@Select("SELECT * FROM KDI_SENDER WHERE ORG_ID = #{orgId}")
 	List<KdiSenderMo> selectByOrganizeId(Long orgId);  
 }

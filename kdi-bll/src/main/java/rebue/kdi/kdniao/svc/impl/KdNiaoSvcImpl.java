@@ -206,7 +206,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		_log.info("快递鸟电子面单：{}", to);
 		EOrderRo ro = new EOrderRo();
 		_log.info("检验参数是否正确");
-		if (to.getOrderId() == null||to.getOrganizeId()==null
+		if (to.getOrderId() == null||to.getOrgId()==null
 				|| StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(),
 						to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
 						to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
@@ -393,7 +393,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				logisticMo.setPrintPage(printPage);
 				logisticMo.setUpdateTime(now);
 				logisticMo.setOrderTime(now);
-				logisticMo.setOrganizeId(to.getOrganizeId());
+				logisticMo.setOrgId(to.getOrgId());
 				_log.info("电子面单添加新的物流订单的参数为：{}", logisticMo);
 				logisticSvc.add(logisticMo);
 				ro.setResult(EOrderResultDic.SUCCESS);

@@ -70,7 +70,7 @@ public class ListKdiLogisticTo implements Serializable {
 	 * 组织ID
 	 */
     @ApiModelProperty(value = "组织id")
-	private Long organizeId;
+	private Long orgId;
 	
 
 	public static long getSerialversionuid() {
@@ -141,12 +141,12 @@ public class ListKdiLogisticTo implements Serializable {
 
 
 
-	public Long getOrganizeId() {
-		return organizeId;
+	public Long getOrgId() {
+		return orgId;
 	}
 
-	public void setOrganizeId(Long organizeId) {
-		this.organizeId = organizeId;
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
 	}
 	
     private static final long serialVersionUID = 1L;
@@ -163,12 +163,12 @@ public class ListKdiLogisticTo implements Serializable {
         sb.append(", receiverMobile=").append(receiverMobile);
         sb.append(", senderName=").append(senderName);
         sb.append(", senderTel=").append(senderTel);
-        sb.append(", organizeId=").append(organizeId);
+        sb.append(", orgId=").append(orgId);
         sb.append(", orderTimeStart=").append(orderTimeStart);
         sb.append(", orderTimeEnd=").append(orderTimeEnd);
         sb.append(", logisticStatus=").append(logisticStatus);
         sb.append(", logisticCode=").append(logisticCode);
-        sb.append(", organizeId=").append(organizeId);
+        sb.append(", orgId=").append(orgId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

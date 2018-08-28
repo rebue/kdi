@@ -17,10 +17,7 @@ public interface KdiCompanySvc extends MybatisBaseSvc<KdiCompanyMo, java.lang.Lo
 	 */
 	int setDefaultCompany(KdiCompanyMo mo);
 	
-	/**
-	 * 设置不是默认快递公司
-	 */
-	int setCompany(KdiCompanyMo mo);
+
 
 
 	/**

@@ -156,7 +156,7 @@ public class AddKdiLogisticTo {
 	/**
 	 * 组织ID
 	 */
-	private Long organizeId;
+	private Long orgId;
 	
 
 	public String getShipperCode() {
@@ -375,12 +375,12 @@ public class AddKdiLogisticTo {
 		this.senderId = senderId;
 	}
 
-	public Long getOrganizeId() {
-		return organizeId;
+	public Long getOrgId() {
+		return orgId;
 	}
 
-	public void setOrganizeId(Long organizeId) {
-		this.organizeId = organizeId;
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
 	}
 	
 	@Override
@@ -394,7 +394,7 @@ public class AddKdiLogisticTo {
 				+ ", receiverName=" + receiverName + ", receiverTel=" + receiverTel + ", receiverMobile="
 				+ receiverMobile + ", receiverProvince=" + receiverProvince + ", receiverCity=" + receiverCity
 				+ ", receiverExpArea=" + receiverExpArea + ", receiverAddress=" + receiverAddress
-				+ ", receiverPostCode=" + receiverPostCode + ", companyCode=" + companyCode + ", senderId=" + senderId+ ", organizeId=" + organizeId
+				+ ", receiverPostCode=" + receiverPostCode + ", companyCode=" + companyCode + ", senderId=" + senderId+ ", orgId=" + orgId
 				+ "]";
 	}
 

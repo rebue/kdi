@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/8/24 11:31:16                           */
+/* Created on:     2018/8/27 16:14:11                           */
 /*==============================================================*/
 
 
@@ -29,7 +29,7 @@ create table KDI_COMPANY
             3-月结
             4-第三方付',
    ENTRY_TIME           datetime not null comment '录入时间',
-   ORGANIZE_ID          bigint not null comment '组织ID',
+   ORG_ID               bigint not null comment '组织ID',
    IS_DEFAULT           bool not null comment '是否为默认公司（true：默认  false：不是默认）',
    primary key (ID)
 );
@@ -86,7 +86,7 @@ create table KDI_LOGISTIC
    RECEIVER_ADDRESS     varchar(300) comment '收件人详细地址',
    RECEIVER_POST_CODE   char(6) comment '收件地邮编',
    PRINT_PAGE           text comment '打印页面',
-   ORGANIZE_ID          bigint not null comment '组织id',
+   ORG_ID               bigint not null comment '组织id',
    primary key (ID),
    key AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE),
    unique key AK_ORDER_ID (ORDER_ID)
@@ -110,7 +110,7 @@ create table KDI_SENDER
    SENDER_POST_CODE     char(6) not null comment '发件地邮编',
    IS_DEFAULT           bool not null comment '是否为默认发件人（true：默认  false：不是默认）',
    ENTRY_TIME           datetime not null comment '录入时间',
-   ORGANIZE_ID          bigint not null comment '组织id',
+   ORG_ID               bigint not null comment '组织id',
    primary key (ID)
 );
 

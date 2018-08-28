@@ -28,17 +28,12 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 		if (mo.getId() == null || mo.getId() == 0) {
 			mo.setId(_idWorker.getId());
 		}
+		mo.setIsDefault(false);
 		mo.setEntryTime(new Date());
 		_log.info("添加快递公司的参数为: {}", mo);
 		int result = super.add(mo);
 		_log.info("添加快递公司的返回值为: {}", result);
-		if (result == 1) {
-			_log.info("添加快递公司成功");
-			return 1;
-		} else {
-			_log.error("添加快递公司失败, 返回值为: {}", result);
-			return -1;
-		}
+		return result;
 		
 	}
 	
@@ -60,15 +55,16 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 	}
 	
 	/**
-	 * 设置为默认快递公司
+	 * 将目标传进来的快递公司改为默认，其他的改为不默认
 	 */
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public int setDefaultCompany(KdiCompanyMo mo) {
 		_log.info("设置为默认快递公司的参数为: {}", mo);
 		int i=_mapper.setDefaultCompany(mo);
 		_log.info("设置为默认快递公司的返回值为: {}", i);
 		if(i==1) {
-			int j=setCompany(mo);
+			int j=_mapper.setCompany(mo);
 			if(j>1) {
 				i=1;
 			}else {
@@ -78,13 +74,5 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 		return i;
 	}
 	
-	/**
-	 * 设置不是默认快递公司
-	 */
-	@Override
-	public int setCompany(KdiCompanyMo mo) {
-		_log.info("设置不是默认快递公司的参数为: {}", mo);
-		return _mapper.setCompany(mo);
 
-	}
 }

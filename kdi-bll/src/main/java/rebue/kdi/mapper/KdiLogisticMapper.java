@@ -1,8 +1,8 @@
 package rebue.kdi.mapper;
-
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.ro.LogisticReportRo;
 import rebue.robotech.mapper.MybatisBaseMapper;
 import rebue.kdi.to.ListKdiLogisticTo;
 
@@ -113,4 +113,10 @@ public interface KdiLogisticMapper
 	 * @return
 	 */
 	List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo);
+	/**
+	 * 根据更新时间查询该时间和前六天发单量
+	 * @param mo
+	 * @return
+	 */
+	List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo mo);
 }

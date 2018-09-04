@@ -1,9 +1,7 @@
 package rebue.kdi.svc.impl;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
@@ -11,10 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
@@ -23,6 +19,7 @@ import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
+import rebue.kdi.ro.LogisticReportRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
@@ -218,5 +215,16 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 	public  List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo) {
 		_log.info("获取快递公司和快递单号的参数为：", mo);
 		return _mapper.kdiLogisticWx(mo);
+	}
+	
+	/**
+	 *根据下当开始和结束时间查询该段时间的发单量
+	 **/
+	@Override
+	public List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo to) {
+		_log.info("获取物流报表参数为：", to);
+		List<LogisticReportRo>  result = _mapper.listLogisticsReport(to);
+		_log.info("获取物流报表返回值为：", result);
+		return result;
 	}
 }

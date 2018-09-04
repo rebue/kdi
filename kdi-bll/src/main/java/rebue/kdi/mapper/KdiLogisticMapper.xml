@@ -828,4 +828,54 @@
     </where>
         ORDER BY ORDER_TIME DESC
   </select>
+    <select id="listLogisticsReport" parameterType="rebue.kdi.to.ListKdiLogisticTo" resultType="rebue.kdi.ro.LogisticReportRo">
+    <!--
+       根据order_time查询该时间段的发单量
+
+
+
+	 select  (DATE_FORMAT(a.date, '%m-%d'))  updateTime , (b.total) total from  
+	  (SELECT 
+	    DATE_ADD(DATE_FORMAT(#{updateTime,jdbcType=TIMESTAMP},'%Y-%m-%d'),
+	        INTERVAL @i:=@i + 1 DAY) AS date
+		FROM
+	    (SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1) AS tmp,
+	    (SELECT @i:=- 1) t) as  a  left join 
+	 (SELECT 
+	    DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d') AS date, COUNT(t.UPDATE_TIME) AS total
+	FROM 
+		kdi.KDI_LOGISTIC t
+	WHERE
+	    DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d') >= DATE(DATE_FORMAT(DATE_FORMAT(#{updateTime,jdbcType=TIMESTAMP},'%Y-%m-%d'), '%Y-%m-%d')) - INTERVAL 7 DAY
+	GROUP BY DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d')) as b on a.date = b.date
+	    -->
+	  
+	
+	SELECT 
+	    (DATE_FORMAT(a.date, '%m-%d'))  updateTime , (b.total) total
+	FROM
+	    (SELECT 
+	        ADDDATE(DATE_FORMAT(#{orderTimeStart,jdbcType=TIMESTAMP},'%Y-%m-%d'), numlist.id) AS 'date'
+	    FROM
+	        (SELECT 
+	        n1.i + n10.i * 10 + n100.i * 10 AS id
+	    FROM
+	        num n1
+	    CROSS JOIN num AS n10
+	    CROSS JOIN num AS n100) AS numlist
+	    WHERE
+	        ADDDATE(DATE_FORMAT(#{orderTimeStart,jdbcType=TIMESTAMP},'%Y-%m-%d'), numlist.id) &lt;= DATE_FORMAT(#{orderTimeEnd,jdbcType=TIMESTAMP},'%Y-%m-%d')) AS a
+	        LEFT JOIN
+	    (SELECT 
+	        DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d') AS 'date',
+	            COUNT(t.UPDATE_TIME) AS 'total'
+	    FROM
+	        kdi.KDI_LOGISTIC t
+	    WHERE
+	        t.UPDATE_TIME BETWEEN  DATE_FORMAT( #{orderTimeStart,jdbcType=TIMESTAMP},'%Y-%m-%d') AND DATE_FORMAT(#{orderTimeEnd,jdbcType=TIMESTAMP},'%Y-%m-%d')
+	    GROUP BY DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d')) AS b ON a.date = b.date
+	GROUP BY a.date , b.total
+	
+
+  </select>
 </mapper>

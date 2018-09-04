@@ -14,6 +14,7 @@ import com.github.pagehelper.PageInfo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.KdiLogisticRo;
+import rebue.kdi.ro.LogisticReportRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
@@ -85,9 +86,6 @@ public class KdiLogisticCtrl {
 	 * @param to
 	 * @return
 	 */
-
-
-	
 	@GetMapping("/kdi/logistic")
 	PageInfo<KdiLogisticMo> list(ListKdiLogisticTo to, @RequestParam("pageNum") int pageNum,
 			@RequestParam("pageSize") int pageSize) {
@@ -102,5 +100,20 @@ public class KdiLogisticCtrl {
 		return result;
 
 	}
+	
+	/**
+	 * 查询物流报表
+	 * @param mo
+	 * @return
+	 */
+	@GetMapping("/kdi/logistic/report")
+	List<LogisticReportRo> listLogisticReport(ListKdiLogisticTo mo) {
+		_log.info("查询物流报表的参数为 {}", mo);
+		List<LogisticReportRo>  result=  svc.listLogisticsReport(mo);
+		_log.info("查询物流报表的返回值为 {}", result);
+		return result;
+	}
+	
+	
 	
 }

@@ -1,10 +1,9 @@
 package rebue.kdi.svc;
 import java.util.List;
-
 import com.github.pagehelper.PageInfo;
-
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
+import rebue.kdi.ro.LogisticReportRo;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.robotech.svc.MybatisBaseSvc;
@@ -51,5 +50,12 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @return
 	 */
 	List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo); 
+	
+	/**
+	 * 查询某天与其前六天的发单量
+	 * @param to
+	 * @return
+	 */
+	List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo to);
 
 }

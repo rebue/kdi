@@ -832,22 +832,6 @@
     <!--
        根据order_time查询该时间段的发单量
 
-
-
-	 select  (DATE_FORMAT(a.date, '%m-%d'))  updateTime , (b.total) total from  
-	  (SELECT 
-	    DATE_ADD(DATE_FORMAT(#{updateTime,jdbcType=TIMESTAMP},'%Y-%m-%d'),
-	        INTERVAL @i:=@i + 1 DAY) AS date
-		FROM
-	    (SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1) AS tmp,
-	    (SELECT @i:=- 1) t) as  a  left join 
-	 (SELECT 
-	    DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d') AS date, COUNT(t.UPDATE_TIME) AS total
-	FROM 
-		kdi.KDI_LOGISTIC t
-	WHERE
-	    DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d') >= DATE(DATE_FORMAT(DATE_FORMAT(#{updateTime,jdbcType=TIMESTAMP},'%Y-%m-%d'), '%Y-%m-%d')) - INTERVAL 7 DAY
-	GROUP BY DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d')) as b on a.date = b.date
 	    -->
 	  
 	
@@ -872,6 +856,8 @@
 	    FROM
 	        kdi.KDI_LOGISTIC t
 	    WHERE
+	    	t.ORG_ID=#{orgId,jdbcType=BIGINT}
+	    	AND 
 	        t.UPDATE_TIME BETWEEN  DATE_FORMAT( #{orderTimeStart,jdbcType=TIMESTAMP},'%Y-%m-%d') AND DATE_FORMAT(#{orderTimeEnd,jdbcType=TIMESTAMP},'%Y-%m-%d')
 	    GROUP BY DATE_FORMAT(t.UPDATE_TIME, '%Y-%m-%d')) AS b ON a.date = b.date
 	GROUP BY a.date , b.total

@@ -1,158 +1,145 @@
 package rebue.kdi.to;
+
 import java.io.Serializable;
 import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 根据条件筛选物流订单显示结果参数
  * 
  * @author jjl
  *
  */
-@ApiModel(value = "ListKdiLogisticTo", description = "物流信息信息")
 @JsonInclude(Include.NON_NULL)
 public class ListKdiLogisticTo implements Serializable {
-	
 
-	/**
-	 * 收件人名称
-	 */
-	private String receiverName;
-	/**
-	 * 收件人手机
-	 */
-	private String receiverMobile;
-	public String getReceiverMobile() {
-		return receiverMobile;
-	}
+    /**
+     * 收件人名称
+     */
+    private String receiverName;
+    /**
+     * 收件人手机
+     */
+    private String receiverMobile;
 
-	public void setReceiverMobile(String receiverMobile) {
-		this.receiverMobile = receiverMobile;
-	}
+    public String getReceiverMobile() {
+        return receiverMobile;
+    }
 
-	/**
-	 * 发件人名称
-	 */
-	private String senderName;
-	/**
-	 * 发件人电话
-	 */
-	private String senderTel;
+    public void setReceiverMobile(String receiverMobile) {
+        this.receiverMobile = receiverMobile;
+    }
 
-	/**
-	 * 下单时间段 开始
-	 */
-    @ApiModelProperty(value = "申请时间")
+    /**
+     * 发件人名称
+     */
+    private String senderName;
+    /**
+     * 发件人电话
+     */
+    private String senderTel;
+
+    /**
+     * 下单时间段 开始
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date orderTimeStart;
-	/**
-	 * 下单时间段 结束
-	 */
-    @ApiModelProperty(value = "申请时间")
+    private Date   orderTimeStart;
+    /**
+     * 下单时间段 结束
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date orderTimeEnd;
-	/**
-	 * 物流状态
-	 */
-	private String logisticStatus;
-	/**
-	 * 物流订单号
-	 */
-	private String logisticCode;
-	
-	/**
-	 * 组织ID
-	 */
-    @ApiModelProperty(value = "组织id")
-	private Long orgId;
-	
+    private Date   orderTimeEnd;
+    /**
+     * 物流状态
+     */
+    private String logisticStatus;
+    /**
+     * 物流订单号
+     */
+    private String logisticCode;
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    /**
+     * 组织ID
+     */
+    private Long   orgId;
 
-	public String getReceiverName() {
-		return receiverName;
-	}
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
+    public String getReceiverName() {
+        return receiverName;
+    }
 
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
 
+    public String getSenderName() {
+        return senderName;
+    }
 
-	public String getSenderName() {
-		return senderName;
-	}
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
 
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
+    public String getSenderTel() {
+        return senderTel;
+    }
 
-	public String getSenderTel() {
-		return senderTel;
-	}
+    public void setSenderTel(String senderTel) {
+        this.senderTel = senderTel;
+    }
 
-	public void setSenderTel(String senderTel) {
-		this.senderTel = senderTel;
-	}
-	
+    public Date getOrderTimeStart() {
+        return orderTimeStart;
+    }
 
+    public void setOrderTimeStart(Date orderTimeStart) {
+        this.orderTimeStart = orderTimeStart;
+    }
 
-	
+    public Date getOrderTimeEnd() {
+        return orderTimeEnd;
+    }
 
-	public Date getOrderTimeStart() {
-		return orderTimeStart;
-	}
+    public void setOrderTimeEnd(Date orderTimeEnd) {
+        this.orderTimeEnd = orderTimeEnd;
+    }
 
-	public void setOrderTimeStart(Date orderTimeStart) {
-		this.orderTimeStart = orderTimeStart;
-	}
+    public String getLogisticCode() {
+        return logisticCode;
+    }
 
-	public Date getOrderTimeEnd() {
-		return orderTimeEnd;
-	}
+    public void setLogisticCode(String logisticCode) {
+        this.logisticCode = logisticCode;
+    }
 
-	public void setOrderTimeEnd(Date orderTimeEnd) {
-		this.orderTimeEnd = orderTimeEnd;
-	}
+    public String getLogisticStatus() {
+        return logisticStatus;
+    }
 
-	public String getLogisticCode() {
-		return logisticCode;
-	}
+    public void setLogisticStatus(String logisticStatus) {
+        this.logisticStatus = logisticStatus;
+    }
 
-	public void setLogisticCode(String logisticCode) {
-		this.logisticCode = logisticCode;
-	}
+    public Long getOrgId() {
+        return orgId;
+    }
 
-	public String getLogisticStatus() {
-		return logisticStatus;
-	}
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
 
-	public void setLogisticStatus(String logisticStatus) {
-		this.logisticStatus = logisticStatus;
-	}
-
-
-
-	public Long getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
-	}
-	
     private static final long serialVersionUID = 1L;
 
-
-	
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -174,6 +161,4 @@ public class ListKdiLogisticTo implements Serializable {
         return sb.toString();
     }
 
-
-	
 }

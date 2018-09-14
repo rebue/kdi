@@ -75,7 +75,7 @@ public interface KdiSvc {
 	 * 查询所有快递公司信息
 	 * @return
 	 */
-	@GetMapping("/kdi/company/alllist")
+	@GetMapping("/kdi/company")
 	List<KdiCompanyMo> kdiCompanyList();
 	
 	

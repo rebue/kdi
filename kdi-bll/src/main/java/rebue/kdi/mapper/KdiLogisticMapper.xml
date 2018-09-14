@@ -830,7 +830,7 @@
   </select>
     <select id="listLogisticsReport" parameterType="rebue.kdi.to.ListKdiLogisticTo" resultType="rebue.kdi.ro.LogisticReportRo">
     <!--
-       根据order_time查询该时间段的发单量
+       根据order_time查询该时间段的发单量 
 
 	    -->
 	  
@@ -863,5 +863,20 @@
 	GROUP BY a.date , b.total
 	
 
+  </select>
+  
+    <select id="getPrintPageByOrderId" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
+	    <!--
+	       根据微信端传入的参数查询快递公司和订单号
+	    -->
+	    select 
+	    	PRINT_PAGE
+	    from KDI_LOGISTIC
+    <where>
+      <if test="orderId != null">
+        and ORDER_ID = #{orderId,jdbcType=BIGINT}
+      </if>
+    </where>
+       
   </select>
 </mapper>

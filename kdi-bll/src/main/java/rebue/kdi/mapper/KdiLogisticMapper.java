@@ -119,4 +119,11 @@ public interface KdiLogisticMapper
 	 * @return
 	 */
 	List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo mo);
+	
+	/**
+	 * 获取打印页面
+	 * @param mo
+	 * @return
+	 */
+	List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo);
 }

@@ -52,10 +52,21 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo); 
 	
 	/**
-	 * 查询某天与其前六天的发单量
+	 * 查询两个时间段之间的发单量
 	 * @param to
 	 * @return
 	 */
 	List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo to);
+	
+	/**
+	 * 获取打印页面
+	 * @param mo
+	 * @return
+	 */
+	List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo);
+	
+	
+	
+	
 
 }

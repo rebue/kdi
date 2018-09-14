@@ -227,4 +227,16 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		_log.info("获取物流报表返回值为：", result);
 		return result;
 	}
+	
+	/**
+	 * 获取打印页面
+	 */
+	@Override
+	public List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo) {
+		_log.info("获取打印页面的参数为: {}", mo);
+		List<KdiLogisticMo>  result = _mapper.getPrintPageByOrderId(mo);
+		_log.info("获取打印页面的结果为: {}", result);
+		return result;
+		
+	}
 }

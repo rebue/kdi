@@ -113,6 +113,16 @@ public class KdiLogisticCtrl {
 		_log.info("查询物流报表的返回值为 {}", result);
 		return result;
 	}
+	/**
+	 * 获取打印页面
+	 * @param mo
+	 * @return
+	 */
+	@GetMapping("/kdi/logistic/printpage")
+	List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo){
+		_log.info("查询打印页面参数为 {}", mo);
+		return svc.getPrintPageByOrderId(mo);
+	}
 	
 	
 	

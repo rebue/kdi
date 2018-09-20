@@ -751,7 +751,7 @@
   
    <select id="kdiLogisticList" parameterType="rebue.kdi.to.ListKdiLogisticTo" resultMap="BaseResultMap">
     <!--
-       因为传入参数和传出不同，所以添加了这个方法
+       因为传入参数和传出不同，所以添加了这个方法，且组织id为必须
     -->
     select 
    		ORDER_ID,SHIPPER_NAME,LOGISTIC_CODE,RECEIVER_NAME,RECEIVER_TEL,RECEIVER_MOBILE,
@@ -759,12 +759,11 @@
    		
     from KDI_LOGISTIC
     <where>
+  	  1=1
        <if test="logisticCode != null and logisticCode != ''">
         and LOGISTIC_CODE = #{logisticCode,jdbcType=VARCHAR}
       </if>
-      <if test="orgId != null and orgId != ''">
-        and ORG_ID = #{orgId,jdbcType=BIGINT}
-      </if>
+
       <if test="logisticStatus != null and logisticStatus != '' ">
         and LOGISTIC_STATUS = #{logisticStatus,jdbcType=VARCHAR}
       </if>
@@ -791,7 +790,7 @@
       </if>
 
     </where>
-     	ORDER BY ORDER_TIME DESC
+        and ORG_ID = #{orgId,jdbcType=BIGINT} ORDER BY ORDER_TIME DESC
   </select>
   <select id="kdiLogisticWx" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
     <!--

@@ -43,7 +43,7 @@ public class KdiSenderCtrl {
 	 * @return
 	 */
 	@GetMapping("/kdi/sender/default")
-	KdiSenderMo getDefaultSender(@RequestParam("orgId") java.lang.Long orgId ) {
+	KdiSenderMo getDefaultSender(@RequestParam(value = "orgId", required = false) java.lang.Long orgId ) {
 		_log.info("开始查询默认发件人信息");
 		KdiSenderMo mo = svc.getDefaultSender(orgId);
 		_log.info("查询到的发件人信息为: {}", String.valueOf(mo));

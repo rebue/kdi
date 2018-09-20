@@ -112,7 +112,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	 */
 	private final static String EORDER_URL = "http://api.kdniao.cc/api/EOrderService";
 	private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.cc:8081/api/eorderservice";
-
+//	private final static String EORDER_URL_SANDBOX = "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
 	/**
 	 * 订阅物流轨迹的url
 	 */
@@ -247,7 +247,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		to.setOrderRemark(to.getOrderTitle());
 		to.setShipperName(mo.getCompanyName());
 		to.setShipperCode(mo.getCompanyCode());
-		to.setMonthCode(mo.getMonthcode());
+//		to.setMonthCode(mo.getMonthCode());
+//		to.setSendsite(sendsite);
 
 		_log.info("组织要传递的参数");
 		Map<String, Object> requestMap = new LinkedHashMap<>();
@@ -259,11 +260,11 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			if (to.getCustomerPwd() != null && to.getCustomerPwd() != "") {
 				requestData += "\"CustomerPwd\":\"" + to.getCustomerPwd() + "\",";// 电子面单密码/密钥
 			}																																																																																					
-			if (to.getMonthCode() != null && to.getMonthCode() != "") {
-				requestData += "\"MonthCode\":\"" + to.getMonthCode() + "\",";// 电子面单密码/密钥
+			if (mo.getMonthCode() != null && mo.getMonthCode() != "") {
+				requestData += "\"MonthCode\":\"" + mo.getMonthCode() + "\",";// 电子面单密码/密钥
 			}
-			if (to.getSendsite() != null && to.getSendsite() != "") {
-				requestData += "\"SendSite\":\"" + to.getSendsite() + "\",";
+			if (mo.getSendSite() != null && mo.getSendSite() != "") {
+				requestData += "\"SendSite\":\"" + mo.getSendSite() + "\",";
 			}
 
 			// 运费支付方式: 1-现付，2-到付，3-月结，4-第三方付
@@ -332,11 +333,9 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			if (_isSandBox)
 				url = EORDER_URL_SANDBOX;
 			_log.info("向快递鸟服务器发出请求-电子面单：{}", url);
-			// Map<String, Object> resultMap =
-			// jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
+//			 Map<String, Object> resultMap =jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
 			Map<String, Object> resultMap = jsonParser.parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
-			// Map<String, Object> resultMap =
-			// jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
+//			 Map<String, Object> resultMap =jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
 			if ((boolean) resultMap.get("Success")) {
 				_log.info("电子面单的请求返回成功");
 				@SuppressWarnings("unchecked")
@@ -411,7 +410,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				ro.setFailReason(resultCode + "-" + failReason);
 				return ro;
 			}
-		} catch (IOException e) {
+		}catch (IOException e) {
 			_log.error("请求快递鸟API服务器失败", e);
 			ro.setResult(EOrderResultDic.FAILT);
 			ro.setFailReason("请求快递鸟API服务器失败:" + e.getMessage());

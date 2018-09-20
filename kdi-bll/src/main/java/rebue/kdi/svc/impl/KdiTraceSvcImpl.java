@@ -1,13 +1,11 @@
 package rebue.kdi.svc.impl;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rebue.kdi.mapper.KdiTraceMapper;
 import rebue.kdi.mo.KdiTraceMo;
 import rebue.kdi.svc.KdiTraceSvc;
@@ -26,10 +24,7 @@ import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
  * </pre>
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Long, KdiTraceMapper>
-        implements KdiTraceSvc {
-
-    private final static Logger _log = LoggerFactory.getLogger(KdiTraceSvcImpl.class);
+public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Long, KdiTraceMapper> implements KdiTraceSvc {
 
     /**
      * @mbg.generated
@@ -44,9 +39,11 @@ public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Lo
         return super.add(mo);
     }
 
+    private static final Logger _log = LoggerFactory.getLogger(KdiTraceSvcImpl.class);
+
     /**
      * 根据物流订单ID删除其所有轨迹
-     * 
+     *
      * @param logisticId
      *            物流订单ID
      */
@@ -59,7 +56,7 @@ public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Lo
 
     /**
      * 根据物流订单ID查询其所有轨迹
-     * 
+     *
      * @param logisticId
      *            物流订单ID
      */
@@ -69,6 +66,5 @@ public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Lo
         KdiTraceMo condition = new KdiTraceMo();
         condition.setLogisticId(logisticId);
         return list(condition);
-    } 
-
+    }
 }

@@ -1,5 +1,6 @@
 package rebue.kdi.to;
 
+import lombok.Data;
 
 /**
  * 电子面单接口的参数类型
@@ -7,6 +8,7 @@ package rebue.kdi.to;
  * @author zbz
  *
  */
+@Data
 public class EOrderTo {
 	/**
 	 * 快递公司编码
@@ -120,14 +122,14 @@ public class EOrderTo {
 	 * 电子面单月结账号
 	 * @return
 	 */
-	private String monthCode;
+//	private String monthCode;
 	
 	/**
 	 * 电子面单sendsite
 	 * @return
 	 */
 	
-	private String sendsite;
+//	private String sendsite;
 	
 	/**
 	 * 组织ID
@@ -137,250 +139,6 @@ public class EOrderTo {
 
 
 
-	public String getMonthCode() {
-		return monthCode;
-	}
-
-	public void setMonthCode(String monthCode) {
-		this.monthCode = monthCode;
-	}
-
-	public String getSendsite() {
-		return sendsite;
-	}
-
-	public void setSendsite(String sendsite) {
-		this.sendsite = sendsite;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public String getCustomerPwd() {
-		return customerPwd;
-	}
-
-	public void setCustomerPwd(String customerPwd) {
-		this.customerPwd = customerPwd;
-	}
-
-	public String getShipperCode() {
-		return shipperCode;
-	}
-
-	public Long getShipperId() {
-		return shipperId;
-	}
-
-	public void setShipperId(Long shipperId) {
-		this.shipperId = shipperId;
-	}
-
-	public String getShipperName() {
-		return shipperName;
-	}
-
-	public void setShipperName(String shipperName) {
-		this.shipperName = shipperName;
-	}
-
-	public void setShipperCode(String shipperCode) {
-		this.shipperCode = shipperCode;
-	}
-
-	public Byte getPayType() {
-		return payType;
-	}
-
-	public void setPayType(Byte payType) {
-		this.payType = payType;
-	}
-
-	public Byte getExpType() {
-		return expType;
-	}
-
-	public void setExpType(Byte expType) {
-		this.expType = expType;
-	}
-
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
-	public String getOrderTitle() {
-		return orderTitle;
-	}
-
-	public void setOrderTitle(String orderTitle) {
-		this.orderTitle = orderTitle;
-	}
-
-	public String getOrderRemark() {
-		return orderRemark;
-	}
-
-	public void setOrderRemark(String orderRemark) {
-		this.orderRemark = orderRemark;
-	}
-
-	public String getSenderName() {
-		return senderName;
-	}
-
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
-
-	public String getSenderTel() {
-		return senderTel;
-	}
-
-	public void setSenderTel(String senderTel) {
-		this.senderTel = senderTel;
-	}
-
-	public String getSenderMobile() {
-		return senderMobile;
-	}
-
-	public void setSenderMobile(String senderMobile) {
-		this.senderMobile = senderMobile;
-	}
-
-	public String getSenderProvince() {
-		return senderProvince;
-	}
-
-	public void setSenderProvince(String senderProvince) {
-		this.senderProvince = senderProvince;
-	}
-
-	public String getSenderCity() {
-		return senderCity;
-	}
-
-	public void setSenderCity(String senderCity) {
-		this.senderCity = senderCity;
-	}
-
-	public String getSenderExpArea() {
-		return senderExpArea;
-	}
-
-	public void setSenderExpArea(String senderExpArea) {
-		this.senderExpArea = senderExpArea;
-	}
-
-	public String getSenderAddress() {
-		return senderAddress;
-	}
-
-	public void setSenderAddress(String senderAddress) {
-		this.senderAddress = senderAddress;
-	}
-
-	public String getSenderPostCode() {
-		return senderPostCode;
-	}
-
-	public void setSenderPostCode(String senderPostCode) {
-		this.senderPostCode = senderPostCode;
-	}
-
-	public String getReceiverName() {
-		return receiverName;
-	}
-
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
-
-	public String getReceiverTel() {
-		return receiverTel;
-	}
-
-	public void setReceiverTel(String receiverTel) {
-		this.receiverTel = receiverTel;
-	}
-
-	public String getReceiverMobile() {
-		return receiverMobile;
-	}
-
-	public void setReceiverMobile(String receiverMobile) {
-		this.receiverMobile = receiverMobile;
-	}
-
-	public String getReceiverProvince() {
-		return receiverProvince;
-	}
-
-	public void setReceiverProvince(String receiverProvince) {
-		this.receiverProvince = receiverProvince;
-	}
-
-	public String getReceiverCity() {
-		return receiverCity;
-	}
-
-	public void setReceiverCity(String receiverCity) {
-		this.receiverCity = receiverCity;
-	}
-
-	public String getReceiverExpArea() {
-		return receiverExpArea;
-	}
-
-	public void setReceiverExpArea(String receiverExpArea) {
-		this.receiverExpArea = receiverExpArea;
-	}
-
-	public String getReceiverAddress() {
-		return receiverAddress;
-	}
-
-	public void setReceiverAddress(String receiverAddress) {
-		this.receiverAddress = receiverAddress;
-	}
-
-	public String getReceiverPostCode() {
-		return receiverPostCode;
-	}
-
-	public void setReceiverPostCode(String receiverPostCode) {
-		this.receiverPostCode = receiverPostCode;
-	}
-
-	@Override
-	public String toString() {
-		return "EOrderTo [shipperCode=" + shipperCode + ", shipperId=" + shipperId + ", shipperName=" + shipperName
-				+ ", payType=" + payType + ", expType=" + expType + ", orderId=" + orderId + ", orderTitle="
-				+ orderTitle + ", orderRemark=" + orderRemark + ", senderName=" + senderName + ", senderTel="
-				+ senderTel + ", senderMobile=" + senderMobile + ", senderProvince=" + senderProvince + ", senderCity="
-				+ senderCity + ", senderExpArea=" + senderExpArea + ", senderAddress=" + senderAddress
-				+ ", senderPostCode=" + senderPostCode + ", receiverName=" + receiverName + ", receiverTel="
-				+ receiverTel + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince
-				+ ", receiverCity=" + receiverCity + ", receiverExpArea=" + receiverExpArea + ", receiverAddress="
-				+ receiverAddress + ", receiverPostCode=" + receiverPostCode + ", customerName=" + customerName
-				+ ", customerPwd=" + customerPwd + ", monthCode=" + monthCode + ", sendsite=" + sendsite + "]";
-	}
-
-	public Long getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
-	}
+	
 
 }

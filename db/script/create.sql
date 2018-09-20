@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/8/27 16:14:11                           */
+/* Created on:     2018/9/20 15:27:48                           */
 /*==============================================================*/
 
 
@@ -31,6 +31,8 @@ create table KDI_COMPANY
    ENTRY_TIME           datetime not null comment '录入时间',
    ORG_ID               bigint not null comment '组织ID',
    IS_DEFAULT           bool not null comment '是否为默认公司（true：默认  false：不是默认）',
+   MONTH_CODE           varchar(45) comment '月结账号',
+   SEND_SITE            varchar(45) comment '网点',
    primary key (ID)
 );
 
@@ -136,4 +138,6 @@ create table KDI_TRACE
 
 alter table KDI_TRACE comment '物流轨迹';
 
+alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
+      references KDI_LOGISTIC (ID) on delete restrict on update restrict;
 

@@ -1,6 +1,5 @@
 package rebue.kdi.to;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
+
 /**
  * 根据条件筛选物流订单显示结果参数
  * 
@@ -16,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  *
  */
 @JsonInclude(Include.NON_NULL)
-public class ListKdiLogisticTo implements Serializable {
+@Data
+public class ListKdiLogisticTo {
 
     /**
      * 收件人名称
@@ -26,14 +28,6 @@ public class ListKdiLogisticTo implements Serializable {
      * 收件人手机
      */
     private String receiverMobile;
-
-    public String getReceiverMobile() {
-        return receiverMobile;
-    }
-
-    public void setReceiverMobile(String receiverMobile) {
-        this.receiverMobile = receiverMobile;
-    }
 
     /**
      * 发件人名称
@@ -69,96 +63,5 @@ public class ListKdiLogisticTo implements Serializable {
      * 组织ID
      */
     private Long   orgId;
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public String getSenderTel() {
-        return senderTel;
-    }
-
-    public void setSenderTel(String senderTel) {
-        this.senderTel = senderTel;
-    }
-
-    public Date getOrderTimeStart() {
-        return orderTimeStart;
-    }
-
-    public void setOrderTimeStart(Date orderTimeStart) {
-        this.orderTimeStart = orderTimeStart;
-    }
-
-    public Date getOrderTimeEnd() {
-        return orderTimeEnd;
-    }
-
-    public void setOrderTimeEnd(Date orderTimeEnd) {
-        this.orderTimeEnd = orderTimeEnd;
-    }
-
-    public String getLogisticCode() {
-        return logisticCode;
-    }
-
-    public void setLogisticCode(String logisticCode) {
-        this.logisticCode = logisticCode;
-    }
-
-    public String getLogisticStatus() {
-        return logisticStatus;
-    }
-
-    public void setLogisticStatus(String logisticStatus) {
-        this.logisticStatus = logisticStatus;
-    }
-
-    public Long getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
-    }
-
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", receiverName=").append(receiverName);
-        sb.append(", receiverMobile=").append(receiverMobile);
-        sb.append(", senderName=").append(senderName);
-        sb.append(", senderTel=").append(senderTel);
-        sb.append(", orgId=").append(orgId);
-        sb.append(", orderTimeStart=").append(orderTimeStart);
-        sb.append(", orderTimeEnd=").append(orderTimeEnd);
-        sb.append(", logisticStatus=").append(logisticStatus);
-        sb.append(", logisticCode=").append(logisticCode);
-        sb.append(", orgId=").append(orgId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 
 }

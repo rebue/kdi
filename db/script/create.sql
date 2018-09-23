@@ -6,11 +6,11 @@
 
 drop table if exists KDI_COMPANY;
 
+drop table if exists KDI_TRACE;
+
 drop table if exists KDI_LOGISTIC;
 
 drop table if exists KDI_SENDER;
-
-drop table if exists KDI_TRACE;
 
 /*==============================================================*/
 /* Table: KDI_COMPANY                                           */

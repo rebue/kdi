@@ -1,10 +1,10 @@
 package rebue.kdi.svc.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
@@ -20,7 +24,7 @@ import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
-import rebue.kdi.ro.LogisticReportRo;
+import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
@@ -28,6 +32,7 @@ import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
+import rebue.kdi.to.OrderCountReportTo;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
 @Service
@@ -61,22 +66,22 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     private static final Logger _log = LoggerFactory.getLogger(KdiLogisticSvcImpl.class);
 
     @Resource
-    private KdiTraceSvc traceSvc;
+    private KdiTraceSvc         traceSvc;
 
     @Resource
-    private KdiSenderSvc kdiSenderSvc;
+    private KdiSenderSvc        kdiSenderSvc;
 
     @Resource
-    private KdNiaoSvc kdNiaoSvc;
+    private KdNiaoSvc           kdNiaoSvc;
 
     @Resource
-    private KdiCompanySvc kdiCompanySvc;
+    private KdiCompanySvc       kdiCompanySvc;
 
     @Resource
-    private Mapper dozerMapper;
+    private Mapper              dozerMapper;
 
     /**
-     *  获取新的ID
+     * 获取新的ID
      */
     @Override
     public Long getNewId() {
@@ -84,12 +89,12 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /*
-	 * 根据快递公司编码和快递单号获取物流订单
-	 * 
-	 * @param shipperCode 快递公司编码
-	 * 
-	 * @param logisticCode 快递单号
-	 */
+     * 根据快递公司编码和快递单号获取物流订单
+     * 
+     * @param shipperCode 快递公司编码
+     * 
+     * @param logisticCode 快递单号
+     */
     @Override
     public KdiLogisticMo getOne(String shipperCode, String logisticCode) {
         _log.info("根据快递公司编码和快递单号获取物流订单：{}，{}", shipperCode, logisticCode);
@@ -100,16 +105,17 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /**
-     *  后台调用电子面单接口
+     * 后台调用电子面单接口
      *
-     *  @param mo
-     *  @return
+     * @param mo
+     * @return
      */
     @Override
     public ExaddKdiLogisticRo exaddKdiLogistic(AddKdiLogisticTo mo) {
         _log.info("添加物流订单信息的参数为：｛｝", mo);
         ExaddKdiLogisticRo kdiLogisticRo = new ExaddKdiLogisticRo();
-        if (StringUtils.isAnyBlank(mo.getOrderTitle(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null || mo.getShipperId() == null) {
+        if (StringUtils.isAnyBlank(mo.getOrderTitle(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(),
+                mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null || mo.getShipperId() == null) {
             kdiLogisticRo.setResult(EOrderResultDic.PARAM_ERROR);
             kdiLogisticRo.setFailReason("参数有误");
             return kdiLogisticRo;
@@ -158,16 +164,19 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /**
-     *  添加物流订单记录
+     * 添加物流订单记录
      *
-     *  @param mo
-     *  @return
+     * @param mo
+     * @return
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public int entryLogistics(AddKdiLogisticTo mo) {
         _log.info("录入订单的参数为: {}", mo);
-        if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(), mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
+        if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(), mo.getSenderCity(),
+                mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(),
+                mo.getReceiverAddress(), mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
+                || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
             _log.info("录入订单的参数不正确，参数为: {}", mo);
             return -1;
         }
@@ -186,7 +195,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /**
-     *  查询物流订单信息
+     * 查询物流订单信息
      */
     @Override
     public PageInfo<KdiLogisticMo> kdiLogisticList(ListKdiLogisticTo to, int pageNum, int pageSize) {
@@ -196,7 +205,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /**
-     *  根据快递单号查询物流轨迹
+     * 根据快递单号查询物流轨迹
      */
     @Override
     public List<KdiLogisticMo> kdiLogisticWx(KdiLogisticMo mo) {
@@ -205,18 +214,19 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     }
 
     /**
-     * 根据下当开始和结束时间查询该段时间的发单量
+     * 统计本组织一段时间内的下单量
      */
     @Override
-    public List<LogisticReportRo> listLogisticsReport(ListKdiLogisticTo to) {
+    public List<ReportOrderCountRo> reportOrderCountInPeriod(OrderCountReportTo to) {
         _log.info("获取物流报表参数为：", to);
-        List<LogisticReportRo> result = _mapper.listLogisticsReport(to);
+        to.setOrderTimeEndDate(new Date(to.getOrderTimeEndDate().getTime() + 24 * 3600 * 1000));
+        List<ReportOrderCountRo> result = _mapper.reportOrderCountInPeriod(to);
         _log.info("获取物流报表返回值为：", result);
         return result;
     }
 
     /**
-     *  获取打印页面
+     * 获取打印页面
      */
     @Override
     public List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo) {

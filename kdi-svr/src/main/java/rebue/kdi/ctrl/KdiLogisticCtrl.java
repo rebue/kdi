@@ -128,5 +128,26 @@ public class KdiLogisticCtrl {
         _log.info("查询打印页面参数为 {}", mo);
         return svc.getPrintPageByOrderId(mo);
     }
+    
+    /**
+     * 根据传入参数单个物流信息
+     * 
+     * @param mo
+     * @return
+     */
+    @GetMapping("/kdi/logistic/getLogisticInfo")
+    KdiLogisticMo getLogisticInfo(KdiLogisticMo mo) {
+        _log.info("查询订单物流参数为 {}", mo);
+        return svc.getOne(mo);
+    }
 
 }
+
+
+
+
+
+
+
+
+

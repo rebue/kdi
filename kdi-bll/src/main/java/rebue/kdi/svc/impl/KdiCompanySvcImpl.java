@@ -65,7 +65,7 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
     }
 
     /**
-     *  将目标传进来的快递公司改为默认，其他的改为不默认
+     *  将传进来的目标快递公司改为默认，其他的改为不默认
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -74,11 +74,21 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
         int i = _mapper.setDefaultCompany(mo);
         _log.info("设置为默认快递公司的返回值为: {}", i);
         if (i == 1) {
-            int j = _mapper.setCompany(mo);
-            if (j > 1) {
+        	KdiCompanyMo pm=new KdiCompanyMo();
+        	pm.setOrgId(mo.getOrgId());
+            _log.info("查询是否只有一个快递公司的参数: {}", pm);
+            List<KdiCompanyMo> result = super.list(pm);
+            _log.info("查询是否只有一个快递公司的返回值长度是: {}", result.size());
+            if(result.size()>1) {
+                int j = _mapper.setCompany(mo);
+                if (j >= 1) {
+                    i = 1;
+                } else {
+                    i = -1;
+                    throw new RuntimeException("修改失败");
+                }
+            }else {
                 i = 1;
-            } else {
-                i = -1;
             }
         }
         return i;

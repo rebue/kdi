@@ -43,6 +43,17 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
         mo.setEntryTime(new Date());
         _log.info("添加快递公司的参数为: {}", mo);
         int result = super.add(mo);
+        if(result==1) {
+        	KdiCompanyMo pm=new KdiCompanyMo();
+        	pm.setOrgId(mo.getOrgId());
+            _log.info("查询是否只有一个快递公司的参数为: {}", pm);
+        	List<KdiCompanyMo> count=super.list(pm);
+            _log.info("查询是否只有一个快递公司的结果数量为: {}", count.size());
+        	if(count.size()==1) {
+        		int j=_mapper.setDefaultCompany(mo);
+                _log.info("添加快递公司后将该快递公司设置为默认的结果为: {}", j);
+        	}
+        }
         _log.info("添加快递公司的返回值为: {}", result);
         return result;
     }

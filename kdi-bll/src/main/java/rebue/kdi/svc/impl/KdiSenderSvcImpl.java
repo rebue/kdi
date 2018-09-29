@@ -52,6 +52,14 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
         _log.info("添加发件人的返回值为: {}", result);
         if (result == 1) {
             _log.info("添加发件人成功");
+            KdiSenderMo pm=new KdiSenderMo();
+            pm.setOrgId(mo.getOrgId());
+            List<KdiSenderMo> count=super.list(pm);
+            _log.error("查询发件人的数量是: {}", count.size());
+            if(count.size()==1) {
+            	int i=_mapper.setDefaultSender(mo.getId());
+                _log.error("将仅有一个的发件人设置默认发件人的结果: {}", i);
+            }
             return 1;
         } else {
             _log.error("添加发件人失败, 返回值为: {}", result);
@@ -67,43 +75,36 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public ModifyDefaultSenderRo setDefaultSender(KdiSenderMo mo) {
-        _log.info("修改默认发件人的请求参数为: {}", mo);
-        ModifyDefaultSenderRo senderRo = new ModifyDefaultSenderRo();
-        KdiSenderMo senderMo = new KdiSenderMo();
-        senderMo.setIsDefault(true);
-        _log.info("修改默认发件人查询默认发件人信息的参数为: {}", senderMo);
-        List<KdiSenderMo> senderList = list(senderMo);
-        _log.info("修改默认发件人查询默认发件人信息的返回值为: {}", String.valueOf(senderList));
-        if (senderList.size() != 0) {
-            for (KdiSenderMo kdiSenderMo : senderList) {
-                senderMo = new KdiSenderMo();
-                senderMo.setIsDefault(false);
-                senderMo.setId(kdiSenderMo.getId());
-                _log.info("修改默认发件人修改原默认发件人的参数为: {}", senderMo);
-                int updateByPrimaryKeySelectiveResult = _mapper.updateByPrimaryKeySelective(senderMo);
-                _log.info("修改默认发件人修改原默认发件人的返回值为: {}", updateByPrimaryKeySelectiveResult);
-                if (updateByPrimaryKeySelectiveResult != 1) {
-                    _log.error("修改默认发件人修改原默认发件人时出错, 原默认发件人编号为: {}", kdiSenderMo.getId());
-                    senderRo.setResult(ModifyDefaultSenderDic.ERROR);
-                    senderRo.setMsg("修改原默认发件人失败");
-                    return senderRo;
-                }
-            }
-        }
+    	ModifyDefaultSenderRo senderRo=new ModifyDefaultSenderRo();
         _log.info("修改默认发件人的参数为: {}", mo);
         int updateDefaultSenderResult = _mapper.setDefaultSender(mo.getId());
-        _log.info("设置默认发件人返回值: {}", updateDefaultSenderResult);
-        if (updateDefaultSenderResult != 1) {
-            throw new RuntimeException();
-        // _log.error("修改默认发件人时出错, 发件人编号为: {}", mo.getId());
-        // senderRo.setResult(ModifyDefaultSenderDic.ERROR);
-        // senderRo.setMsg("修改失败");
-        // return senderRo;
+        _log.info("修改默认发件人的结果为: {}", updateDefaultSenderResult);
+        if(updateDefaultSenderResult==1) {
+        	KdiSenderMo pm=new KdiSenderMo();
+        	pm.setOrgId(mo.getOrgId());
+            _log.info("查询是否只有一个发件人的参数为: {}", pm);
+            List<KdiSenderMo> coust=super.list(pm);
+            if(coust.size()==1) {
+            	senderRo.setMsg("修改默认发人成功");
+                senderRo.setResult(ModifyDefaultSenderDic.SUCCESS);
+                return senderRo;
+            }else {
+                _log.info("开始将不是该编号的发件人设置为不是默认: {}",mo.getId());
+                int i=_mapper.setSender(mo.getId());
+                _log.info("设置为不是默认发件人的结果为: {}", i);
+                if(i>=1) {
+                	senderRo.setMsg("修改默认发人成功");
+                    senderRo.setResult(ModifyDefaultSenderDic.SUCCESS);
+                    return senderRo;
+                }else {
+                	 throw new RuntimeException("修改失败");
+                }
+            }
+
         }
-        _log.info("修改默认发件人成功, 发件人编号为: {}", mo.getId());
-        senderRo.setResult(ModifyDefaultSenderDic.SUCCESS);
-        senderRo.setMsg("修改成功");
-        return senderRo;
+    	senderRo.setMsg("修改默认失败");
+        senderRo.setResult(ModifyDefaultSenderDic.ERROR);
+        return senderRo ;
     }
 
     @Override

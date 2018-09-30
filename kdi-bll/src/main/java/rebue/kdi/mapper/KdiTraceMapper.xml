@@ -232,6 +232,6 @@
         and CITY = #{city,jdbcType=VARCHAR}
       </if>
     </where>
-    
+    ORDER BY HAPPEN_TIME DESC
   </select>
 </mapper>

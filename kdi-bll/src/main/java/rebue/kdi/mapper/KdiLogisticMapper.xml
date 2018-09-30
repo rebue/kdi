@@ -794,7 +794,7 @@
 	</select>
 
 	<select id="getPrintPageByOrderId" parameterType="rebue.kdi.mo.KdiLogisticMo" resultMap="BaseResultMap">
-		<!-- 根据微信端传入的参数查询快递公司和订单号 -->
+		<!-- 重新打印物流单 -->
 		select
 		PRINT_PAGE
 		from KDI_LOGISTIC

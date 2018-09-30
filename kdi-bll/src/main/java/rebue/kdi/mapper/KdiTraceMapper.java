@@ -67,4 +67,9 @@ public interface KdiTraceMapper extends MybatisBaseMapper<KdiTraceMo, Long> {
      */
     @Delete("delete from KDI_TRACE where LOGISTIC_ID=#{logisticId}")
     void delByLogisticId(Long logisticId);
+    
+    /**
+     *    查询物流轨迹
+     */
+    List<KdiTraceMo> listTrace(KdiTraceMo record);
 }

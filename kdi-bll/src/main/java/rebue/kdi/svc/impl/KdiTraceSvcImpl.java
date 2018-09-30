@@ -65,6 +65,6 @@ public class KdiTraceSvcImpl extends MybatisBaseSvcImpl<KdiTraceMo, java.lang.Lo
         _log.info("根据物流订单ID查询其所有轨迹：{}", logisticId);
         KdiTraceMo condition = new KdiTraceMo();
         condition.setLogisticId(logisticId);
-        return list(condition);
+        return _mapper.listTrace(condition);
     }
 }

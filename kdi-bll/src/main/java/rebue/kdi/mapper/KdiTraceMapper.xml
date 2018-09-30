@@ -168,6 +168,7 @@
         and CITY = #{city,jdbcType=VARCHAR}
       </if>
     </where>
+    
   </select>
   <select id="existByPrimaryKey" parameterType="java.lang.Long" resultType="boolean">
     <!--
@@ -205,5 +206,32 @@
         and CITY = #{city,jdbcType=VARCHAR}
       </if>
     </where>
+  </select>
+  
+    <select id="listTrace" parameterType="rebue.kdi.mo.KdiTraceMo" resultMap="BaseResultMap">
+    <!--
+		查询物流轨迹
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from KDI_TRACE
+    <where>
+      <if test="logisticId != null">
+        and LOGISTIC_ID = #{logisticId,jdbcType=BIGINT}
+      </if>
+      <if test="traceDesc != null and traceDesc != ''">
+        and TRACE_DESC = #{traceDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="happenTime != null">
+        and HAPPEN_TIME = #{happenTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="logisticStatus != null and logisticStatus != ''">
+        and LOGISTIC_STATUS = #{logisticStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null and city != ''">
+        and CITY = #{city,jdbcType=VARCHAR}
+      </if>
+    </where>
+    
   </select>
 </mapper>

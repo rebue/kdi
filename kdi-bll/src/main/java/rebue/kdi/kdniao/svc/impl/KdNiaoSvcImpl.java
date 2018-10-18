@@ -385,6 +385,19 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 					printPage = printPage.replaceAll("<div class=\"abs\" style=\"top: 85px;right: 5px;\">",
 							"<div class=\"abs b\" style=\"top: 85px;right: 5px;\">");
 				}
+				
+				//因为将要替换的内容是不确定的，所以要用索引的方式来确定将要替换的内容。
+				int beginIndex=printPage.indexOf("<div class=\"b f11\">");
+				int endIndex=printPage.indexOf("class=\"abs\"");
+				_log.info("<div class=\"b f11\"> 首次出现的位置是：{}", beginIndex);
+				_log.info("<div class=\"abs\"首次出现的位置是{}", endIndex);
+				if(beginIndex != -1 && endIndex !=-1) {
+					String str=printPage.substring(beginIndex, endIndex);
+					String goodName="<div class=\"b f11\">"+to.getOrderTitle()+"</div> <div ";
+					printPage = printPage.replaceAll(str,goodName);
+					_log.info("替换后的paga是: {}", printPage);
+				}
+
 				Date now = new Date();
 				// 添加新的物流订单
 				KdiLogisticMo logisticMo = dozerMapper.map(to, KdiLogisticMo.class);

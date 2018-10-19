@@ -393,7 +393,10 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				_log.info("<div class=\"abs\"首次出现的位置是{}", endIndex);
 				if(beginIndex != -1 && endIndex !=-1) {
 					String str=printPage.substring(beginIndex, endIndex);
+					str = str.replaceAll("\\(", "\\\\(");
+					_log.info("需要替换的字符串:"+str);
 					String goodName="<div class=\"b f11\">"+to.getOrderTitle()+"</div> <div ";
+//					goodName = goodName.replaceAll("(", "//(");
 					printPage = printPage.replaceAll(str,goodName);
 					_log.info("替换后的paga是: {}", printPage);
 				}

@@ -79,7 +79,7 @@ public class KdiLogisticCtrl {
      * @param mo
      * @return
      */
-    @PostMapping("/kid/logistic/wx")
+    @PostMapping("/kdi/logistic/wx")
     List<KdiLogisticMo> listLogisticWx(KdiLogisticMo mo) {
         _log.info("微信端口查询快递公司和快递单号 {}", mo);
         return svc.kdiLogisticWx(mo);

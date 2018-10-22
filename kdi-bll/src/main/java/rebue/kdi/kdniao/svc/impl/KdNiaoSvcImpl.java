@@ -112,7 +112,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	 */
 	private final static String EORDER_URL = "http://api.kdniao.cc/api/EOrderService";
 	private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.cc:8081/api/eorderservice";
-//	private final static String EORDER_URL_SANDBOX = "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
+	// private final static String EORDER_URL_SANDBOX =
+	// "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
 	/**
 	 * 订阅物流轨迹的url
 	 */
@@ -206,14 +207,14 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		_log.info("快递鸟电子面单：{}", to);
 		EOrderRo ro = new EOrderRo();
 		_log.info("检验参数是否正确");
-		if (to.getOrderId() == null||to.getOrgId()==null
+		if (to.getOrderId() == null || to.getOrgId() == null
 				|| StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(),
 						to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
 						to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
 						to.getReceiverAddress())
 				|| StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile())
 				|| StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
-			_log.warn("没有填写必要的参数:{}", to);	
+			_log.warn("没有填写必要的参数:{}", to);
 			ro.setResult(EOrderResultDic.PARAM_ERROR);
 			return ro;
 		}
@@ -247,8 +248,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		to.setOrderRemark(to.getOrderTitle());
 		to.setShipperName(mo.getCompanyName());
 		to.setShipperCode(mo.getCompanyCode());
-//		to.setMonthCode(mo.getMonthCode());
-//		to.setSendsite(sendsite);
+		// to.setMonthCode(mo.getMonthCode());
+		// to.setSendsite(sendsite);
 
 		_log.info("组织要传递的参数");
 		Map<String, Object> requestMap = new LinkedHashMap<>();
@@ -259,7 +260,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			requestData += "\"CustomerName\":\"" + to.getCustomerName() + "\",";// 电子面单客户号
 			if (to.getCustomerPwd() != null && to.getCustomerPwd() != "") {
 				requestData += "\"CustomerPwd\":\"" + to.getCustomerPwd() + "\",";// 电子面单密码/密钥
-			}																																																																																					
+			}
 			if (mo.getMonthCode() != null && mo.getMonthCode() != "") {
 				requestData += "\"MonthCode\":\"" + mo.getMonthCode() + "\",";// 电子面单密码/密钥
 			}
@@ -287,7 +288,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			requestData += "\"OrderCode\":\"" + to.getOrderId() + "\","; // 订单编号(自定义，不可重复)
 			// 商品名称
 			requestData += "\"Commodity\":[{";
-			requestData += "\"GoodsName\":\"" + to.getOrderTitle() + "\""; // 商品名称
+			// requestData += "\"GoodsName\":\"" + to.getOrderTitle() + "\""; // 商品名称
+			requestData += "\"GoodsName\":\"" + "需要替换的标题" + "\""; // 商品名称
 			requestData += "}],";
 			// 订单备注
 			String remark = to.getOrderRemark();
@@ -333,9 +335,11 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			if (_isSandBox)
 				url = EORDER_URL_SANDBOX;
 			_log.info("向快递鸟服务器发出请求-电子面单：{}", url);
-//			 Map<String, Object> resultMap =jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
+			// Map<String, Object> resultMap
+			// =jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
 			Map<String, Object> resultMap = jsonParser.parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
-//			 Map<String, Object> resultMap =jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
+			// Map<String, Object> resultMap
+			// =jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
 			if ((boolean) resultMap.get("Success")) {
 				_log.info("电子面单的请求返回成功");
 				@SuppressWarnings("unchecked")
@@ -385,21 +389,11 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 					printPage = printPage.replaceAll("<div class=\"abs\" style=\"top: 85px;right: 5px;\">",
 							"<div class=\"abs b\" style=\"top: 85px;right: 5px;\">");
 				}
-				
-				//因为将要替换的内容是不确定的，所以要用索引的方式来确定将要替换的内容。
-				int beginIndex=printPage.indexOf("<div class=\"b f11\">");
-				int endIndex=printPage.indexOf("class=\"abs\"");
-				_log.info("<div class=\"b f11\"> 首次出现的位置是：{}", beginIndex);
-				_log.info("<div class=\"abs\"首次出现的位置是{}", endIndex);
-				if(beginIndex != -1 && endIndex !=-1) {
-					String str=printPage.substring(beginIndex, endIndex);
-					str = str.replaceAll("\\(", "\\\\(");
-					_log.info("需要替换的字符串:"+str);
-					String goodName="<div class=\"b f11\">"+to.getOrderTitle()+"</div> <div ";
-//					goodName = goodName.replaceAll("(", "//(");
-					printPage = printPage.replaceAll(str,goodName);
-					_log.info("替换后的paga是: {}", printPage);
-				}
+
+				// 替换备注内容。
+				String goodName = "<div class=\"b f11\">" + to.getOrderTitle() + "</div> <div ";
+				printPage = printPage.replaceAll("<div class=\"b f11\"> 需要替换的标题</div>", goodName);
+				_log.info("替换后的paga是: {}", printPage);
 
 				Date now = new Date();
 				// 添加新的物流订单
@@ -426,7 +420,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				ro.setFailReason(resultCode + "-" + failReason);
 				return ro;
 			}
-		}catch (IOException e) {
+		} catch (IOException e) {
 			_log.error("请求快递鸟API服务器失败", e);
 			ro.setResult(EOrderResultDic.FAILT);
 			ro.setFailReason("请求快递鸟API服务器失败:" + e.getMessage());

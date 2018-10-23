@@ -403,6 +403,10 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				logisticMo.setUpdateTime(now);
 				logisticMo.setOrderTime(now);
 				logisticMo.setOrgId(to.getOrgId());
+		        //如果录入类型为空那么设置录入类型为自动  1：手动 2：自动
+		        if(logisticMo.getEntryType()==null || logisticMo.getEntryType() ==0) {
+		        	logisticMo.setEntryType((byte)2);
+		        }
 				_log.info("电子面单添加新的物流订单的参数为：{}", logisticMo);
 				logisticSvc.add(logisticMo);
 				ro.setResult(EOrderResultDic.SUCCESS);

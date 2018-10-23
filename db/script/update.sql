@@ -7,3 +7,4 @@ alter table kdi.KDI_COMPANY add IS_DEFAULT tinyint not null comment '是否默�
 alter table kdi.KDI_COMPANY add ORG_ID bigint not null comment '组织ID';
 alter table kdi.KDI_LOGISTIC add ORG_ID bigint not null comment '组织ID';
 alter table kdi.KDI_SENDER add ORG_ID bigint not null comment '组织ID';
+alter table kdi.KDI_LOGISTIC add ENTRY_TYPE    tinyint not null comment '录入类型  0：未知 1:手动  2:自动';

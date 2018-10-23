@@ -325,6 +325,15 @@ public class KdiLogisticMo implements Serializable {
     private Long orgId;
 
     /**
+     *    录入类型  1:手动  2:自动
+     *
+     *    数据库字段: KDI_LOGISTIC.ENTRY_TYPE
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Byte entryType;
+
+    /**
      *    打印页面
      *
      *    数据库字段: KDI_LOGISTIC.PRINT_PAGE
@@ -1069,6 +1078,28 @@ public class KdiLogisticMo implements Serializable {
     }
 
     /**
+     *    录入类型  1:手动  2:自动
+     *
+     *    数据库字段: KDI_LOGISTIC.ENTRY_TYPE
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Byte getEntryType() {
+        return entryType;
+    }
+
+    /**
+     *    录入类型  1:手动  2:自动
+     *
+     *    数据库字段: KDI_LOGISTIC.ENTRY_TYPE
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setEntryType(Byte entryType) {
+        this.entryType = entryType;
+    }
+
+    /**
      *    打印页面
      *
      *    数据库字段: KDI_LOGISTIC.PRINT_PAGE
@@ -1131,6 +1162,7 @@ public class KdiLogisticMo implements Serializable {
         sb.append(", receiverAddress=").append(receiverAddress);
         sb.append(", receiverPostCode=").append(receiverPostCode);
         sb.append(", orgId=").append(orgId);
+        sb.append(", entryType=").append(entryType);
         sb.append(", printPage=").append(printPage);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

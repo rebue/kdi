@@ -1,21 +1,20 @@
 package rebue.kdi.ctrl;
-
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.github.pagehelper.PageInfo;
 
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
+import rebue.kdi.ro.KdiCompanyRo;
 import rebue.kdi.ro.KdiLogisticRo;
 import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.svc.KdiLogisticSvc;
@@ -59,6 +58,32 @@ public class KdiLogisticCtrl {
             ro.setResult((byte) -1);
             return ro;
         }
+    }
+    
+    /**
+     * 修改物流信息
+     *
+     * 
+     */
+    @PutMapping("/kdi/logistic")
+    KdiLogisticRo modify(@RequestBody KdiLogisticMo mo) throws Exception {
+        _log.info("modify KdiLogisticMo:" + mo);
+        KdiLogisticRo ro = new KdiLogisticRo();
+        int result = svc.modify(mo);
+        if (result == 1) {
+            String msg = "修改成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "修改失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+
     }
 
     /**
@@ -140,6 +165,35 @@ public class KdiLogisticCtrl {
         _log.info("查询订单物流参数为 {}", mo);
         return svc.getOne(mo);
     }
+    
+    
+    /**
+     * 获取单个物流信息
+     *
+     *
+     */
+    @GetMapping("/kdi/logistic/getbyid")
+    KdiLogisticRo getById(@RequestParam("id") java.lang.Long id) {
+        _log.info("get Kdilogistic by id: " + id);
+        KdiLogisticMo result = svc.getById(id);
+        _log.info("get: " + result);
+        KdiLogisticRo ro = new KdiLogisticRo();
+        if (result == null) {
+            String msg = "获取失败，没有找到该条记录";
+            _log.error("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        } else {
+            String msg = "获取成功";
+            _log.info("{}: id-{}", msg, id);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            ro.setRecord(result);
+            return ro;
+        }
+    }
+    
 
 }
 

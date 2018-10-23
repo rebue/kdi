@@ -60,6 +60,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
         if (mo.getId() == null || mo.getId() == 0) {
             mo.setId(_idWorker.getId());
         }
+        //如果录入类型为空那么设置录入类型为自动  1：手动 2：自动
+        if(mo.getEntryType()==null || mo.getEntryType() ==0) {
+        	mo.setEntryType((byte)2);
+        }
         return super.add(mo);
     }
 

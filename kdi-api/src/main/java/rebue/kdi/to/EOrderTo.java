@@ -137,7 +137,14 @@ public class EOrderTo {
 	
     private Long orgId;
 
-
+    /**
+     *    录入类型  1:手动  2:自动
+     *
+     *    数据库字段: KDI_LOGISTIC.ENTRY_TYPE
+     *
+     *   
+     */
+    private Byte entryType;
 
 	
 

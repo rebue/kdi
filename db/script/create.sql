@@ -1,16 +1,16 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/9/20 15:27:48                           */
+/* Created on:     2018/10/22 15:11:41                          */
 /*==============================================================*/
 
 
 drop table if exists KDI_COMPANY;
 
-drop table if exists KDI_TRACE;
-
 drop table if exists KDI_LOGISTIC;
 
 drop table if exists KDI_SENDER;
+
+drop table if exists KDI_TRACE;
 
 /*==============================================================*/
 /* Table: KDI_COMPANY                                           */
@@ -89,6 +89,7 @@ create table KDI_LOGISTIC
    RECEIVER_POST_CODE   char(6) comment '收件地邮编',
    PRINT_PAGE           text comment '打印页面',
    ORG_ID               bigint not null comment '组织id',
+   ENTRY_TYPE           tinyint not null comment '录入类型  1:手动  2:自动',
    primary key (ID),
    key AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE),
    unique key AK_ORDER_ID (ORDER_ID)
@@ -140,4 +141,3 @@ alter table KDI_TRACE comment '物流轨迹';
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;
-

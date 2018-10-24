@@ -11,8 +11,10 @@ import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
+import rebue.kdi.ro.KdiLogisticRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.SubscribeTraceRo;
+import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
 import rebue.sbs.feign.FeignConfig;
@@ -77,6 +79,15 @@ public interface KdiSvc {
 	 */
 	@GetMapping("/kdi/company")
 	List<KdiCompanyMo> kdiCompanyList();
+	
+	/**
+     * 添加物流订单记录
+     * 
+     * @param to
+     * @return
+     */
+    @PostMapping("/kdi/logistic/entry")
+    KdiLogisticRo entryLogistics(@RequestBody AddKdiLogisticTo to);
 	
 	
 }

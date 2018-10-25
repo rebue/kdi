@@ -17,6 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import rebue.kdi.dic.EOrderResultDic;
+import rebue.kdi.dic.SubscribeTraceResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiCompanyMo;
@@ -25,14 +26,17 @@ import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.ReportOrderCountRo;
+import rebue.kdi.ro.SubscribeTraceRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
+import rebue.kdi.svc.KdiSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
+import rebue.kdi.to.SubscribeTraceTo;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
 @Service
@@ -80,6 +84,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
     @Resource
     private Mapper              dozerMapper;
+    
+    @Resource
+    private KdiSvc           	kdiSvc;
 
     /**
      * 获取新的ID
@@ -194,7 +201,18 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
             return -1;
         }
         _log.info("录入订单成功, {}", now);
-        return 1;
+        _log.info("订阅订单物流轨迹");
+		SubscribeTraceTo subscribeTraceTo = dozerMapper.map(kdiLogisticMo, SubscribeTraceTo.class);
+		_log.info("订阅订单物流轨迹参数为: {}", subscribeTraceTo);
+		SubscribeTraceRo subscribeTraceRo = kdiSvc.subscribeTrace(subscribeTraceTo);
+		if (SubscribeTraceResultDic.SUCCESS == subscribeTraceRo.getResult()) {
+			_log.info("订阅订单物流轨迹成功" + kdiLogisticMo.getOrderId());
+		} else if (SubscribeTraceResultDic.PARAM_ERROR == subscribeTraceRo.getResult()) {
+			_log.info("订阅订单物流轨迹参数错误" + kdiLogisticMo.getOrderId());
+		} else {
+			_log.info("订阅订单物流轨迹失败" + kdiLogisticMo.getOrderId());
+		}
+		return 1;
     }
 
     /**

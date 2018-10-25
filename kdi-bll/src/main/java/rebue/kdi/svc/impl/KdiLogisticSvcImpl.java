@@ -182,7 +182,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
             return -1;
         }
         KdiLogisticMo kdiLogisticMo = dozerMapper.map(mo, KdiLogisticMo.class);
+        KdiCompanyMo kdiCompanyResultMO = kdiCompanySvc.getById(kdiLogisticMo.getShipperId());
         Date now = new Date();
+        kdiLogisticMo.setShipperName(kdiCompanyResultMO.getCompanyName());
         kdiLogisticMo.setOrderId(_idWorker.getId());
         kdiLogisticMo.setOrderTime(now);
         kdiLogisticMo.setUpdateTime(now);

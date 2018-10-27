@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.KdiCompanyRo;
 import rebue.kdi.ro.KdiLogisticRo;
@@ -193,6 +194,22 @@ public class KdiLogisticCtrl {
             return ro;
         }
     }
+    
+    
+	/**
+	 * 查询发件人信息
+	 * 
+	 * @param mo
+	 * @return
+	 */
+	@GetMapping("/kdi/logistic/list")
+	List<KdiLogisticMo> KdiLogisticList(@RequestBody KdiLogisticMo mo) {
+		_log.info("查询物流信息的参数为: {}", mo);
+		List<KdiLogisticMo> list = svc.list(mo);
+		_log.info("查询物流信息的返回值为: {}", String.valueOf(list));
+		return list;
+	}
+
     
 
 }

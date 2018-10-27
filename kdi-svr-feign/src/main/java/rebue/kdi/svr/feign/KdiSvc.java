@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rebue.kdi.mo.KdiCompanyMo;
+import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
@@ -88,6 +89,14 @@ public interface KdiSvc {
      */
     @PostMapping("/kdi/logistic/entry")
     KdiLogisticRo entryLogistics(@RequestBody AddKdiLogisticTo to);
+    
+    /**
+     * 获取不分页的物流信息
+     * @param mo
+     * @return
+     */
+	@GetMapping("/kdi/logistic/list")
+	List<KdiLogisticMo> KdiLogisticList(@RequestBody KdiLogisticMo mo);
 	
 	
 }

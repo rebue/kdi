@@ -1,11 +1,20 @@
 package rebue.kdi.to;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
 /**
  * 订阅物流轨迹接口的参数类型
  * 
  * @author zbz
  *
  */
+@Data
 public class SubscribeTraceTo {
     /**
      * 快递公司编码
@@ -96,174 +105,44 @@ public class SubscribeTraceTo {
      * (为 EMS、YZPY 时必填)
      */
     private String  receiverPostCode;
+    
+    /**
+     * 快递公司ID 
+     */
+    private Long    shipperId;
+    
+    /**
+     *    组织id
+     */
+    private Long orgId;
 
-    public String getShipperCode() {
-        return shipperCode;
-    }
+    /**
+     *    录入类型  1:手动  2:自动
+     */
+    private Byte entryType;
+    
+    /**
+     * 快递公司名称
+     */
+    private String  shipperName;
+    
+    /**
+     *    下单时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date orderTime;
 
-    public void setShipperCode(String shipperCode) {
-        this.shipperCode = shipperCode;
-    }
-
-    public String getLogisticCode() {
-        return logisticCode;
-    }
-
-    public void setLogisticCode(String logisticCode) {
-        this.logisticCode = logisticCode;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Boolean getIsNotice() {
-        return isNotice;
-    }
-
-    public void setIsNotice(Boolean isNotice) {
-        this.isNotice = isNotice;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public String getSenderTel() {
-        return senderTel;
-    }
-
-    public void setSenderTel(String senderTel) {
-        this.senderTel = senderTel;
-    }
-
-    public String getSenderMobile() {
-        return senderMobile;
-    }
-
-    public void setSenderMobile(String senderMobile) {
-        this.senderMobile = senderMobile;
-    }
-
-    public String getSenderProvince() {
-        return senderProvince;
-    }
-
-    public void setSenderProvince(String senderProvince) {
-        this.senderProvince = senderProvince;
-    }
-
-    public String getSenderCity() {
-        return senderCity;
-    }
-
-    public void setSenderCity(String senderCity) {
-        this.senderCity = senderCity;
-    }
-
-    public String getSenderExpArea() {
-        return senderExpArea;
-    }
-
-    public void setSenderExpArea(String senderExpArea) {
-        this.senderExpArea = senderExpArea;
-    }
-
-    public String getSenderAddress() {
-        return senderAddress;
-    }
-
-    public void setSenderAddress(String senderAddress) {
-        this.senderAddress = senderAddress;
-    }
-
-    public String getSenderPostCode() {
-        return senderPostCode;
-    }
-
-    public void setSenderPostCode(String senderPostCode) {
-        this.senderPostCode = senderPostCode;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public String getReceiverTel() {
-        return receiverTel;
-    }
-
-    public void setReceiverTel(String receiverTel) {
-        this.receiverTel = receiverTel;
-    }
-
-    public String getReceiverMobile() {
-        return receiverMobile;
-    }
-
-    public void setReceiverMobile(String receiverMobile) {
-        this.receiverMobile = receiverMobile;
-    }
-
-    public String getReceiverProvince() {
-        return receiverProvince;
-    }
-
-    public void setReceiverProvince(String receiverProvince) {
-        this.receiverProvince = receiverProvince;
-    }
-
-    public String getReceiverCity() {
-        return receiverCity;
-    }
-
-    public void setReceiverCity(String receiverCity) {
-        this.receiverCity = receiverCity;
-    }
-
-    public String getReceiverExpArea() {
-        return receiverExpArea;
-    }
-
-    public void setReceiverExpArea(String receiverExpArea) {
-        this.receiverExpArea = receiverExpArea;
-    }
-
-    public String getReceiverAddress() {
-        return receiverAddress;
-    }
-
-    public void setReceiverAddress(String receiverAddress) {
-        this.receiverAddress = receiverAddress;
-    }
-
-    public String getReceiverPostCode() {
-        return receiverPostCode;
-    }
-
-    public void setReceiverPostCode(String receiverPostCode) {
-        this.receiverPostCode = receiverPostCode;
-    }
-
-    @Override
-    public String toString() {
-        return "SubscribeTraceTo [shipperCode=" + shipperCode + ", logisticCode=" + logisticCode + ", orderId=" + orderId + ", isNotice=" + isNotice + ", senderName=" + senderName
-                + ", senderTel=" + senderTel + ", senderMobile=" + senderMobile + ", senderProvince=" + senderProvince + ", senderCity=" + senderCity + ", senderExpArea="
-                + senderExpArea + ", senderAddress=" + senderAddress + ", senderPostCode=" + senderPostCode + ", receiverName=" + receiverName + ", receiverTel=" + receiverTel
-                + ", receiverMobile=" + receiverMobile + ", receiverProvince=" + receiverProvince + ", receiverCity=" + receiverCity + ", receiverExpArea=" + receiverExpArea
-                + ", receiverAddress=" + receiverAddress + ", receiverPostCode=" + receiverPostCode + "]";
-    }
+    /**
+     *    更新时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
+    
+    /**
+     * 定单标题
+     */
+    private String orderTitle;
 
 }

@@ -195,11 +195,11 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
         kdiLogisticMo.setOrderId(_idWorker.getId());
         kdiLogisticMo.setOrderTime(now);
         kdiLogisticMo.setUpdateTime(now);
-        _log.info("录入订单的请求参数为: {}", mo);
-        int result = add(kdiLogisticMo);
-        if (result != 1) {
-            return -1;
-        }
+//        _log.info("录入订单的请求参数为: {}", mo);
+//        int result = add(kdiLogisticMo);
+//        if (result != 1) {
+//            return -1;
+//        }
         _log.info("录入订单成功, {}", now);
         _log.info("订阅订单物流轨迹");
 		SubscribeTraceTo subscribeTraceTo = dozerMapper.map(kdiLogisticMo, SubscribeTraceTo.class);

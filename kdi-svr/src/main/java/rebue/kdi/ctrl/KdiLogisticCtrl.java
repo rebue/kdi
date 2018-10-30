@@ -1,4 +1,5 @@
 package rebue.kdi.ctrl;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -11,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 
-import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
-import rebue.kdi.mo.KdiSenderMo;
+import rebue.kdi.mo.KdiTraceMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
-import rebue.kdi.ro.KdiCompanyRo;
 import rebue.kdi.ro.KdiLogisticRo;
+import rebue.kdi.ro.LogisticsAndTraceRo;
 import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
@@ -203,11 +203,26 @@ public class KdiLogisticCtrl {
 	 * @return
 	 */
 	@GetMapping("/kdi/logistic/list")
-	List<KdiLogisticMo> KdiLogisticList(@RequestBody KdiLogisticMo mo) {
+	List<LogisticsAndTraceRo> KdiLogisticList(KdiLogisticMo mo) {
+		List<LogisticsAndTraceRo> result=new ArrayList<LogisticsAndTraceRo>();
 		_log.info("查询物流信息的参数为: {}", mo);
-		List<KdiLogisticMo> list = svc.list(mo);
-		_log.info("查询物流信息的返回值为: {}", String.valueOf(list));
-		return list;
+		List<KdiLogisticMo> kdiLogisticMo = svc.list(mo);
+		_log.info("查询物流信息的返回值为: {}", kdiLogisticMo);
+		if(kdiLogisticMo !=null && kdiLogisticMo.size()>0 ) {
+			LogisticsAndTraceRo logisticsAndTraceRo =new LogisticsAndTraceRo();
+			logisticsAndTraceRo.setLogisticCode(kdiLogisticMo.get(0).getLogisticCode());
+			logisticsAndTraceRo.setShipperName(kdiLogisticMo.get(0).getShipperName());
+			KdiTraceMo kdiTracemo=new KdiTraceMo();
+			kdiTracemo.setLogisticId(kdiLogisticMo.get(0).getId());
+			_log.info("查询物流轨迹信息的参数为: {}", kdiTracemo);
+			List<KdiTraceMo> KdiTraceList =traceSvc.list(kdiTracemo);
+			_log.info("查询物流信息的返回值为: {}", KdiTraceList);
+			if(KdiTraceList !=null && KdiTraceList.size()>0 ) {
+				logisticsAndTraceRo.setKdiTrace(KdiTraceList);
+			}
+			result.add(logisticsAndTraceRo);
+		}
+		return result;
 	}
 
     

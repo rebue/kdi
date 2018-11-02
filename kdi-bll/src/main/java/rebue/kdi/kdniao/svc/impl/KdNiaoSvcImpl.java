@@ -218,16 +218,16 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			ro.setResult(EOrderResultDic.PARAM_ERROR);
 			return ro;
 		}
-		_log.info("检查是否重复的订单号");
-		KdiLogisticMo condition = new KdiLogisticMo();
-		condition.setOrderId(to.getOrderId());
-		if (logisticSvc.existSelective(condition)) {
-			String msg = "重复下单: {}" + to.getOrderId();
-			_log.warn(msg);
-			ro.setResult(EOrderResultDic.REPEAT);
-			ro.setFailReason(msg);
-			return ro;
-		}
+//		_log.info("检查是否重复的订单号");
+//		KdiLogisticMo condition = new KdiLogisticMo();
+//		condition.setOrderId(to.getOrderId());
+//		if (logisticSvc.existSelective(condition)) {
+//			String msg = "重复下单: {}" + to.getOrderId();
+//			_log.warn(msg);
+//			ro.setResult(EOrderResultDic.REPEAT);
+//			ro.setFailReason(msg);
+//			return ro;
+//		}
 		// 根据快递公司id获取选中的快递公司编码
 		_log.info("查询快递公司账号密码");
 		KdiCompanyMo kdiMo = new KdiCompanyMo();

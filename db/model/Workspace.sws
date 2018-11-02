@@ -4,7 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{1468FFA2-0692-4582-B0A8-F975E0E82CE7}" Name="kdi" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="kdi.pdm"/>
+		<Model Expanded="Yes" ID="{9DF240A7-E05A-4C62-A083-0959328C98DE}" Name="kdi" Type="{5F45F978-C4F3-4E35-A3FC-AF3318663A0F}" URL="kdi.ldm"/>
+		<Model Expanded="Yes" ID="{0F16D89E-4120-4B21-ABCF-2BCA4B988B70}" Name="kdi" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="kdi.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

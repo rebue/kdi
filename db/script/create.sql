@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/10/22 15:11:41                          */
+/* Created on:     2018/11/2 10:49:17                           */
 /*==============================================================*/
 
 
@@ -91,8 +91,7 @@ create table KDI_LOGISTIC
    ORG_ID               bigint not null comment '组织id',
    ENTRY_TYPE           tinyint not null comment '录入类型  1:手动  2:自动',
    primary key (ID),
-   key AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE),
-   unique key AK_ORDER_ID (ORDER_ID)
+   unique key AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE, ORDER_ID)
 );
 
 alter table KDI_LOGISTIC comment '物流订单';

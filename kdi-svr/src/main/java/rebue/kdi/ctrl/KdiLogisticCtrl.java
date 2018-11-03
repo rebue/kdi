@@ -197,7 +197,7 @@ public class KdiLogisticCtrl {
     
     
 	/**
-	 * 查询发件人信息
+	 * 查询物流信息和物流轨迹
 	 * 
 	 * @param mo
 	 * @return
@@ -206,22 +206,43 @@ public class KdiLogisticCtrl {
 	List<LogisticsAndTraceRo> KdiLogisticList(KdiLogisticMo mo) {
 		List<LogisticsAndTraceRo> result=new ArrayList<LogisticsAndTraceRo>();
 		_log.info("查询物流信息的参数为: {}", mo);
-		List<KdiLogisticMo> kdiLogisticMo = svc.list(mo);
-		_log.info("查询物流信息的返回值为: {}", kdiLogisticMo);
-		if(kdiLogisticMo !=null && kdiLogisticMo.size()>0 ) {
-			LogisticsAndTraceRo logisticsAndTraceRo =new LogisticsAndTraceRo();
-			logisticsAndTraceRo.setLogisticCode(kdiLogisticMo.get(0).getLogisticCode());
-			logisticsAndTraceRo.setShipperName(kdiLogisticMo.get(0).getShipperName());
-			KdiTraceMo kdiTracemo=new KdiTraceMo();
-			kdiTracemo.setLogisticId(kdiLogisticMo.get(0).getId());
-			_log.info("查询物流轨迹信息的参数为: {}", kdiTracemo);
-			List<KdiTraceMo> KdiTraceList =traceSvc.list(kdiTracemo);
-			_log.info("查询物流信息的返回值为: {}", KdiTraceList);
-			if(KdiTraceList !=null && KdiTraceList.size()>0 ) {
-				logisticsAndTraceRo.setKdiTrace(KdiTraceList);
+		//区分页面是开始进去页面使用orderId查询还是后面的点击使用id查询
+		if(mo.getOrderId()==null) {
+			KdiLogisticMo kdiLogisticMo = svc.getById(mo.getId());
+			_log.info("查询物流信息的返回值为: {}", kdiLogisticMo);
+			if(kdiLogisticMo !=null  ) {
+				List<KdiLogisticMo> klm=new ArrayList<KdiLogisticMo>();
+				klm.add(kdiLogisticMo);
+				LogisticsAndTraceRo logisticsAndTraceRo =new LogisticsAndTraceRo();
+				logisticsAndTraceRo.setKdiLogistic(klm);
+				KdiTraceMo kdiTracemo=new KdiTraceMo();
+				kdiTracemo.setLogisticId(kdiLogisticMo.getId());
+				_log.info("查询物流轨迹信息的参数为: {}", kdiTracemo);
+				List<KdiTraceMo> KdiTraceList =traceSvc.list(kdiTracemo);
+				_log.info("查询物流信息的返回值为: {}", KdiTraceList);
+				if(KdiTraceList !=null && KdiTraceList.size()>0 ) {
+					logisticsAndTraceRo.setKdiTrace(KdiTraceList);
+				}
+				result.add(logisticsAndTraceRo);
 			}
-			result.add(logisticsAndTraceRo);
+		}else {
+			List<KdiLogisticMo> kdiLogisticMo = svc.list(mo);
+			_log.info("查询物流信息的返回值为: {}", kdiLogisticMo);
+			if(kdiLogisticMo !=null && kdiLogisticMo.size()>0 ) {
+				LogisticsAndTraceRo logisticsAndTraceRo =new LogisticsAndTraceRo();
+				logisticsAndTraceRo.setKdiLogistic(kdiLogisticMo);
+				KdiTraceMo kdiTracemo=new KdiTraceMo();
+				kdiTracemo.setLogisticId(kdiLogisticMo.get(0).getId());
+				_log.info("查询物流轨迹信息的参数为: {}", kdiTracemo);
+				List<KdiTraceMo> KdiTraceList =traceSvc.list(kdiTracemo);
+				_log.info("查询物流信息的返回值为: {}", KdiTraceList);
+				if(KdiTraceList !=null && KdiTraceList.size()>0 ) {
+					logisticsAndTraceRo.setKdiTrace(KdiTraceList);
+				}
+				result.add(logisticsAndTraceRo);
+			}
 		}
+
 		return result;
 	}
 

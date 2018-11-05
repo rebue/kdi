@@ -105,20 +105,20 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 	 * 识别快递单号的url
 	 */
 	private final static String IDENTIFY_ORDER_CODE_URL = "https://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx";
-	private final static String IDENTIFY_ORDER_CODE_URL_SANDBOX = "http://testapi.kdniao.cc:8081/Ebusiness/EbusinessOrderHandle.aspx";
+	private final static String IDENTIFY_ORDER_CODE_URL_SANDBOX = "http://testapi.kdniao.com:8081/Ebusiness/EbusinessOrderHandle.aspx";
 
 	/**
 	 * 电子面单的url
 	 */
-	private final static String EORDER_URL = "http://api.kdniao.cc/api/EOrderService";
-	private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.cc:8081/api/eorderservice";
+	private final static String EORDER_URL = "http://api.kdniao.com/api/EOrderService";
+	private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/eorderservice";
 	// private final static String EORDER_URL_SANDBOX =
-	// "http://sandboxapi.kdniao.cc:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
+	// "http://sandboxapi.kdniao.com:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
 	/**
 	 * 订阅物流轨迹的url
 	 */
 	private final static String SUBCRIBE_TRACE_URL = "https://api.kdniao.com/api/dist";
-	private final static String SUBCRIBE_TRACE_URL_SANDBOX = "http://testapi.kdniao.cc:8081/api/dist";
+	private final static String SUBCRIBE_TRACE_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/dist";
 
 	/**
 	 * 识别快递单号

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/11/2 10:49:17                           */
+/* Created on:     2018/11/8 12:31:44                           */
 /*==============================================================*/
 
 
@@ -140,3 +140,4 @@ alter table KDI_TRACE comment '物流轨迹';
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;
+

@@ -3,6 +3,7 @@ package rebue.kdi.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ReportOrderCountRo;
@@ -100,4 +101,11 @@ public interface KdiLogisticMapper extends MybatisBaseMapper<KdiLogisticMo, Long
      * 获取打印页面
      */
     List<KdiLogisticMo> getPrintPageByOrderId(KdiLogisticMo mo);
+    
+    /**
+     * 根据收件人手机号码查询收件人信息
+     * @param receiverMobile
+     * @return
+     */
+    KdiLogisticMo selectReceiverByReceiverMobile(@Param("receiverMobile") String receiverMobile);
 }

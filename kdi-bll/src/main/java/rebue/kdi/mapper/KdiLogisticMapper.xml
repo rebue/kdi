@@ -852,4 +852,11 @@
 		</where>
 
 	</select>
+	
+	<!-- 根据收件人手机号码查询收件人信息 -->
+	<select id="selectReceiverByReceiverMobile" parameterType="String" resultMap="BaseResultMap">
+		SELECT RECEIVER_NAME, RECEIVER_TEL, RECEIVER_MOBILE, RECEIVER_PROVINCE,
+		RECEIVER_CITY, RECEIVER_EXP_AREA, RECEIVER_ADDRESS, RECEIVER_POST_CODE
+		FROM kdi.KDI_LOGISTIC WHERE RECEIVER_MOBILE LIKE '%${receiverMobile}%' ORDER BY ORDER_TIME DESC LIMIT 1;
+	</select>
 </mapper>

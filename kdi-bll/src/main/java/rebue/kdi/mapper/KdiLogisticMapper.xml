@@ -825,7 +825,7 @@
 			</if>
 			<!-- and LOGISTIC_STATUS !=0 -->
 		</where>
-		ORDER BY ORDER_TIME DESC
+		and LOGISTIC_STATUS != -1  ORDER BY ORDER_TIME DESC
 	</select>
 	<select id="reportOrderCountInPeriod" parameterType="rebue.kdi.to.OrderCountReportTo" resultType="rebue.kdi.ro.ReportOrderCountRo">
 		<!-- 统计本组织一段时间内的下单量 -->

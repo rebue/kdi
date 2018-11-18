@@ -197,7 +197,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		KdiCompanyMo kdiCompanyResultMO = kdiCompanySvc.getById(kdiLogisticMo.getShipperId());
 		Date now = new Date();
 		kdiLogisticMo.setShipperName(kdiCompanyResultMO.getCompanyName());
-		kdiLogisticMo.setOrderId(_idWorker.getId());
+		if(mo.getOrderId()==null) {
+			kdiLogisticMo.setOrderId(_idWorker.getId());	
+		}
 		kdiLogisticMo.setOrderTime(now);
 		kdiLogisticMo.setUpdateTime(now);
 		_log.info("订阅订单物流轨迹并添加物流单");

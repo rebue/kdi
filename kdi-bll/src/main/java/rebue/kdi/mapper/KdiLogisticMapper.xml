@@ -799,7 +799,7 @@
 
 			</if>
 			<if test="receiverName != null and receiverName != ''">
-				and RECEIVER_NAME LIKE #{receiverName,jdbcType=VARCHAR}
+				and RECEIVER_NAME LIKE #{receiverName,jdbcType=VARCHAR} OR ORDER_TITLE LIKE '%${receiverName}%'
 			</if>
 			<if test="receiverMobile != null and receiverMobile != ''">
 				and RECEIVER_TEL = #{receiverMobile,jdbcType=VARCHAR} or

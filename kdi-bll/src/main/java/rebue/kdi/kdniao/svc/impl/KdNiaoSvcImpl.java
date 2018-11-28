@@ -208,7 +208,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		EOrderRo ro = new EOrderRo();
 		_log.info("检验参数是否正确");
 		if (to.getOrderId() == null || to.getOrgId() == null
-				|| StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(),
+				|| StringUtils.isAnyBlank(to.getShipperCode(),to.getOrderDetail() ,to.getOrderTitle(), to.getSenderName(),
 						to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
 						to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
 						to.getReceiverAddress())
@@ -218,16 +218,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 			ro.setResult(EOrderResultDic.PARAM_ERROR);
 			return ro;
 		}
-//		_log.info("检查是否重复的订单号");
-//		KdiLogisticMo condition = new KdiLogisticMo();
-//		condition.setOrderId(to.getOrderId());
-//		if (logisticSvc.existSelective(condition)) {
-//			String msg = "重复下单: {}" + to.getOrderId();
-//			_log.warn(msg);
-//			ro.setResult(EOrderResultDic.REPEAT);
-//			ro.setFailReason(msg);
-//			return ro;
-//		}
+
 		// 根据快递公司id获取选中的快递公司编码
 		_log.info("查询快递公司账号密码");
 		KdiCompanyMo kdiMo = new KdiCompanyMo();
@@ -245,7 +236,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 		to.setCustomerName(mo.getCompanyAccount());
 		to.setCustomerPwd(mo.getCompanyPwd());
 		to.setPayType(mo.getPayType());
-		to.setOrderRemark(to.getOrderTitle());
+//		to.setOrderRemark(to.getOrderTitle());
+		to.setOrderRemark(to.getOrderDetail());
 		to.setShipperName(mo.getCompanyName());
 		to.setShipperCode(mo.getCompanyCode());
 		// to.setMonthCode(mo.getMonthCode());
@@ -391,7 +383,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 				}
 
 				// 替换备注内容。
-				String goodName = "<div class=\"b f11\">" + to.getOrderTitle() + "</div> <div ";
+			//	String goodName = "<div class=\"b f11\">" + to.getOrderTitle() + "</div> <div "; 徐亚明注释
+				String goodName = "<div class=\"b f11\">" + to.getOrderDetail() + "</div> <div ";
 				printPage = printPage.replaceAll("<div class=\"b f11\"> 需要替换的标题</div>", goodName);
 				_log.info("替换后的paga是: {}", printPage);
 

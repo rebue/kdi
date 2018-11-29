@@ -510,6 +510,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 					// 添加新的物流订单
 					KdiLogisticMo logisticMo = dozerMapper.map(to, KdiLogisticMo.class);
 					logisticMo.setUpdateTime(new Date());
+					logisticMo.setId(to.getLogisticId());
+					_log.info("添加新的物流参数为:{}",logisticMo);
 					logisticSvc.add(logisticMo);
 				} catch (DuplicateKeyException e) {
 					String failReason = "订阅成功，但是该物流公司已经存在相同的物流单号";

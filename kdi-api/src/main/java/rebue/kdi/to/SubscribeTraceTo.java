@@ -16,6 +16,11 @@ import lombok.Data;
  */
 @Data
 public class SubscribeTraceTo {
+	
+	/**
+	 * 快递Id
+	 */
+    private Long    logisticId;
     /**
      * 快递公司编码
      */

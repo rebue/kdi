@@ -19,6 +19,11 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 @Data
 public class AddKdiLogisticTo {
+	
+	/**
+	 * 物流id
+	 */
+	private Long  Id ;
 
 	/**
 	 * 快递公司编码

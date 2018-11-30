@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +51,7 @@ import rebue.kdi.to.SubscribeTraceTo;
 import rebue.wheel.HttpClientUtils;
 import rebue.wheel.MapUtils;
 import rebue.wheel.OkhttpUtils;
+import rebue.wheel.idworker.IdWorker3;
 
 @Service
 /**
@@ -75,6 +77,16 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     private String              _ebusinessid;
     @Value("${kdi.kdniao.apikey}")
     private String              _apikey;
+    
+    @Value("${appid:0}")
+    private int                 _appid;
+
+    protected IdWorker3         _idWorker;
+
+    @PostConstruct
+    public void init() {
+        _idWorker = new IdWorker3(_appid);
+    }
 
     /**
      * 读取yml配置文件中的属性
@@ -276,8 +288,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             // 是否返回打印页面
             final String isReturnPrintPage = "1";
             requestData += "\"IsReturnPrintTemplate\":\"" + isReturnPrintPage + "\","; // 是否返回打印页面(0-不需要，1-需要)
-            // 订单ID
-            requestData += "\"OrderCode\":\"" + to.getOrderId() + "\","; // 订单编号(自定义，不可重复)
+            // 订单编号，原先是orderId，但是线上的快递鸟需要唯一性，不能重复打印相同的订单所以改为随机生成。
+            requestData += "\"OrderCode\":\"" + _idWorker.getId() + "\","; // 订单编号(自定义，不可重复)
             // 商品名称
             requestData += "\"Commodity\":[{";
             // requestData += "\"GoodsName\":\"" + to.getOrderTitle() + "\""; // 商品名称

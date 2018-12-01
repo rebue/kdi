@@ -222,7 +222,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         final EOrderRo ro = new EOrderRo();
         _log.info("检验参数是否正确");
         if (to.getOrderId() == null || to.getOrgId() == null
-                || StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderDetail(), to.getOrderTitle(), to.getSenderName(), to.getSenderProvince(), to.getSenderCity(),
+                || StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(), to.getSenderProvince(), to.getSenderCity(),
                         to.getSenderExpArea(), to.getSenderAddress(), to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
                         to.getReceiverAddress())
                 || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile()) || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
@@ -230,7 +230,9 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             ro.setResult(EOrderResultDic.PARAM_ERROR);
             return ro;
         }
-
+        if(to.getOrderDetail() ==null) {
+        	to.setOrderDetail(to.getOrderTitle());	
+        }	
         // 根据快递公司id获取选中的快递公司编码
         _log.info("查询快递公司账号密码");
         final KdiCompanyMo kdiMo = new KdiCompanyMo();

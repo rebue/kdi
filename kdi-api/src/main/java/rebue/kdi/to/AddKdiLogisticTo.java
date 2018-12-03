@@ -23,7 +23,7 @@ public class AddKdiLogisticTo {
 	/**
 	 * 物流id
 	 */
-	private Long  Id ;
+	private Long  logisticId ;
 
 	/**
 	 * 快递公司编码

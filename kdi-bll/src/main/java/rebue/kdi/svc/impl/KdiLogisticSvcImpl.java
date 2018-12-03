@@ -200,7 +200,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 
         _log.info("订阅订单物流轨迹并添加物流单");
         final SubscribeTraceTo subscribeTraceTo = dozerMapper.map(kdiLogisticMo, SubscribeTraceTo.class);
-        subscribeTraceTo.setLogisticId(mo.getId());
+        subscribeTraceTo.setLogisticId(mo.getLogisticId());
         _log.info("订阅订单物流轨迹参数为: {}", subscribeTraceTo);
         final SubscribeTraceRo subscribeTraceRo = kdiSvc.subscribeTrace(subscribeTraceTo);
         if (SubscribeTraceResultDic.SUCCESS == subscribeTraceRo.getResult()) {

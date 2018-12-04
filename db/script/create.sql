@@ -1,10 +1,12 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/11/8 12:31:44                           */
+/* Created on:     2018/12/4 12:35:42                           */
 /*==============================================================*/
 
 
 drop table if exists KDI_COMPANY;
+
+drop table if exists KDI_COMPANY_DIC;
 
 drop table if exists KDI_LOGISTIC;
 
@@ -18,10 +20,9 @@ drop table if exists KDI_TRACE;
 create table KDI_COMPANY
 (
    ID                   bigint not null comment '快递公司信息ID',
-   COMPANY_NAME         varchar(50) not null comment '快递公司名称',
+   COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
    COMPANY_ACCOUNT      varchar(50) not null comment '快递公司账号',
    COMPANY_PWD          varchar(50) not null comment '快递公司密码',
-   COMPANY_CODE         varchar(50) not null comment '快递公司编号',
    PAY_TYPE             tinyint not null comment '支付类型
             运费支付方式:
             1-现付
@@ -37,6 +38,19 @@ create table KDI_COMPANY
 );
 
 alter table KDI_COMPANY comment '快递公司信息';
+
+/*==============================================================*/
+/* Table: KDI_COMPANY_DIC                                       */
+/*==============================================================*/
+create table KDI_COMPANY_DIC
+(
+   ID                   bigint not null comment '快递公司信息ID',
+   COMPANY_NAME         varchar(50) not null comment '快递公司名称',
+   COMPANY_CODE         varchar(50) not null comment '快递公司编号',
+   primary key (ID)
+);
+
+alter table KDI_COMPANY_DIC comment '快递公司字典';
 
 /*==============================================================*/
 /* Table: KDI_LOGISTIC                                          */
@@ -137,6 +151,9 @@ create table KDI_TRACE
 );
 
 alter table KDI_TRACE comment '物流轨迹';
+
+alter table KDI_COMPANY add constraint FK_Relationship_2 foreign key (COMPANY_DIC_ID)
+      references KDI_COMPANY_DIC (ID) on delete restrict on update restrict;
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;

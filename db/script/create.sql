@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/12/4 12:35:42                           */
+/* Created on:     2018/12/4 17:08:19                           */
 /*==============================================================*/
 
 
@@ -21,8 +21,8 @@ create table KDI_COMPANY
 (
    ID                   bigint not null comment '快递公司信息ID',
    COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
-   COMPANY_ACCOUNT      varchar(50) not null comment '快递公司账号',
-   COMPANY_PWD          varchar(50) not null comment '快递公司密码',
+   COMPANY_ACCOUNT      varchar(50) comment '快递公司账号',
+   COMPANY_PWD          varchar(50) comment '快递公司密码',
    PAY_TYPE             tinyint not null comment '支付类型
             运费支付方式:
             1-现付
@@ -67,7 +67,8 @@ create table KDI_LOGISTIC
             1-已揽收
             2-在途中 201-到达派件城市 202-派件中 211-已放入快递柜或驿站
             3-已签收 311-已取出快递柜或驿站
-            4-问题件 401-发货无信息 402-超时未签收 403-超时未更新 404-拒收(退件) 412-快递柜或驿站超时未取',
+            4-问题件 401-发货无信息 402-超时未签收 403-超时未更新 404-拒收(退件) 412-快递柜或驿站超时未取
+            -1-作废',
    ORDER_TIME           datetime not null comment '下单时间',
    UPDATE_TIME          datetime not null comment '更新时间',
    ESTIMATED_ARRIVAL_TIME datetime comment '预计到达时间',
@@ -157,4 +158,3 @@ alter table KDI_COMPANY add constraint FK_Relationship_2 foreign key (COMPANY_DI
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;
-

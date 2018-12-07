@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import rebue.kdi.mapper.KdiCompanyMapper;
 import rebue.kdi.mo.KdiCompanyMo;
+import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
@@ -43,16 +44,16 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
         mo.setEntryTime(new Date());
         _log.info("添加快递公司的参数为: {}", mo);
         int result = super.add(mo);
-        if(result==1) {
-        	KdiCompanyMo pm=new KdiCompanyMo();
-        	pm.setOrgId(mo.getOrgId());
+        if (result == 1) {
+            KdiCompanyMo pm = new KdiCompanyMo();
+            pm.setOrgId(mo.getOrgId());
             _log.info("查询是否只有一个快递公司的参数为: {}", pm);
-        	List<KdiCompanyMo> count=super.list(pm);
+            List<KdiCompanyMo> count = super.list(pm);
             _log.info("查询是否只有一个快递公司的结果数量为: {}", count.size());
-        	if(count.size()==1) {
-        		int j=_mapper.setDefaultCompany(mo);
+            if (count.size() == 1) {
+                int j = _mapper.setDefaultCompany(mo);
                 _log.info("添加快递公司后将该快递公司设置为默认的结果为: {}", j);
-        	}
+            }
         }
         _log.info("添加快递公司的返回值为: {}", result);
         return result;
@@ -71,8 +72,8 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
      *  根据快递公司信息查询快递公司
      */
     @Override
-    public List<KdiCompanyMo> selectKdiCompanyInfo(KdiCompanyMo mo) {
-        return _mapper.selectSelective(mo);
+    public List<CompanyRo> selectKdiCompanyInfo(KdiCompanyMo mo) {
+        return _mapper.selectCompanyInfo(mo);
     }
 
     /**
@@ -85,12 +86,12 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
         int i = _mapper.setDefaultCompany(mo);
         _log.info("设置为默认快递公司的返回值为: {}", i);
         if (i == 1) {
-        	KdiCompanyMo pm=new KdiCompanyMo();
-        	pm.setOrgId(mo.getOrgId());
+            KdiCompanyMo pm = new KdiCompanyMo();
+            pm.setOrgId(mo.getOrgId());
             _log.info("查询是否只有一个快递公司的参数: {}", pm);
             List<KdiCompanyMo> result = super.list(pm);
             _log.info("查询是否只有一个快递公司的返回值长度是: {}", result.size());
-            if(result.size()>1) {
+            if (result.size() > 1) {
                 int j = _mapper.setCompany(mo);
                 if (j >= 1) {
                     i = 1;
@@ -98,10 +99,22 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
                     i = -1;
                     throw new RuntimeException("修改失败");
                 }
-            }else {
+            } else {
                 i = 1;
             }
         }
         return i;
     }
+    
+    /**
+     * 获取单个快递公司包括连查快递公司名字和编码。
+     */
+	@Override
+	public CompanyRo getOneCompanyById(Long id) {
+        _log.info("获取单个快递公司和快递公司名字和编码的参数为: {}", id);
+        CompanyRo result=_mapper.getOneCompanyByPrimaryKey(id);
+        _log.info("获取单个快递公司和快递公司名字和编码的结果为: {}", result);
+        return result;
+		
+	}
 }

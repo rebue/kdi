@@ -23,6 +23,7 @@ import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
+import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.ReportOrderCountRo;
@@ -141,7 +142,7 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
             return kdiLogisticRo;
         }
         // 根据快递公司id获取快递公司信息
-        final KdiCompanyMo companyMo = kdiCompanySvc.getById(mo.getShipperId());
+        final CompanyRo companyMo = kdiCompanySvc.getOneCompanyById(mo.getShipperId());
         mo.setSenderName(senderList.get(0).getSenderName());
         mo.setSenderTel(senderList.get(0).getSenderTel());
         mo.setSenderMobile(senderList.get(0).getSenderMobile());
@@ -189,9 +190,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
             return -1;
         }
         final KdiLogisticMo kdiLogisticMo = dozerMapper.map(mo, KdiLogisticMo.class);
-        final KdiCompanyMo kdiCompanyResultMO = kdiCompanySvc.getById(kdiLogisticMo.getShipperId());
+        final CompanyRo kdiCompanyResultRo = kdiCompanySvc.getOneCompanyById(kdiLogisticMo.getShipperId());
         final Date now = new Date();
-        kdiLogisticMo.setShipperName(kdiCompanyResultMO.getCompanyName());
+        kdiLogisticMo.setShipperName(kdiCompanyResultRo.getCompanyName());
         if (mo.getOrderId() == null) {
             kdiLogisticMo.setOrderId(_idWorker.getId());
         }

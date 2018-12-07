@@ -37,6 +37,7 @@ import rebue.kdi.kdniao.util.KdNiaoSignUtils;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiTraceMo;
+import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
 import rebue.kdi.ro.LogisticRo;
@@ -238,7 +239,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         final KdiCompanyMo kdiMo = new KdiCompanyMo();
         _log.info("查询快递公司信息的参数为: {}", to.getShipperId());
         kdiMo.setId(to.getShipperId());
-        final KdiCompanyMo mo = kdiCompanySvc.getById(to.getShipperId());
+        final CompanyRo mo = kdiCompanySvc.getOneCompanyById(to.getShipperId());
 
         if (mo == null) {
             _log.info("快递公司在数据库中不存在");

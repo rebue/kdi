@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import rebue.kdi.mo.KdiCompanyMo;
+import rebue.kdi.ro.CompanyRo;
 import rebue.robotech.mapper.MybatisBaseMapper;
 
 @Mapper
@@ -80,4 +81,15 @@ public interface KdiCompanyMapper extends MybatisBaseMapper<KdiCompanyMo, Long> 
      *  @return
      */
     int setCompany(KdiCompanyMo record);
+    /**
+     * 获取单个快递公司信息，包括连表获取快递公司名字和快递公司编码
+     * @param mo
+     * @return
+     */
+    CompanyRo	getOneCompanyByPrimaryKey(Long id);
+    
+    /**
+     *   
+     */
+    List<CompanyRo> selectCompanyInfo(KdiCompanyMo record);
 }

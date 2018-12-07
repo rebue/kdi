@@ -27,13 +27,13 @@ public class KdiCompanyMo implements Serializable {
     private Long id;
 
     /**
-     *    快递公司名称
+     *    快递公司字典ID
      *
-     *    数据库字段: KDI_COMPANY.COMPANY_NAME
+     *    数据库字段: KDI_COMPANY.COMPANY_DIC_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    private String companyName;
+    private Long companyDicId;
 
     /**
      *    快递公司账号
@@ -52,15 +52,6 @@ public class KdiCompanyMo implements Serializable {
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     private String companyPwd;
-
-    /**
-     *    快递公司编号
-     *
-     *    数据库字段: KDI_COMPANY.COMPANY_CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private String companyCode;
 
     /**
      *    支付类型
@@ -88,6 +79,24 @@ public class KdiCompanyMo implements Serializable {
     private Date entryTime;
 
     /**
+     *    组织ID
+     *
+     *    数据库字段: KDI_COMPANY.ORG_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Long orgId;
+
+    /**
+     *    是否为默认公司（true：默认  false：不是默认）
+     *
+     *    数据库字段: KDI_COMPANY.IS_DEFAULT
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Boolean isDefault;
+
+    /**
      *    月结账号
      *
      *    数据库字段: KDI_COMPANY.MONTH_CODE
@@ -97,31 +106,13 @@ public class KdiCompanyMo implements Serializable {
     private String monthCode;
 
     /**
-     *    网点名称
+     *    网点
      *
      *    数据库字段: KDI_COMPANY.SEND_SITE
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     private String sendSite;
-
-    /**
-     *    是否默认
-     *
-     *    数据库字段: KDI_COMPANY.IS_DEFAULT
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Boolean isDefault;
-
-    /**
-     *    组织id
-     *
-     *    数据库字段: KDI_COMPANY.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    private Long orgId;
 
     /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
@@ -151,25 +142,25 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
-     *    快递公司名称
+     *    快递公司字典ID
      *
-     *    数据库字段: KDI_COMPANY.COMPANY_NAME
+     *    数据库字段: KDI_COMPANY.COMPANY_DIC_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public String getCompanyName() {
-        return companyName;
+    public Long getCompanyDicId() {
+        return companyDicId;
     }
 
     /**
-     *    快递公司名称
+     *    快递公司字典ID
      *
-     *    数据库字段: KDI_COMPANY.COMPANY_NAME
+     *    数据库字段: KDI_COMPANY.COMPANY_DIC_ID
      *
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompanyDicId(Long companyDicId) {
+        this.companyDicId = companyDicId;
     }
 
     /**
@@ -214,28 +205,6 @@ public class KdiCompanyMo implements Serializable {
      */
     public void setCompanyPwd(String companyPwd) {
         this.companyPwd = companyPwd;
-    }
-
-    /**
-     *    快递公司编号
-     *
-     *    数据库字段: KDI_COMPANY.COMPANY_CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    /**
-     *    快递公司编号
-     *
-     *    数据库字段: KDI_COMPANY.COMPANY_CODE
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
     }
 
     /**
@@ -293,6 +262,50 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
+     *    组织ID
+     *
+     *    数据库字段: KDI_COMPANY.ORG_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    /**
+     *    组织ID
+     *
+     *    数据库字段: KDI_COMPANY.ORG_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
+
+    /**
+     *    是否为默认公司（true：默认  false：不是默认）
+     *
+     *    数据库字段: KDI_COMPANY.IS_DEFAULT
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    /**
+     *    是否为默认公司（true：默认  false：不是默认）
+     *
+     *    数据库字段: KDI_COMPANY.IS_DEFAULT
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    /**
      *    月结账号
      *
      *    数据库字段: KDI_COMPANY.MONTH_CODE
@@ -315,7 +328,7 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
-     *    网点名称
+     *    网点
      *
      *    数据库字段: KDI_COMPANY.SEND_SITE
      *
@@ -326,7 +339,7 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
-     *    网点名称
+     *    网点
      *
      *    数据库字段: KDI_COMPANY.SEND_SITE
      *
@@ -334,50 +347,6 @@ public class KdiCompanyMo implements Serializable {
      */
     public void setSendSite(String sendSite) {
         this.sendSite = sendSite;
-    }
-
-    /**
-     *    是否默认
-     *
-     *    数据库字段: KDI_COMPANY.IS_DEFAULT
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
-
-    /**
-     *    是否默认
-     *
-     *    数据库字段: KDI_COMPANY.IS_DEFAULT
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-
-    /**
-     *    组织id
-     *
-     *    数据库字段: KDI_COMPANY.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public Long getOrgId() {
-        return orgId;
-    }
-
-    /**
-     *    组织id
-     *
-     *    数据库字段: KDI_COMPANY.ORG_ID
-     *
-     *    @mbg.generated 自动生成，如需修改，请删除本行
-     */
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
     }
 
     /**
@@ -390,16 +359,15 @@ public class KdiCompanyMo implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", companyName=").append(companyName);
+        sb.append(", companyDicId=").append(companyDicId);
         sb.append(", companyAccount=").append(companyAccount);
         sb.append(", companyPwd=").append(companyPwd);
-        sb.append(", companyCode=").append(companyCode);
         sb.append(", payType=").append(payType);
         sb.append(", entryTime=").append(entryTime);
+        sb.append(", orgId=").append(orgId);
+        sb.append(", isDefault=").append(isDefault);
         sb.append(", monthCode=").append(monthCode);
         sb.append(", sendSite=").append(sendSite);
-        sb.append(", isDefault=").append(isDefault);
-        sb.append(", orgId=").append(orgId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

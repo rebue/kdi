@@ -1,62 +1,81 @@
 package rebue.kdi.ctrl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import rebue.kdi.mo.KdiCompanyMo;
-import rebue.kdi.svc.KdiCompanySvc;
+import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.KdiCompanyRo;
+import rebue.kdi.svc.KdiCompanySvc;
 
 /**
  * 快递公司
  * @author lbl
- *  
- *
  */
+@Api(tags = "快递公司信息")
 @RestController
 public class KdiCompanyCtrl {
 
-	private final static Logger _log = LoggerFactory.getLogger(KdiManageCtrl.class);
-	
-	@Resource
-	private KdiCompanySvc svc;
-	
-	/**
-	 * 查询所有快递公司信息
-	 * 更新备注：原来的路径是/kdi/company/alllist，为了迎合新系统的格式将alllist去掉
-	 * 
-	 * @return
-	 */
-	@GetMapping("/kdi/company")
-	List<KdiCompanyMo> kdiCompanyList( KdiCompanyMo mo) {
-		_log.info("开始查询快递公司信息");
-		List<KdiCompanyMo> list = svc.selectKdiCompanyInfo(mo);
-		_log.info("查询到的快递公司信息为: " + String.valueOf(list));
-		return list;
-	}
-	
-	/**
-	 * 查询所有快递公司名称和编码
-	 * @return
-	 */
-	@GetMapping("/kdi/company/companynameandcode")
-	List<KdiCompanyMo> selectKdiCompanyNameAndCode() {
-		_log.info("开始查询快递公司名称和编码");
-		return svc.selectKdiCompanyNameAndCode();
-	}
-	
+
+
+    /**
+     * @mbg.generated
+     */
+    @ApiOperation("获取单个快递公司信息")
+    @ApiImplicitParam(name = "id", value = "要获取快递公司信息的id", dataType = "long", paramType = "path", required = true)
+    @GetMapping("/kdi/company/{id}")
+    @ResponseBody
+    KdiCompanyMo get(@PathVariable("id") java.lang.Long id) {
+        _log.info("get KdiCompanyMo by id: " + id);
+        KdiCompanyMo result = svc.getById(id);
+        _log.info("get: " + result);
+        return result;
+    }
+
+    private static final Logger _log = LoggerFactory.getLogger(KdiManageCtrl.class);
+
+    @Resource
+    private KdiCompanySvc svc;
+
+    /**
+     *  查询所有快递公司信息
+     *  更新备注：原来的路径是/kdi/company/alllist，为了迎合新系统的格式将alllist去掉
+     *
+     *  @return
+     */
+    @GetMapping("/kdi/company")
+    List<CompanyRo> kdiCompanyList(KdiCompanyMo mo) {
+        _log.info("开始查询快递公司信息");
+        List<CompanyRo> list = svc.selectKdiCompanyInfo(mo);
+        _log.info("查询到的快递公司信息为: " + String.valueOf(list));
+        return list;
+    }
+
+    /**
+     *  查询所有快递公司名称和编码
+     *  @return
+     */
+    @GetMapping("/kdi/company/companynameandcode")
+    List<KdiCompanyMo> selectKdiCompanyNameAndCode() {
+        _log.info("开始查询快递公司名称和编码");
+        return svc.selectKdiCompanyNameAndCode();
+    }
+
     /**
      * 添加快递公司信息
      *  更新备注：原来的路径是/kdi/company/add，为了迎合新系统的格式将add去掉
-     * 
      */
     @PostMapping("/kdi/company")
     KdiCompanyRo add(@RequestBody KdiCompanyMo mo) throws Exception {
@@ -80,8 +99,6 @@ public class KdiCompanyCtrl {
 
     /**
      * 修改快递公司信息
-     *
-     * 
      */
     @PutMapping("/kdi/company")
     KdiCompanyRo modify(@RequestBody KdiCompanyMo mo) throws Exception {
@@ -101,13 +118,10 @@ public class KdiCompanyCtrl {
             ro.setResult((byte) -1);
             return ro;
         }
-
     }
 
     /**
      * 删除快递公司信息
-     *
-     * 
      */
     @DeleteMapping("/kdi/company")
     KdiCompanyRo del(@RequestParam("id") java.lang.Long id) {
@@ -131,13 +145,11 @@ public class KdiCompanyCtrl {
 
     /**
      * 获取单个快递公司信息
-     *
-     *
      */
     @GetMapping("/kdi/company/getbyid")
     KdiCompanyRo getById(@RequestParam("id") java.lang.Long id) {
-        _log.info("get KdiCompanyMo by id: " + id);
-        KdiCompanyMo result = svc.getById(id);
+        _log.info("get getOneCompanyById: " + id);
+        CompanyRo result = svc.getOneCompanyById(id);
         _log.info("get: " + result);
         KdiCompanyRo ro = new KdiCompanyRo();
         if (result == null) {
@@ -155,11 +167,9 @@ public class KdiCompanyCtrl {
             return ro;
         }
     }
-    
+
     /**
-     * 
      *设置为默认快递公司
-     * 
      */
     @PutMapping("/kdi/company/default")
     KdiCompanyRo modifyDefuteCompany(@RequestBody KdiCompanyMo mo) throws Exception {
@@ -179,7 +189,5 @@ public class KdiCompanyCtrl {
             ro.setResult((byte) -1);
             return ro;
         }
-	
     }
-    
 }

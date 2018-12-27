@@ -10,6 +10,7 @@ app.properties
 *.cdb
 *.ldb
 *.pdb
+*.pjb
 ._*
 pom.xml.versionsBackup
 deploy-*.sh

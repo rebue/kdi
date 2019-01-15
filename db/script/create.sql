@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/12/4 17:08:19                           */
+/* Created on:     2019/1/15 16:27:48                           */
 /*==============================================================*/
 
 
@@ -23,7 +23,7 @@ create table KDI_COMPANY
    COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
    COMPANY_ACCOUNT      varchar(50) comment '快递公司账号',
    COMPANY_PWD          varchar(50) comment '快递公司密码',
-   PAY_TYPE             tinyint not null comment '支付类型
+   PAY_TYPE             tinyint comment '支付类型
             运费支付方式:
             1-现付
             2-到付
@@ -106,7 +106,7 @@ create table KDI_LOGISTIC
    ORG_ID               bigint not null comment '组织id',
    ENTRY_TYPE           tinyint not null comment '录入类型  1:手动  2:自动',
    primary key (ID),
-   unique key AK_SHIPPER_LOGISTIC_CODE (SHIPPER_ID, LOGISTIC_CODE, ORDER_ID)
+   unique key AK_SHIPPER_ID_LOGISTIC_CODE_ORDER_ID (SHIPPER_ID, LOGISTIC_CODE, ORDER_ID)
 );
 
 alter table KDI_LOGISTIC comment '物流订单';

@@ -229,6 +229,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile()) || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
             _log.warn("没有填写必要的参数:{}", to);
             ro.setResult(EOrderResultDic.PARAM_ERROR);
+            ro.setMsg("没有填写必要的参数");
             return ro;
         }
         if(to.getOrderDetail() ==null) {
@@ -245,6 +246,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             _log.info("快递公司在数据库中不存在");
             ro.setResult(EOrderResultDic.FAILT);
             ro.setFailReason("快递公司不存在");
+            ro.setMsg("快递公司不存在");
             return ro;
         }
         _log.info("查询到快递公司信息为: {}", mo);
@@ -258,7 +260,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         // to.setMonthCode(mo.getMonthCode());
         // to.setSendsite(sendsite);
 
-        _log.info("组织要传递的参数");
+        _log.info("组织要传递的参数 requestMap-{}",to);
         final Map<String, Object> requestMap = new LinkedHashMap<>();
         try {
             // 应用级参数
@@ -415,6 +417,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 ro.setLogisticCode(logisticCode);
                 // ro.setPrintPage(URLEncoder.encode(printPage, "UTF-8"));
                 ro.setPrintPage(printPage);
+                ro.setMsg("请求成功");
                 return ro;
             } else {
                 // 取出请求失败的原因
@@ -423,10 +426,12 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 _log.warn("电子面单的请求返回失败：{}-{}", resultCode, failReason);
                 ro.setResult(EOrderResultDic.FAILT);
                 ro.setFailReason(resultCode + "-" + failReason);
+                ro.setMsg("请求失败");
                 return ro;
             }
         } catch (final IOException e) {
             _log.error("请求快递鸟API服务器失败", e);
+            ro.setMsg("请求快递鸟API服务器失败");
             ro.setResult(EOrderResultDic.FAILT);
             ro.setFailReason("请求快递鸟API服务器失败:" + e.getMessage());
             return ro;
@@ -435,6 +440,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             _log.warn(msg);
             ro.setResult(EOrderResultDic.REPEAT);
             ro.setFailReason(msg);
+            ro.setMsg("重复下单");
             return ro;
         }
     }

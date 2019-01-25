@@ -1,8 +1,10 @@
 package rebue.kdi.ro;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
 import rebue.kdi.dic.EOrderResultDic;
 
 /**
@@ -12,11 +14,15 @@ import rebue.kdi.dic.EOrderResultDic;
  *
  */
 @JsonInclude(Include.NON_NULL)
+@Data
 public class EOrderRo {
     /**
      * 返回结果
      */
     private EOrderResultDic result;
+    
+    
+    private String msg;
 
     /**
      * 物流订单ID
@@ -41,50 +47,6 @@ public class EOrderRo {
      */
     private String          failReason;
 
-    public EOrderResultDic getResult() {
-        return result;
-    }
 
-    public void setResult(EOrderResultDic result) {
-        this.result = result;
-    }
-
-    public Long getLogisticId() {
-        return logisticId;
-    }
-
-    public void setLogisticId(Long logisticId) {
-        this.logisticId = logisticId;
-    }
-
-    public String getLogisticCode() {
-        return logisticCode;
-    }
-
-    public void setLogisticCode(String logisticCode) {
-        this.logisticCode = logisticCode;
-    }
-
-    public String getPrintPage() {
-        return printPage;
-    }
-
-    public void setPrintPage(String printPage) {
-        this.printPage = printPage;
-    }
-
-    public String getFailReason() {
-        return failReason;
-    }
-
-    public void setFailReason(String failReason) {
-        this.failReason = failReason;
-    }
-
-    @Override
-    public String toString() {
-        return "EOrderRo [result=" + result + ", logisticId=" + logisticId + ", logisticCode=" + logisticCode
-                + ", printPage=" + printPage + ", failReason=" + failReason + "]";
-    }
-
+	
 }

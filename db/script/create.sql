@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/1/15 16:27:48                           */
+/* Created on:     2019/1/30 10:13:36                           */
 /*==============================================================*/
 
 
@@ -12,6 +12,10 @@ drop table if exists KDI_LOGISTIC;
 
 drop table if exists KDI_SENDER;
 
+drop table if exists KDI_TEMPLATE;
+
+drop table if exists KDI_TEMPLATE_DIC;
+
 drop table if exists KDI_TRACE;
 
 /*==============================================================*/
@@ -19,7 +23,7 @@ drop table if exists KDI_TRACE;
 /*==============================================================*/
 create table KDI_COMPANY
 (
-   ID                   bigint not null comment '快递公司信息ID',
+   ID                   bigint not null comment '快递公司ID',
    COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
    COMPANY_ACCOUNT      varchar(50) comment '快递公司账号',
    COMPANY_PWD          varchar(50) comment '快递公司密码',
@@ -134,6 +138,36 @@ create table KDI_SENDER
 alter table KDI_SENDER comment '发件人信息';
 
 /*==============================================================*/
+/* Table: KDI_TEMPLATE                                          */
+/*==============================================================*/
+create table KDI_TEMPLATE
+(
+   ID                   bigint not null comment '模板ID',
+   COMPANY_ID           bigint not null comment '快递公司ID',
+   TEMPLATE_DIC_ID      bigint not null comment '模板字典ID',
+   IS_DEFAULT           bool not null comment '是否默认',
+   primary key (ID)
+);
+
+alter table KDI_TEMPLATE comment '电子面单模板';
+
+/*==============================================================*/
+/* Table: KDI_TEMPLATE_DIC                                      */
+/*==============================================================*/
+create table KDI_TEMPLATE_DIC
+(
+   ID                   bigint not null comment '模板字典ID',
+   COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
+   NAME                 varchar(20) not null comment '模板名称',
+   IMG_PATH             varchar(100) not null comment '模板图片路径',
+   PATH                 varchar(100) not null comment '模板路径',
+   REMARK               varchar(50),
+   primary key (ID)
+);
+
+alter table KDI_TEMPLATE_DIC comment '模板字典';
+
+/*==============================================================*/
 /* Table: KDI_TRACE                                             */
 /*==============================================================*/
 create table KDI_TRACE
@@ -154,6 +188,15 @@ create table KDI_TRACE
 alter table KDI_TRACE comment '物流轨迹';
 
 alter table KDI_COMPANY add constraint FK_Relationship_2 foreign key (COMPANY_DIC_ID)
+      references KDI_COMPANY_DIC (ID) on delete restrict on update restrict;
+
+alter table KDI_TEMPLATE add constraint FK_Relationship_3 foreign key (COMPANY_ID)
+      references KDI_COMPANY (ID) on delete restrict on update restrict;
+
+alter table KDI_TEMPLATE add constraint FK_Relationship_5 foreign key (TEMPLATE_DIC_ID)
+      references KDI_TEMPLATE_DIC (ID) on delete restrict on update restrict;
+
+alter table KDI_TEMPLATE_DIC add constraint FK_Relationship_4 foreign key (COMPANY_DIC_ID)
       references KDI_COMPANY_DIC (ID) on delete restrict on update restrict;
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)

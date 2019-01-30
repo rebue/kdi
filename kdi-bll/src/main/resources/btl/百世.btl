@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--100*180,110-->
+<head>
+    <title>${name}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .print_paper {
+            font-size: 14px;
+            border: none;
+            border-collapse: collapse;
+            width: 450px;
+            margin-top: -1px;
+            table-layout: fixed;
+        }
+
+            .print_paper td {
+                border: solid #000 1px;
+                overflow: hidden;
+            }
+
+            .print_paper div {
+                overflow: hidden;
+            }
+
+
+            .print_paper .xx10 {
+                font-size: 10px;
+            }
+
+
+        .no_border td {
+            border: none;
+            vertical-align: top;
+        }
+
+        .print_paper .pt5 {
+            padding-top: 5px;
+        }
+
+        .fhei {
+            font-family: 'SimHei';
+        }
+
+        .fst {
+            font-family: 'SimSun';
+        }
+
+        .far {
+            font-family: airal;
+        }
+
+        .fmy {
+            font-family: "Microsoft YaHei";
+        }
+
+        .f48 {
+            font-size: 48pt;
+        }
+
+        .f40 {
+            font-size: 40pt;
+        }
+
+        .f36 {
+            font-size: 36pt;
+        }
+
+        .f32 {
+            font-size: 32pt;
+        }
+
+        .f30 {
+            font-size: 30pt;
+        }
+
+        .f28 {
+            font-size: 28pt;
+        }
+
+        .f24 {
+            font-size: 24pt;
+        }
+
+        .f20 {
+            font-size: 20pt;
+        }
+
+        .f18 {
+            font-size: 18pt;
+        }
+
+        .f17 {
+            font-size: 17pt;
+        }
+
+        .f16 {
+            font-size: 16pt;
+        }
+
+        .f15 {
+            font-size: 15pt;
+        }
+
+        .f14 {
+            font-size: 14pt;
+        }
+
+        .f13 {
+            font-size: 13pt;
+        }
+
+        .f12 {
+            font-size: 12pt;
+        }
+
+        .f10 {
+            font-size: 10pt;
+        }
+
+        .f9 {
+            font-size: 9pt;
+        }
+
+        .f8 {
+            font-size: 8pt;
+        }
+
+        .f7 {
+            font-size: 7pt;
+        }
+
+        .f6 {
+            font-size: 6pt;
+        }
+
+        .f5 {
+            font-size: 5pt;
+        }
+
+        .b {
+            font-weight: bold;
+        }
+
+        .tc {
+            text-align: center;
+        }
+
+        .vt {
+            vertical-align: top;
+        }
+
+        .print_paper .bln {
+            border-left: none;
+        }
+
+        .print_paper .brn {
+            border-right: none;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pl5 {
+            padding-left: 5px;
+        }
+
+        .pl10 {
+            padding-left: 10px;
+        }
+
+        .pl20 {
+            padding-left: 20px;
+        }
+
+        .pr10 {
+            padding-right: 10px;
+        }
+
+        .pl30 {
+            padding-left: 30px;
+        }
+
+        .pl80 {
+            padding-left: 80px;
+        }
+
+        .lh16 {
+            line-height: 16px;
+        }
+
+        .pp-bn td {
+            border: none;
+        }
+
+        .t-bn td {
+            border: none;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pl5 {
+            padding-left: 5px;
+        }
+
+        .pl20 {
+            padding-left: 20px;
+        }
+
+        .mb-3 {
+            margin-bottom: -3px;
+        }
+
+        .rel {
+            position: relative;
+        }
+
+        .abs {
+            position: absolute;
+        }
+    </style>
+</head>
+<body class="fhei">
+    <table class="print_paper ">
+        <tr height="36">
+            <td class="brn">
+                <img height="28" alt="logo" src="data:image/png;base64,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" class="logo">
+            </td>
+            <td width="130" class="tc f17 bln lh16">
+                标准快件
+                <div class="f7">精彩生活·快递欢乐</div>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="56">
+            <td class="f18 b pl10">
+                <div style="height: 55px;font-size:25pt;">
+                    闽-泉州(闽-1)
+                    <span class="pl10 far">
+                        000-00-00
+                    </span>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="37">
+            <td class="b f18 pl5">泉州</td>
+        </tr>
+    </table>
+    <table class="print_paper">
+        <tr height="75">
+            <td width="18" style="text-align:center; padding:0;">收<br />件</td>
+            <td class="b f11">
+                <div style="height: 74px;">
+                    嘟嘟  <span class="far">15999934130</span> <br />
+                    福建省 泉州市 鲤城区花巷许厝埕19号圣家公寓
+                </div>
+            </td>
+            <td width="1" rowspan="2" class="xx10 vt">
+                <div class="f12 tc" style="border-bottom:1px solid #000;line-height: 20px;">服务</div>
+                <div class="f6 pl5 pt5" style="line-height: 14px;">
+                </div>
+            </td>
+        </tr>
+        <tr height="70">
+            <td style="text-align:center; padding:0;">寄<br />件</td>
+            <td class="b f11">
+                <div style="height: 43px;">
+                    徐亚明 <span class="far">18278904219</span>  <br />
+                    广西壮族自治区 南宁市 江南区 微薄利科技有限公司
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="90">
+            <td class="tc f18 b" style="line-height: 1;letter-spacing: 8px;">
+                <img class="mb-3" width="370" height="56" src="data:image/gif;base64,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" alt="" />
+                <br />50005508209262
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper" height="100">
+        <tr>
+            <td width="257" class="f7">快件送达收件人地址，经收件人或收件人（寄件人）允许的代收人签字，视为送达，您的签字代表您已验收此包裹，并以确定商品信息信息无误，包装完好，没有划痕，破损等。</td>
+            <td>签收人：<br /><br />时间：</td>
+            <td width="1" class="tc"><img width="60" height="60" src="" alt="" /></td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="55">
+            <td class="brn" width="203">
+                <img height="33" alt="logo" src="data:image/png;base64,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" class="logo">
+            </td>
+            <td class="bln tc f12 b lh16">
+                <img class="mb-3" width="250" height="30" src="data:image/gif;base64,R0lGODlhsAAeAPcAAAAAAAAAMwAAZgAAmQAAzAAA/wArAAArMwArZgArmQArzAAr/wBVAABVMwBVZgBVmQBVzABV/wCAAACAMwCAZgCAmQCAzACA/wCqAACqMwCqZgCqmQCqzACq/wDVAADVMwDVZgDVmQDVzADV/wD/AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMrADMrMzMrZjMrmTMrzDMr/zNVADNVMzNVZjNVmTNVzDNV/zOAADOAMzOAZjOAmTOAzDOA/zOqADOqMzOqZjOqmTOqzDOq/zPVADPVMzPVZjPVmTPVzDPV/zP/ADP/MzP/ZjP/mTP/zDP//2YAAGYAM2YAZmYAmWYAzGYA/2YrAGYrM2YrZmYrmWYrzGYr/2ZVAGZVM2ZVZmZVmWZVzGZV/2aAAGaAM2aAZmaAmWaAzGaA/2aqAGaqM2aqZmaqmWaqzGaq/2bVAGbVM2bVZmbVmWbVzGbV/2b/AGb/M2b/Zmb/mWb/zGb//5kAAJkAM5kAZpkAmZkAzJkA/5krAJkrM5krZpkrmZkrzJkr/5lVAJlVM5lVZplVmZlVzJlV/5mAAJmAM5mAZpmAmZmAzJmA/5mqAJmqM5mqZpmqmZmqzJmq/5nVAJnVM5nVZpnVmZnVzJnV/5n/AJn/M5n/Zpn/mZn/zJn//8wAAMwAM8wAZswAmcwAzMwA/8wrAMwrM8wrZswrmcwrzMwr/8xVAMxVM8xVZsxVmcxVzMxV/8yAAMyAM8yAZsyAmcyAzMyA/8yqAMyqM8yqZsyqmcyqzMyq/8zVAMzVM8zVZszVmczVzMzV/8z/AMz/M8z/Zsz/mcz/zMz///8AAP8AM/8AZv8Amf8AzP8A//8rAP8rM/8rZv8rmf8rzP8r//9VAP9VM/9VZv9Vmf9VzP9V//+AAP+AM/+AZv+Amf+AzP+A//+qAP+qM/+qZv+qmf+qzP+q///VAP/VM//VZv/Vmf/VzP/V////AP//M///Zv//mf//zP///wAAAAAAAAAAAAAAACH5BAEAAPwALAAAAACwAB4AAAj/APcJHEiwoMGDBAEA2LeQoUKBDyE6XPgwosWKAzFCbMiR40aKDCc2FJkxJMWKCk9mxBgRocuXMGPG1JhyY8maKG1ODGlzpEWdHUGebJnSp8mdRR2uFDpSptOnUFfyrKlUIk6VVXFK9ekx68ejST8aZToUK9KqUdOqRUjz4s2cbs/2lDq1q9ayS8eaRJnzq9m1gNe27fhWZVytc4EqPotX7M29eImybBq48tPBOiErPaxxM13CdYWSdGxVc1LJTC2rvgxyJ9qhm0Ej9rz4J+PRuEVf7cuY8urfBjG/Ror1YmvaXpPfzU0VLHHed30Dn06bKlHiWYPyRG67O0vm18mS/0S9l7r5rV+HX83uF31tu9/D5gbL12z08+eFh4cru7N/+BLdJt+A9EXGVWr4UaffWPwB9d923gW43IDN6Vbfa5MlqGBr1jFoWH/HPViXhPFVWGGB4x1YnobALVhYbA6GKCOJJFqIml6wnabiXyxa5qJVDWY3I1c0hlbggTg+Z1+GPa72o2nFaUckkSMaSRaSj+W4XnstNVnZk1qyJxd3AFoJGZalaQkdk15+yWFcUIo5m4iycQlekrstiWCbgYGJHWdDfvaejWg6lyeGe/Ip2JugxQkohDNWKeWZeWWpJKIrKrqokeoFaRykoEpqJ4XhQblmoppG5ed6j04pqHIl3pZo6aHk8Zgqa5zu92GMoFJZp4AmlqqmnpneCtWqnk6aGKw1HllpmpfWipaxuGrX6a5C9vqqd4Q+a+iF0nZJrUzIYvupq+81e6W3Nqa4VLHjzsRoZmG26h6zZjY2n3g6vmtrvC6VC2O26OI7qb4E8rtlbwA7JXBf594bYb53zgrujtM2HPC81w4c8bITH1wxtLRiLO5vAQEAOw==" alt="" />
+                <br />50005508209262
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper">
+        <tr height="55">
+            <td width="18" style="text-align:center; padding:0;">收<br />件</td>
+            <td class="b f11">
+                嘟嘟 15999934130 <br />
+                福建省 泉州市 鲤城区 花巷许厝埕19号圣家公寓
+            </td>
+            <td width="77" class="tc f9" rowspan="2">
+                <img width="60" height="60" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFIAAABSCAIAAABIThTMAAAeD0lEQVR4AeXbY5wm17YH4I5t3PAkE9u2bdu2jUl+E9vWjW3btjWTG9vmfd73X727prpnJicfz6kP1bt2rbX28lp719uD/fXXXx3/fdfg/30ityQeMmIfdthhjz/++CBVsNBCC+20007nnHPOjTfeGOCzzz572GGH3WKLLX788ceBoK+//vqrrLLKYIMNxrn23HPPN95448ILL/S43nrrBWveeefdbbfdbr75ZgTNDD744GguvvjiRx111GOPPWZmmGGGOfLIIyeaaCJjROBm4O46/fTTb7/99owHcp9uuun69OkDoBKbzNdff/3QQw89xBBD9Ij2559//vLLLyOPPLK3r7322h133BGwn3/+GYs33XTTd999VxDNIBXOfv/9999++23OOef09tdffzW+7777nnzySWMAFg0WeIO+ffuaGWqooTwutthiP/zww6OPPnrDDTeQeYQRRvj888/HGmssWgb5008/JTyHHHJIwM8///zA+f/jjz+s+PXXX2e5SmwPkHffffc55pgjLxr3119/fY899sjkBhtsMP/882c8xhhj4KABPMMMM+y7776RhBFOPfXUAJx88sn33nvvm2++2YBvPHKBFVdc8eGHH15nnXWefvppWujdu/cUU0xxwgknfPXVVxdffDFR11xzzWAtvfTSW2+9dcb77LPPzDPP3KCWxxdffDF2zmOX2OxM5uWXX54YdFOQ2YSmxxxzzDLDVVzm6ZtBXFE8AHYebrjhxh9//AUXXBAWy3zxxRcjjjhiVPDqq68yNTAzsFAwsFZDcZNOOqloYmQ+D5ipCeM69NBDaZ+/QAwdbwG75+JTSyyxhHDjm51zHeTCkoUoq0x2jTKFg1122YVuCgSEW265pTw2Bizz0UcfFb4nn3zyE0888f33319ttdVmm222I444gjVuu+22xCRv2mijjUJhk002oaxbb72VJJtttlmd7FlnnUVgDp9JzinsudXee+89zjjjCDRio+ktCmbquGY448cff1wmucnxxx9fHjNoik33ZH7kkUcK3CijjFKMmUmGEtLm6e+tt94itjHEb7/9lo6oPPMYgvg/7YtemB3ro48+etyEVN5ONdVUUkZZK4P/a19lEti7777LvccbbzwyJPtAtEpyTYE0APzMM88g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" alt="" />
+                <br />商家二维码
+            </td>
+        </tr>
+        <tr height="55">
+            <td style="text-align:center; padding:0;">寄<br />件</td>
+            <td class="b f11">
+                徐亚明 18278904219 <br />
+                广西壮族自治区 南宁市 江南区 微薄利科技有限公司
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="90">
+            <td class="vt pl5 f9 rel">
+                <div class="b f11">中桂七一件10斤</div> <div 
+                <div class="abs" style="top: 72px;right: 5px;">已检视</div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

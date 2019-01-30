@@ -12,6 +12,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.rebue.mbgx</groupId>
+			<artifactId>mbgx</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.github.rebue.kdi</groupId>
 			<artifactId>kdi-api</artifactId>
 		</dependency>

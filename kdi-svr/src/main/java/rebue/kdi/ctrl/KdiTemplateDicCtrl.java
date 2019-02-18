@@ -1,11 +1,9 @@
 package rebue.kdi.ctrl;
-
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import rebue.kdi.mo.KdiTemplateDicMo;
@@ -83,24 +80,16 @@ public class KdiTemplateDicCtrl {
         return result;
     }
 
+
+    
     /**
-     * @mbg.generated
+     * 根据条件查询电子面单模板
      */
-    @ApiOperation("查询模板字典")
-    @ApiImplicitParams({ // 
-    @ApiImplicitParam(name = "pageNum", value = "查询第几页", dataType = "int", paramType = "query", required = true), @ApiImplicitParam(name = "pageSize", value = "分页记录数", dataType = "int", paramType = "query", required = true) })
+    @ApiOperation("根据条件查询电子面单模板")
     @GetMapping("/kdi/templatedic")
-    @ResponseBody
-    PageInfo<KdiTemplateDicMo> list(KdiTemplateDicMo qo, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
-        _log.info("list KdiTemplateDicMo:" + qo + ", pageNum = " + pageNum + ", pageSize = " + pageSize);
-        if (pageSize > 50) {
-            String msg = "pageSize不能大于50";
-            _log.error(msg);
-            throw new IllegalArgumentException(msg);
-        }
-        PageInfo<KdiTemplateDicMo> result = svc.list(qo, pageNum, pageSize);
-        _log.info("result: " + result);
-        return result;
+    List<KdiTemplateDicMo> list(KdiTemplateDicMo qo) {
+        _log.info("list KdiTemplateDicMo " + qo);
+        return svc.list(qo);
     }
 
     /**

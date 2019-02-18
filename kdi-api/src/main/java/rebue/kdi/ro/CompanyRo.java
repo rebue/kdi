@@ -87,5 +87,25 @@ public class CompanyRo {
      * 快递公司编号
     */
     private String companyCode;
+    
+    /**
+     * 模板id
+     */
+    private  long templateId ;
+    
+    /**
+     * 模板名字
+     */
+    private String templateName;
+    
+    /**
+     * 模板图片路径
+     */
+   private String templateImgPath;
+   
+   /**
+    * 模板字典id
+    */
+   private Long templateDicId;
 
 }

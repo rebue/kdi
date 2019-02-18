@@ -277,14 +277,54 @@
   <select id="selectCompanyInfo" parameterType="rebue.kdi.mo.KdiCompanyMo" resultType="rebue.kdi.ro.CompanyRo" >
     <!--
 		根据组织Id,可以在需要的时候加其他参数，但是组织Id为必须
-    -->
-    select 
-		a.ID as id,a.COMPANY_ACCOUNT as  companyAccount, a.COMPANY_PWD as companyPwd,
-		a.PAY_TYPE as payType ,a.ENTRY_TIME as entryTime, a.ORG_ID as orgId ,a.IS_DEFAULT as isDefault,
-		a.MONTH_CODE as monthCode ,a.SEND_SITE as sendSite,b.COMPANY_NAME companyName,b.COMPANY_CODE  as companyCode
-    from KDI_COMPANY a ,KDI_COMPANY_DIC b
-     where 
-         a.COMPANY_DIC_ID =b.ID and a.ORG_ID = #{orgId,jdbcType=BIGINT}
+    -->       
+	SELECT 
+	    c.companyId AS id,
+	    c.companyName,
+	    c.companyAccount,
+	    c.companyPwd,
+	    c.payType,
+	    c.entryTime,
+	    c.orgId,
+	    c.isDefault,
+	    c.monthCode,
+	    c.companyCode,
+	    c.companyDicId,
+	    d.templateId,
+	    d.templateName,
+   	    d.templateImgPath,
+   	    d.templateDicId
+	FROM
+	    (SELECT 
+	        a.ID AS companyId,
+	            a.COMPANY_ACCOUNT AS companyAccount,
+	            a.COMPANY_PWD AS companyPwd,
+	            a.PAY_TYPE AS payType,
+	            a.ENTRY_TIME AS entryTime,
+	            a.ORG_ID AS orgId,
+	            a.IS_DEFAULT AS isDefault,
+	            a.MONTH_CODE AS monthCode,
+	            a.SEND_SITE AS sendSite,
+	            b.COMPANY_NAME companyName,
+	            b.COMPANY_CODE AS companyCode,
+	            b.ID AS companyDicId
+	    FROM
+	        KDI_COMPANY a, KDI_COMPANY_DIC b
+	    WHERE
+	        a.COMPANY_DIC_ID = b.ID and a.ORG_ID = #{orgId,jdbcType=BIGINT}
+	    GROUP BY a.id) c
+	        LEFT JOIN
+	    (SELECT 
+	        a.ID AS templateId,
+	            a.COMPANY_ID AS companyId,
+	            b.NAME AS templateName,
+	            b.ID As templateDicId,
+           	    b.IMG_PATH as  templateImgPath
+	    FROM
+	        KDI_TEMPLATE a, KDI_TEMPLATE_DIC b
+	    WHERE
+	        a.TEMPLATE_DIC_ID = b.id
+	    GROUP BY a.ID) d ON c.companyId = d.companyId;
   </select>
   
     <update id="setDefaultCompany" parameterType="rebue.kdi.mo.KdiCompanyMo">

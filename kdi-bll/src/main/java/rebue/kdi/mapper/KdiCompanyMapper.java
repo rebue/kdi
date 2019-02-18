@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Select;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.robotech.mapper.MybatisBaseMapper;
-
 @Mapper
 public interface KdiCompanyMapper extends MybatisBaseMapper<KdiCompanyMo, Long> {
 

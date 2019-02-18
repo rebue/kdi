@@ -1,7 +1,7 @@
 package rebue.kdi.svc.impl;
-
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import rebue.kdi.mapper.KdiCompanyMapper;
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
+import rebue.kdi.svc.KdiTemplateDicSvc;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
 @Service
@@ -29,7 +30,12 @@ import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lang.Long, KdiCompanyMapper> implements KdiCompanySvc {
 
     private static final Logger _log = LoggerFactory.getLogger(KdiCompanySvcImpl.class);
-
+    
+    /**
+     * @mbg.generated
+     */
+    @Resource
+    private KdiTemplateDicSvc kdiTemplateDicSvc;
     /**
      *  添加快递公司
      */

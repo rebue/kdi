@@ -1,5 +1,7 @@
 package rebue.kdi.svc.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class KdiTemplateSvcImpl extends MybatisBaseSvcImpl<KdiTemplateMo, java.lang.Long, KdiTemplateMapper> implements KdiTemplateSvc {
+  
+	private static final Logger _log = LoggerFactory.getLogger(KdiCompanySvcImpl.class);
 
     /**
      * @mbg.generated
@@ -35,4 +39,14 @@ public class KdiTemplateSvcImpl extends MybatisBaseSvcImpl<KdiTemplateMo, java.l
         }
         return super.add(mo);
     }
+   
+    /**
+     * 根据快递公司id删除模板
+     */
+    
+	@Override
+	public int deleteForCompanyId(Long companyId) {
+        _log.info(": 根据快递公司id删除模板的参数为{}", companyId);
+		return _mapper.deleteForCompanyId(companyId);
+	}
 }

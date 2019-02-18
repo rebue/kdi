@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/1/30 16:43:13                           */
+/* Created on:     2019/2/18 15:00:32                           */
 /*==============================================================*/
 
 
@@ -145,7 +145,6 @@ create table KDI_TEMPLATE
    ID                   bigint not null comment '模板ID',
    COMPANY_ID           bigint not null comment '快递公司ID',
    TEMPLATE_DIC_ID      bigint not null comment '模板字典ID',
-   ORG_ID               bigint not null comment '组织ID',
    IS_DEFAULT           bool not null comment '是否默认',
    primary key (ID)
 );

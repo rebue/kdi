@@ -19,6 +19,7 @@ import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.KdiCompanyRo;
 import rebue.kdi.svc.KdiCompanySvc;
+import rebue.kdi.svc.KdiTemplateSvc;
 
 /**
  * 快递公司
@@ -28,7 +29,11 @@ import rebue.kdi.svc.KdiCompanySvc;
 @RestController
 public class KdiCompanyCtrl {
 
-
+    @Resource
+    private KdiCompanySvc svc;
+    
+    @Resource
+    private KdiTemplateSvc kdiTemplateSvc;
 
     /**
      * @mbg.generated
@@ -46,8 +51,7 @@ public class KdiCompanyCtrl {
 
     private static final Logger _log = LoggerFactory.getLogger(KdiManageCtrl.class);
 
-    @Resource
-    private KdiCompanySvc svc;
+
 
     /**
      *  查询所有快递公司信息
@@ -125,7 +129,10 @@ public class KdiCompanyCtrl {
      */
     @DeleteMapping("/kdi/company")
     KdiCompanyRo del(@RequestParam("id") java.lang.Long id) {
-        _log.info("save KdiCompanyMo:" + id);
+    	
+        _log.info("先删除快递公司模板的参数为:" + id);
+        int i=kdiTemplateSvc.deleteForCompanyId(id);
+        _log.info("先删除快递公司模板的结果为:" + i);
         int result = svc.del(id);
         KdiCompanyRo ro = new KdiCompanyRo();
         if (result == 1) {

@@ -1,5 +1,6 @@
 package rebue.kdi.kdniao.svc.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,6 +16,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.beetl.core.Configuration;
+import org.beetl.core.GroupTemplate;
+import org.beetl.core.Template;
+import org.beetl.core.resource.FileResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -291,7 +296,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             }
             requestData += "\"ExpType\":" + expType + ","; // 快递类型
             // 是否返回打印页面
-            final String isReturnPrintPage = "1";
+            final String isReturnPrintPage = "0";
             requestData += "\"IsReturnPrintTemplate\":\"" + isReturnPrintPage + "\","; // 是否返回打印页面(0-不需要，1-需要)
             // 订单编号，原先是orderId，但是线上的快递鸟需要唯一性，不能重复打印相同的订单所以改为随机生成。
             requestData += "\"OrderCode\":\"" + _idWorker.getId() + "\","; // 订单编号(自定义，不可重复)
@@ -356,46 +361,46 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> orderMap = (Map<String, Object>) resultMap.get("Order");
                 final String logisticCode = (String) orderMap.get("LogisticCode");
-                String printPage = String.valueOf(resultMap.get("PrintTemplate"));
-                _log.info("返回的打印模板：{}", printPage);
+                final String MarkDestination = (String) orderMap.get("MarkDestination");
+                final String SortingCode = (String) orderMap.get("SortingCode");
+                final String PackageCode = (String) orderMap.get("PackageCode");//测试环境不显示2019.02.19
+                _log.info("返回的参数：MarkDestination：{},SortingCode：{},PackageCode：{}", MarkDestination,SortingCode,PackageCode);
+                
+                
+                String printPage="";
                 if (to.getShipperCode().equals("HTKY")) {
-                    printPage = printPage.replaceAll("<td class=\"f11\">", "<td class=\"b f11\">");
-                    printPage = printPage.replaceAll("<td class=\"f8\">", "<td class=\"b f11\">");
-                    printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
-                    printPage = printPage.replace("<td width=\"90\" rowspan=\"2\" class=\"xx10 vt\">", "<td width=\"1\" rowspan=\"2\" class=\"xx10 vt\">");
-                    printPage = printPage.replace("<tr height=\"44\">", "<tr height=\"70\">");
-                    printPage = printPage.replace("width: 375px;", "width: 450px;");
-                    printPage = printPage.replace("<img class=\"mb-3\" width=\"270\"", "<img class=\"mb-3\" width=\"370\"");
-                    printPage = printPage.replace("<table class=\"print_paper\" height=\"74\">", "<table class=\"print_paper\" height=\"100\">");
-                    printPage = printPage.replace("<td width=\"77\" class=\"tc\">", "<td width=\"1\" class=\"tc\">");
-                    printPage = printPage.replace("<td width=\"157\" class=\"f7\">", "<td width=\"257\" class=\"f7\">");
-                    printPage = printPage.replace("<img class=\"mb-3\" width=\"176\"", "<img class=\"mb-3\" width=\"250\"");
-                    printPage = printPage.replace("<td class=\"tc f14 b\">", "<td class=\"tc f18 b\" style=\"line-height: 1;letter-spacing: 8px;\">");
-                    printPage = printPage.replace("<div class=\"f8\">", "<div class=\"b f11\">");
-                } else if (to.getShipperCode().equals("YZPY")) {
-                    printPage = printPage.replace("width: 375px;", "width: 450px;");
-                    printPage = printPage.replaceAll("<td class=\"f11 vt\">", "<td class=\"f11 b vt\">");
-                    printPage = printPage.replaceAll("<td class=\"f9 lh14 vt\" rowspan=\"2\" width=\"92\">", "<td class=\"f9 lh14 vt\" rowspan=\"2\" width=\"1\">");
-                    printPage = printPage.replaceAll("<td class=\"f9 vt\">", "<td class=\"f11 b vt\">");
-                    printPage = printPage.replaceAll("<img width=\"270\"", "<img width=\"330\"");
-                    printPage = printPage.replaceAll("<td class=\"tc f15 lh14 b fam\">", "<td class=\"tc f15 lh14 b fam\" style = \"letter-spacing: 10px;\">");
-                    printPage = printPage.replaceAll("<td class=\"tc\" width=\"74\">", "<td class=\"tc\" width=\"1\">");
-                    printPage = printPage.replaceAll("<td class=\"f8\" width=\"166\">", "<td class=\"f8\" width=\"200\">");
-                    printPage = printPage.replaceAll("<img width=\"176\" height=\"30\"", "<img width=\"220\" height=\"30\"");
-                    printPage = printPage.replaceAll("数量：1&nbsp;&nbsp;重量：1kg&nbsp;&nbsp;", " ");
-                    printPage = printPage.replaceAll("服务</div>", "</div>");
-                    printPage = printPage.replaceAll("付款方式：寄付月结", "");
-                    printPage = printPage.replaceAll("<tr height=\"48\">", "<tr height=\"70\">");
-                    printPage = printPage.replaceAll("<tr height=\"37\">", "<tr height=\"60\">");
-                    printPage = printPage.replaceAll("已检视", "客户号：80000010128574");
-                    printPage = printPage.replaceAll("<div class=\"abs\" style=\"top: 85px;right: 5px;\">", "<div class=\"abs b\" style=\"top: 85px;right: 5px;\">");
-                }
-
-                // 替换备注内容。
-                // String goodName = "<div class=\"b f11\">" + to.getOrderTitle() + "</div> <div "; 徐亚明注释
-                final String goodName = "<div class=\"b f11\">" + to.getOrderDetail() + "</div> <div ";
-                printPage = printPage.replaceAll("<div class=\"b f11\"> 需要替换的标题</div>", goodName);
-                _log.info("替换后的paga是: {}", printPage);
+                	//开始创建百世模板并注入参数
+                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
+                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
+                	Configuration cfg = Configuration.defaultConfiguration();
+                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                	Template t = gt.getTemplate("/百世.btl");
+                	//参数
+                	t.binding("name", "百世快递");
+                	t.binding("logisticCode", logisticCode);
+                	t.binding("MarkDestination", MarkDestination);
+                	t.binding("SortingCode", SortingCode);
+                	t.binding("PackageCode", PackageCode);
+                	//收件人信息getReceiverProvince
+                	t.binding("receiverName", to.getReceiverName());
+                	t.binding("receiverMobile", to.getReceiverMobile());
+                	t.binding("receiverProvince", to.getReceiverProvince());
+                	t.binding("receiverCity", to.getReceiverCity());
+                	t.binding("receiverExpArea", to.getReceiverExpArea());
+                	t.binding("receiverAddress", to.getReceiverAddress());
+                	//寄件人信息
+                	t.binding("senderName", to.getSenderName());
+                	t.binding("senderMobile", to.getSenderMobile());
+                	t.binding("senderProvince", to.getSenderProvince());
+                	t.binding("senderCity", to.getSenderCity());
+                	t.binding("senderExpArea", to.getSenderExpArea());
+                	t.binding("senderAddress", to.getSenderAddress());
+                	//商品名字
+                	
+                	t.binding("orderDetail", to.getOrderDetail());
+                	 printPage = t.render();
+                    _log.info("创建完成并注入参数后的模板：{}", printPage);
+                } 
 
                 final Date now = new Date();
                 // 添加新的物流订单

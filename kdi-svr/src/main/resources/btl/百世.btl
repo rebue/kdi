@@ -269,6 +269,9 @@
 	    top:497px;
             left:263px;
 	}
+	.space{
+		margin-left:3px;
+	}
     </style>
 </head>
 
@@ -306,9 +309,12 @@
         <tr height="75">
             <td width="18" style="text-align:center; padding:0;">收<br />件</td>
             <td class="b f11">
-                <div style="height: 74px;">
+                <div style="height: 43px;">
                    	${receiverName}  <span class="far">${receiverMobile}</span> <br />
-                    ${receiverProvince}${receiverCity}${receiverExpArea}${receiverAddress} 
+                   ${receiverProvince}
+                   <span class="space" >${receiverCity}</span>
+                   <span class="space" >${receiverExpArea}</span>
+                   <span class="space" > ${receiverAddress}</span>
                 </div>
             </td>
             <td width="1" rowspan="2" class="xx10 vt">
@@ -322,7 +328,10 @@
             <td class="b f11">
                 <div style="height: 43px;">
                     ${senderName} <span class="far">${senderMobile}</span>  <br />
-                   ${senderProvince}${senderCity}${senderExpArea}${senderAddress}
+                   ${senderProvince}
+                   <span class="space" >${senderCity}</span>
+                   <span class="space" >${senderExpArea}</span>
+                   <span class="space" > ${senderAddress}</span>
                 </div>
             </td>
         </tr>
@@ -364,8 +373,11 @@
         <tr height="55">
             <td width="18" style="text-align:center; padding:0;">收<br />件</td>
             <td class="b f11">
-                ${receiverName} ${receiverMobile} <br />
-                ${receiverProvince}${receiverCity}${receiverExpArea}${receiverAddress} 
+                ${receiverName} <span class="space" >${receiverMobile}</span>  <br />
+               ${receiverProvince}
+               <span class="space" >${receiverCity}</span>
+               <span class="space" >${receiverExpArea}</span>
+               <span class="space" > ${receiverAddress}</span>
                 
             </td>
             <td width="77" class="tc f9" rowspan="2">
@@ -376,8 +388,11 @@
         <tr height="55">
             <td style="text-align:center; padding:0;">寄<br />件</td>
             <td class="b f11">
-                ${senderName} ${senderMobile} <br />
-                ${senderProvince}${senderCity}${senderExpArea}${senderAddress}
+                ${senderName}<span class="space" > ${senderMobile}</span>  <br />
+               ${senderProvince}
+               <span class="space" >${senderCity}</span>
+               <span class="space" >${senderExpArea}</span>
+               <span class="space" > ${senderAddress}</span>
             </td>
         </tr>
     </table>

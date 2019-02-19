@@ -309,7 +309,7 @@
         <tr height="75">
             <td width="18" style="text-align:center; padding:0;">收<br />件</td>
             <td class="b f11">
-                <div style="height: 43px;">
+                <div style="height: 74px;">
                    	${receiverName}  <span class="far">${receiverMobile}</span> <br />
                    ${receiverProvince}
                    <span class="space" >${receiverCity}</span>

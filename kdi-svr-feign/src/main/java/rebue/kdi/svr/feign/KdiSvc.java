@@ -98,5 +98,12 @@ public interface KdiSvc {
 	@GetMapping("/kdi/logistic/list")
 	List<KdiLogisticMo> KdiLogisticList(@RequestBody KdiLogisticMo mo);
 	
-	
+
+	/**
+	 * 获取单个物流记录
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/kdi/logistic/getbyid")
+	KdiLogisticRo getLogisticById(@RequestParam("id") Long id);
 }

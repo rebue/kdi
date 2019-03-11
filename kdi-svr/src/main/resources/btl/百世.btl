@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
     <title></title>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="http://cdn.bootcss.com/jsbarcode/3.5.7/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.bootcss.com/jsbarcode/3.5.7/JsBarcode.all.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -241,7 +241,7 @@
         .relative {
             position: relative;
         }
-        #canvas${logisticCode} {
+        #imgcode${logisticCode} {
             width: 387px;
             height: 62px;
             z-index: 1;
@@ -255,7 +255,7 @@
             position: absolute;
         }
 
-        #canvas${logisticCode}Tow {
+        #imgcode${logisticCode}Tow {
             width: 179px;
             height: 34px;
             position: absolute;
@@ -344,7 +344,7 @@
     <table class="print_paper ">
         <tr height="90">
             <td class="relative" style="line-height: 1;letter-spacing: 8px; ">
-                <canvas id="canvas${logisticCode}" style="left: 63px;top: 0px"></canvas>
+                   <img id="imgcode${logisticCode}"  style="left: 30px;top: 0px" />
                 <br/>
                 <span id="firstCode" style="top: 58px;left: 77px;" >
                     ${logisticCode}
@@ -370,7 +370,7 @@
                     class="logo">
             </td>
             <td class="bln tc f12 b lh16 relative ">
-                <canvas id="canvas${logisticCode}Tow"  style="left: 29px;top: 0px"></canvas>
+                 <img id="imgcode${logisticCode}Tow"  style="left: 29px;top: 0px" />
                 <br />
                 <span id="towCode" style="top: 31px;left: 53px;" >
                     ${logisticCode}
@@ -421,8 +421,8 @@
     </table>
     <script>  
     	console.log("========================")
-        $("#canvas${logisticCode}").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
-        $("#canvas${logisticCode}Tow").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
+        $("#imgcode${logisticCode}").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
+        $("#imgcode${logisticCode}Tow").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
          console.log("++++++++++++++++++++++")
     </script>
 </body>

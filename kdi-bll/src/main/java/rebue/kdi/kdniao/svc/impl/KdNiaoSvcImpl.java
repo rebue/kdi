@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
+import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.core.resource.FileResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -369,12 +370,20 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 
                 String printPage="";
                 if (to.getShipperCode().equals("HTKY")) {
-                	//开始创建百世模板并注入参数
+                	//开始创建百世模板并注入参数 线下
                 	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
                 	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
                 	Configuration cfg = Configuration.defaultConfiguration();
                 	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
                 	Template t = gt.getTemplate("/百世.btl");
+                	
+                	//开始创建百世模板并注入参数 线上
+//                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+//                	Configuration cfg = Configuration.defaultConfiguration();
+//                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+//                	Template t = gt.getTemplate("/百世.btl");
+//                    _log.info("t：{}", t);
+                    
                 	//参数
                 	t.binding("name", "百世快递");
                 	t.binding("logisticCode", logisticCode);

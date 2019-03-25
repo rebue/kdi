@@ -46,6 +46,7 @@ import rebue.kdi.mo.KdiTraceMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
+import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.ShipperRo;
 import rebue.kdi.ro.SubscribeTraceRo;
@@ -54,6 +55,7 @@ import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.EOrderTo;
+import rebue.kdi.to.KdiBatchOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
 import rebue.wheel.HttpClientUtils;
 import rebue.wheel.MapUtils;
@@ -704,5 +706,11 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         }
 
     }
+
+	@Override
+	public KdiBatchOrderRo KdiBatchOrder(KdiBatchOrderTo to) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

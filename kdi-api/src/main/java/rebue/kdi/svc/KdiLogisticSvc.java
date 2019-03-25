@@ -8,6 +8,7 @@ import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
 import rebue.robotech.svc.MybatisBaseSvc;
@@ -80,4 +81,11 @@ public interface KdiLogisticSvc extends MybatisBaseSvc<KdiLogisticMo, java.lang.
 	 * @return
 	 */
 	KdiLogisticMo getReceiverByReceiverMobile(String receiverMobile);
+	
+	/**
+	 * 获取组织的发单量
+	 * @param to
+	 * @return
+	 */
+	 Long getDeliverCount(DeliverCountTo to);
 }

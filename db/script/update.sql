@@ -12,3 +12,33 @@ alter table kdi.KDI_COMPANY add IS_DEFAULT tinyint not null comment '是否默�
 alter table kdi.KDI_COMPANY add ORG_ID bigint not null comment '组织ID';
 alter table kdi.KDI_LOGISTIC add ORG_ID bigint not null comment '组织ID';
 alter table kdi.KDI_SENDER add ORG_ID bigint not null comment '组织ID';
+--2019-3-01
+/*==============================================================*/
+/* Table: KDI_TEMPLATE                                          */
+/*==============================================================*/
+create table KDI_TEMPLATE
+(
+   ID                   bigint not null comment '模板ID',
+   COMPANY_ID           bigint not null comment '快递公司ID',
+   TEMPLATE_DIC_ID      bigint not null comment '模板字典ID',
+   IS_DEFAULT           bool not null comment '是否默认',
+   primary key (ID)
+);
+
+alter table KDI_TEMPLATE comment '电子面单模板';
+
+/*==============================================================*/
+/* Table: KDI_TEMPLATE_DIC                                      */
+/*==============================================================*/
+create table KDI_TEMPLATE_DIC
+(
+   ID                   bigint not null comment '模板字典ID',
+   COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
+   NAME                 varchar(20) not null comment '模板名称',
+   IMG_PATH             varchar(100) not null comment '模板图片路径',
+   PATH                 varchar(100) not null comment '模板路径',
+   REMARK               varchar(50),
+   primary key (ID)
+);
+
+alter table KDI_TEMPLATE_DIC comment '模板字典';

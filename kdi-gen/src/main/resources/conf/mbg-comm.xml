@@ -43,16 +43,16 @@
 			<property name="timeSuffix" value="${field.time.suffix}" />
 		</plugin>
 		<!-- 该插件可以根据模板自动生成代码 -->
-		<plugin type="rebue.mbgx.plugin.CodeGenByBeetlPlugin">
+<!-- 		<plugin type="rebue.mbgx.plugin.CodeGenByBeetlPlugin"> -->
 			<!-- beetl的配置文件（位于classpath下的路径） -->
-			<property name="beetlCfgFile" value="${beetl.cfg.file}" />
-			<!-- beetl的模板文件（位于模板目录下的路径），多个文件用逗号相隔 -->
-			<property name="templatesCfgFile" value="${beetl.templates.cfg.file}" />
+<!-- 			<property name="beetlCfgFile" value="${beetl.cfg.file}" /> -->	
+		<!-- beetl的模板文件（位于模板目录下的路径），多个文件用逗号相隔 -->
+		<!-- 	<property name="templatesCfgFile" value="${beetl.templates.cfg.file}" />-->	
 			<!-- beetl模板生成文件的模块路径（用在模板的配置文件中指定java生成文件的路径） -->
-			<property name="beetlModulePath" value="${beetl.module.path}" />
+	<!-- 		<property name="beetlModulePath" value="${beetl.module.path}" />-->	
 			<!-- beetl模板生成文件的模块名称（用在模板配置文件中指定jsp/js/css等生成文件的路径） -->
-			<property name="beetlModuleName" value="${beetl.module.name}" />
-		</plugin>
+		<!-- 	<property name="beetlModuleName" value="${beetl.module.name}" />-->	
+	<!-- 	</plugin>-->
 
 		<!-- 注释 -->
 		<commentGenerator type="rebue.mbgx.custom.CommentGeneratorEx">

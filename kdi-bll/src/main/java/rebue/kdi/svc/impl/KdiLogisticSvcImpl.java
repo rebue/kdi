@@ -20,7 +20,6 @@ import rebue.kdi.dic.EOrderResultDic;
 import rebue.kdi.dic.SubscribeTraceResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
-import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.CompanyRo;
@@ -34,6 +33,7 @@ import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
@@ -266,4 +266,44 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     public KdiLogisticMo getReceiverByReceiverMobile(final String receiverMobile) {
         return _mapper.selectReceiverByReceiverMobile(receiverMobile);
     }
+    
+    /**
+     * 获取组织的发单量
+     */
+	@Override
+	public Long getDeliverCount(DeliverCountTo to) {
+		
+		//拼接的物流状态logisticStatus
+		String logisticStatus = "";
+		if (to.getLogisticStatus() !=null && to.getLogisticStatus().size() >0) {
+			for (int i = 0; i < to.getLogisticStatus().size(); i++) {
+				if (i != 0 && i < to.getLogisticStatus().size()) {
+					logisticStatus += ",'" + to.getLogisticStatus().get(i).byteValue()+"'";
+				} else {
+					logisticStatus += "'" + to.getLogisticStatus().get(i).byteValue() +"'";
+				}
+			}
+	        _log.info("查询未添加和已经添加的组织的参数为: {}", logisticStatus);
+		}else {
+			logisticStatus="-9";//设置无效状态就可以查不出数据
+		}
+		
+		//拼接的组织id
+		String orgIds = "";
+		if (to.getOrgIds() !=null && to.getOrgIds().size() >0) {
+			for (int i = 0; i < to.getOrgIds().size(); i++) {
+				if (i != 0 && i < to.getOrgIds().size()) {
+					orgIds += ",'" + to.getOrgIds().get(i).longValue()+"'";
+				} else {
+					orgIds += "'" + to.getOrgIds().get(i).longValue() +"'";
+				}
+			}
+	        _log.info("查询未添加和已经添加的组织的参数为: {}", orgIds);
+		}else {
+			orgIds="-9";//设置无效组织就可以查不出数据
+		}
+		
+		
+		return _mapper.getDeliverCount(orgIds, logisticStatus, to.getOrderTimeStart(),to.getOrderTimeEnd());
+	}
 }

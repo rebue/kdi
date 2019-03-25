@@ -22,6 +22,7 @@ import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
 
@@ -261,5 +262,11 @@ public class KdiLogisticCtrl {
 		}
 		return svc.getReceiverByReceiverMobile(receiverMobile);
 	}
+	
+	@GetMapping("/kdi/logistic/getDeliverCount")
+	 Long getDeliverCount(@RequestBody DeliverCountTo to) {
+		_log.info("获取组织发货量的参数为：{}", to);
+		 return svc.getDeliverCount(to);
+	 }
 
 }

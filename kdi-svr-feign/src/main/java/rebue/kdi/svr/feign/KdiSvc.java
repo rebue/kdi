@@ -16,6 +16,7 @@ import rebue.kdi.ro.KdiLogisticRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.SubscribeTraceRo;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
 import rebue.sbs.feign.FeignConfig;
@@ -106,4 +107,12 @@ public interface KdiSvc {
 	 */
 	@GetMapping("/kdi/logistic/getbyid")
 	KdiLogisticRo getLogisticById(@RequestParam("id") Long id);
+	
+	/**
+	 * 获取组织的发单量
+	 * @param to
+	 * @return
+	 */
+	@GetMapping("/kdi/logistic/getDeliverCount")
+	 Long getDeliverCount(@RequestBody DeliverCountTo to);
 }

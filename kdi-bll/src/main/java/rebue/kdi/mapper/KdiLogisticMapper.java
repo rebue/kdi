@@ -1,12 +1,15 @@
 package rebue.kdi.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.ro.ReportOrderCountRo;
+import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
 import rebue.robotech.mapper.MybatisBaseMapper;
@@ -108,4 +111,7 @@ public interface KdiLogisticMapper extends MybatisBaseMapper<KdiLogisticMo, Long
      * @return
      */
     KdiLogisticMo selectReceiverByReceiverMobile(@Param("receiverMobile") String receiverMobile);
+    
+    @Select("select count(*) from  KDI_LOGISTIC  where ORG_ID in(${orgIds}) and  LOGISTIC_STATUS in(${logisticStatus}) and  ORDER_TIME > #{orderTimeStart,jdbcType=TIMESTAMP} AND ORDER_TIME < #{orderTimeEnd,jdbcType=TIMESTAMP}  ")
+    Long getDeliverCount(@Param("orgIds") String orgId,@Param("logisticStatus") String logisticStatus ,@Param("orderTimeStart") Date orderTimeStart ,@Param("orderTimeEnd") Date orderTimeEnd  );
 }

@@ -81,7 +81,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     private Boolean             _isSandBox;
 
     @Value("${kdi.kdniao.ebusinessid}")
-    private String              _ebusinessid;
+    private String              _EBusinessID;
     @Value("${kdi.kdniao.apikey}")
     private String              _apikey;
     
@@ -167,12 +167,12 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             final String requestData = "{\"LogisticCode\":\"" + logisticCode + "\"}";
             requestMap.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
             // 系统级参数
-            requestMap.put("EBusinessID", _ebusinessid);
+            requestMap.put("EBusinessID", _EBusinessID);
             requestMap.put("RequestType", "2002");
             requestMap.put("DataSign", URLEncoder.encode(KdNiaoSignUtils.sign(requestData, _apikey, "UTF-8"), "UTF-8"));
             requestMap.put("DataType", "2");
         } catch (final IOException e) {
-            _log.warn("商户号/AppKey/快递单号等参数错误：{},{},{}", _ebusinessid, _apikey, logisticCode);
+            _log.warn("商户号/AppKey/快递单号等参数错误：{},{},{}", _EBusinessID, _apikey, logisticCode);
             ro.setResult(IdentifyLogisticCodeResultDic.PARAM_ERROR);
             return ro;
         }
@@ -338,7 +338,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             requestMap.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
 
             // 系统级参数
-            requestMap.put("EBusinessID", _ebusinessid);
+            requestMap.put("EBusinessID", _EBusinessID);
             requestMap.put("RequestType", "1007");
             requestMap.put("DataSign", URLEncoder.encode(KdNiaoSignUtils.sign(requestData, _apikey, "UTF-8"), "UTF-8"));
             requestMap.put("DataType", "2");// 2-json
@@ -515,7 +515,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             requestData += "}";
             requestMap.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
             // 系统级参数
-            requestMap.put("EBusinessID", _ebusinessid);
+            requestMap.put("EBusinessID", _EBusinessID);
             requestMap.put("RequestType", "1008");
             requestMap.put("DataSign", URLEncoder.encode(KdNiaoSignUtils.sign(requestData, _apikey, "UTF-8"), "UTF-8"));
             requestMap.put("DataType", "2");// 2-json
@@ -590,22 +590,22 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         try {
             _log.debug("解析物流的json字符串");
             final Map<String, Object> requestData = jsonParser.parseMap(sRequestData);
-            final Date updateTime = sdf.parse((String) requestData.get("PushTime"));
+            final Date UpdateTime = sdf.parse((String) requestData.get("PushTime"));
             _log.debug("遍历物流订单数据");
             @SuppressWarnings("unchecked")
             final List<Map<String, Object>> logistices = (List<Map<String, Object>>) requestData.get("Data"); // 物流订单
             for (final Map<String, Object> logistic : logistices) {
                 try {
-                    selfSvc.updateTraceOfLogistic(logistic, updateTime);
+                    selfSvc.updateTraceOfLogistic(logistic, UpdateTime);
                 } catch (final Exception e) {
                     _log.error("更新物流轨迹出现异常:" + logistic, e);
                 }
             }
 
             final KdNiaoUpdateTraceRo ro = new KdNiaoUpdateTraceRo();
-            ro.setEBusinessID(_ebusinessid);
+            ro.setEBusinessID(_EBusinessID);
             ro.setSuccess(true);
-            ro.setUpdateTime(updateTime);
+            ro.setUpdateTime(UpdateTime);
             return ro;
         } catch (final ParseException e) {
             e.printStackTrace();

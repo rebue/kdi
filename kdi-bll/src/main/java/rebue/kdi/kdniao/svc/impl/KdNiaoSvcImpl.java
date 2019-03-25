@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
-import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.core.resource.FileResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -707,10 +706,5 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 
     }
 
-	@Override
-	public KdiBatchOrderRo KdiBatchOrder(KdiBatchOrderTo to) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

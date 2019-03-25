@@ -1,14 +1,9 @@
 package rebue.kdi.svc;
-
-import org.springframework.web.bind.annotation.RequestBody;
-
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
-import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.SubscribeTraceRo;
 import rebue.kdi.to.EOrderTo;
-import rebue.kdi.to.KdiBatchOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
 
 public interface KdiSvc {
@@ -50,11 +45,6 @@ public interface KdiSvc {
      */
     EOrderRo eorder(EOrderTo to);
     
-    /**
-     * 向快递公司批量下发订单并获取快递单号和打印模板
-     * 
-     * @param to
-     */
-    KdiBatchOrderRo KdiBatchOrder( KdiBatchOrderTo to);
+
 
 }

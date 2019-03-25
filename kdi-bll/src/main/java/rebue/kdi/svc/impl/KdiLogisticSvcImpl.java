@@ -1,5 +1,6 @@
 package rebue.kdi.svc.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +22,12 @@ import rebue.kdi.dic.SubscribeTraceResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
 import rebue.kdi.mo.KdiLogisticMo;
+import rebue.kdi.mo.KdiOrderMo;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
+import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.ro.SubscribeTraceRo;
 import rebue.kdi.svc.KdiCompanySvc;
@@ -35,6 +38,7 @@ import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
 import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.EOrderTo;
+import rebue.kdi.to.KdiBatchOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
 import rebue.kdi.to.SubscribeTraceTo;
@@ -306,4 +310,79 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
 		
 		return _mapper.getDeliverCount(orgIds, logisticStatus, to.getOrderTimeStart(),to.getOrderTimeEnd());
 	}
+
+	/**
+	 * 向快递公司批量下发订单并获取快递单号和打印模板
+	 */
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public KdiBatchOrderRo KdiBatchOrder(KdiBatchOrderTo to) {
+		final KdiBatchOrderRo kdiBatchOrderRo = new KdiBatchOrderRo();
+		List<String> batchPrint = new ArrayList<String>();
+		KdiOrderMo[] kdiOrdermo = to.getReceiver();
+
+		for (KdiOrderMo mo : kdiOrdermo) {
+			// 调用快递鸟打印电子面单
+			final EOrderTo eorderTo = new EOrderTo();
+			eorderTo.setShipperId(to.getShipperId());
+			eorderTo.setShipperCode(to.getShipperCode());
+			eorderTo.setOrderId(_idWorker.getId());
+			eorderTo.setOrderDetail(mo.getReceiveTitle());
+			eorderTo.setOrderTitle(mo.getReceiveTitle());
+			eorderTo.setReceiverName(mo.getReceivePeople());
+			eorderTo.setReceiverProvince(mo.getProvince());
+			eorderTo.setReceiverCity(mo.getCity());
+			eorderTo.setReceiverExpArea(mo.getCount());
+			eorderTo.setReceiverAddress(mo.getReceiveAddress());
+			eorderTo.setReceiverPostCode("000000");
+			eorderTo.setReceiverTel(mo.getReceivePhone());
+			eorderTo.setReceiverMobile(mo.getReceivePhone());
+			eorderTo.setSenderName(to.getSenderName());
+			eorderTo.setSenderMobile(to.getSenderMobile());
+			eorderTo.setSenderTel(to.getSenderTel());
+			eorderTo.setSenderProvince(to.getSenderProvince());
+			eorderTo.setSenderCity(to.getSenderCity());
+			eorderTo.setSenderAddress(to.getSenderAddress());
+			eorderTo.setSenderExpArea(to.getSenderExpArea());
+			eorderTo.setSenderPostCode(to.getSenderPostCode());
+			eorderTo.setOrgId(to.getOrgId());
+			_log.info("调用电子面单的参数为:{}", eorderTo);
+			final EOrderRo eOrderRo = kdNiaoSvc.eorder(eorderTo);
+			_log.info("调用电子面单的返回值为:{}", eOrderRo);
+			if (eOrderRo.getResult().getCode() == -1) {
+				_log.error("调用快递电子面单出现参数错误");
+				throw new RuntimeException("调用快递电子面单参数错误");
+			}
+			if (eOrderRo.getResult().getCode() == -2) {
+				_log.error("重复调用快递电子面单");
+				throw new RuntimeException("该订单已发货");
+			}
+			if (eOrderRo.getResult().getCode() == -3) {
+				_log.error("调用快递电子面单失败");
+				throw new RuntimeException("调用快递电子面单失败");
+			}
+			_log.info("调用快递电子面单成功，返回值为：{}", eOrderRo);
+			if (eOrderRo.getFailReason() == null) {
+				batchPrint.add(eOrderRo.getPrintPage());
+				kdiBatchOrderRo.setMsg("批量下单并成功获取电子面单");
+				kdiBatchOrderRo.setResult(EOrderResultDic.SUCCESS);
+			} else {
+				return kdiBatchOrderRo;
+			}
+		}
+
+		// 拼接快递鸟返回的打印页面
+		String printPage = "";
+		if (kdiBatchOrderRo.getResult() == EOrderResultDic.SUCCESS) {
+			for (int i = 0; i < batchPrint.size(); i++) {
+				if (i != 0) {
+					printPage += "<br><div style=\"page-break-after:always\"></div>\n\r";
+				}
+				printPage += batchPrint.get(i);
+			}
+			kdiBatchOrderRo.setPrintPage(printPage);
+		}
+		return kdiBatchOrderRo;
+	}
+
 }

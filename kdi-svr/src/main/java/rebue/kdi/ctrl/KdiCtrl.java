@@ -16,6 +16,7 @@ import rebue.kdi.ro.IdentifyLogisticCodeRo;
 import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.SubscribeTraceRo;
+import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSvc;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.KdiBatchOrderTo;
@@ -33,6 +34,9 @@ public class KdiCtrl {
 
 	@Resource
 	private KdiSvc svc;
+	
+	@Resource
+	private KdiLogisticSvc kdiLogisticSvc;
 
 	/**
 	 * 识别快递单号
@@ -97,7 +101,7 @@ public class KdiCtrl {
 		_log.info("KdiBatchOrderTo: {}", to);
 		KdiBatchOrderRo kdiBatchOrderRo = new KdiBatchOrderRo();
 		try {
-			kdiBatchOrderRo = svc.KdiBatchOrder(to);
+			kdiBatchOrderRo = kdiLogisticSvc.KdiBatchOrder(to);
 			_log.info("批量下单的返回值为:{}", kdiBatchOrderRo);
 		} catch (final RuntimeException e) {
 			final String msg = e.getMessage();

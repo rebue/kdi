@@ -420,10 +420,8 @@
         </tr>
     </table>
     <script>  
-    	console.log("========================")
         $("#imgcode${logisticCode}").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
         $("#imgcode${logisticCode}Tow").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
-         console.log("++++++++++++++++++++++")
     </script>
 </body>
 

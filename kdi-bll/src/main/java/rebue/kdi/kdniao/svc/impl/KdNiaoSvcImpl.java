@@ -1,6 +1,4 @@
 package rebue.kdi.kdniao.svc.impl;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,15 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
-import org.beetl.core.resource.FileResourceLoader;
+import org.beetl.core.resource.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +41,6 @@ import rebue.kdi.mo.KdiTraceMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.IdentifyLogisticCodeRo;
-import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.LogisticRo;
 import rebue.kdi.ro.ShipperRo;
 import rebue.kdi.ro.SubscribeTraceRo;
@@ -54,7 +49,6 @@ import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.EOrderTo;
-import rebue.kdi.to.KdiBatchOrderTo;
 import rebue.kdi.to.SubscribeTraceTo;
 import rebue.wheel.HttpClientUtils;
 import rebue.wheel.MapUtils;
@@ -367,23 +361,27 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 final String SortingCode = (String) orderMap.get("SortingCode");
                 final String PackageCode = (String) orderMap.get("PackageCode");//测试环境不显示2019.02.19
                 _log.info("返回的参数：MarkDestination：{},SortingCode：{},PackageCode：{}", MarkDestination,SortingCode,PackageCode);
-                
+                final  String oldPrintPage=(String)orderMap.get("printPage");
+                _log.info("oldPrintPage：{}", oldPrintPage);
                 
                 String printPage="";
                 if (to.getShipperCode().equals("HTKY")) {
                 	//开始创建百世模板并注入参数 线下
-                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
-                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
-                	Configuration cfg = Configuration.defaultConfiguration();
-                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-                	Template t = gt.getTemplate("/百世.btl");
-                	
-                	//开始创建百世模板并注入参数 线上
-//                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+//                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
+//                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
 //                	Configuration cfg = Configuration.defaultConfiguration();
 //                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
 //                	Template t = gt.getTemplate("/百世.btl");
-//                    _log.info("t：{}", t);
+                	
+                	//开始创建百世模板并注入参数 线上
+                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+                    _log.info("resourceLoader：{}", resourceLoader);
+                	Configuration cfg = Configuration.defaultConfiguration();
+                    _log.info("cfg：{}", cfg);
+                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                    _log.info("gt：{}", gt);
+                	Template t = gt.getTemplate("/百世.btl");
+                    _log.info("t：{}", t);
                     
                 	//参数
                 	t.binding("name", "百世快递");
@@ -411,6 +409,51 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 	 printPage = t.render();
                     _log.info("创建完成并注入参数后的模板：{}", printPage);
                 } 
+                
+                if (to.getShipperCode().equals("ZTO")) {
+                	//开始创建百世模板并注入参数 线下
+//                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
+//                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
+//                	Configuration cfg = Configuration.defaultConfiguration();
+//                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+//                	Template t = gt.getTemplate("/百世.btl");
+                	
+                	//开始创建百世模板并注入参数 线上
+                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+                    _log.info("resourceLoader：{}", resourceLoader);
+                	Configuration cfg = Configuration.defaultConfiguration();
+                    _log.info("cfg：{}", cfg);
+                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                    _log.info("gt：{}", gt);
+                	Template t = gt.getTemplate("/中通.btl");
+                    _log.info("t：{}", t);
+                    
+                	//参数
+                	t.binding("name", "中通快递");
+                	t.binding("logisticCode", logisticCode);
+                	t.binding("MarkDestination", MarkDestination);
+                	t.binding("SortingCode", SortingCode);
+                	t.binding("PackageCode", PackageCode);
+                	//收件人信息getReceiverProvince
+                	t.binding("receiverName", to.getReceiverName());
+                	t.binding("receiverMobile", to.getReceiverMobile());
+                	t.binding("receiverProvince", to.getReceiverProvince());
+                	t.binding("receiverCity", to.getReceiverCity());
+                	t.binding("receiverExpArea", to.getReceiverExpArea());
+                	t.binding("receiverAddress", to.getReceiverAddress());
+                	//寄件人信息
+                	t.binding("senderName", to.getSenderName());
+                	t.binding("senderMobile", to.getSenderMobile());
+                	t.binding("senderProvince", to.getSenderProvince());
+                	t.binding("senderCity", to.getSenderCity());
+                	t.binding("senderExpArea", to.getSenderExpArea());
+                	t.binding("senderAddress", to.getSenderAddress());
+                	//商品名字
+                	
+                	t.binding("orderDetail", to.getOrderDetail());
+                	 printPage = t.render();
+                    _log.info("创建完成并注入参数后的模板：{}", printPage);
+                }
 
                 final Date now = new Date();
                 // 添加新的物流订单

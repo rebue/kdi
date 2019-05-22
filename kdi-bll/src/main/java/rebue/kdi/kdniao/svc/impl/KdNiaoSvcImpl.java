@@ -361,8 +361,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 final String SortingCode = (String) orderMap.get("SortingCode");
                 final String PackageCode = (String) orderMap.get("PackageCode");//测试环境不显示2019.02.19
                 _log.info("返回的参数：MarkDestination：{},SortingCode：{},PackageCode：{}", MarkDestination,SortingCode,PackageCode);
-                final  String oldPrintPage=(String)orderMap.get("printPage");
-                _log.info("oldPrintPage：{}", oldPrintPage);
+
                 
                 String printPage="";
                 if (to.getShipperCode().equals("HTKY")) {

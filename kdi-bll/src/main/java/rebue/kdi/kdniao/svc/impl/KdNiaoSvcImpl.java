@@ -75,7 +75,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     @Value("${kdi.issandbox:false}")
     private Boolean             _isSandBox;
 
-    @Value("${kdi.kdniao.ebusinessid}")
+    @Value("${kdi.kdniao.Ebusinessid}")
     private String              _EBusinessID;
     @Value("${kdi.kdniao.apikey}")
     private String              _apikey;
@@ -475,6 +475,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 // ro.setPrintPage(URLEncoder.encode(printPage, "UTF-8"));
                 ro.setPrintPage(printPage);
                 ro.setMsg("请求成功");
+                _log.info("将要返回的结果：ro-{}", ro);
                 return ro;
             } else {
                 // 取出请求失败的原因

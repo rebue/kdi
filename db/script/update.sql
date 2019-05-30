@@ -1,4 +1,3 @@
--- ---------------------------- 下面的已经更新到大卖网线上 ----------------------------
 
 -- 2018-10-25
 alter table kdi.KDI_LOGISTIC add ENTRY_TYPE    tinyint not null comment '录入类型  0：未知 1:手动  2:自动';
@@ -42,3 +41,4 @@ create table KDI_TEMPLATE_DIC
 );
 
 alter table KDI_TEMPLATE_DIC comment '模板字典';
+-- ---------------------------- 上面的已经更新到大卖网线上 ----------------------------

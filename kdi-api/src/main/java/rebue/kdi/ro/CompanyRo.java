@@ -107,5 +107,17 @@ public class CompanyRo {
     * 模板字典id
     */
    private Long templateDicId;
+   
+   /**
+    * 店铺id
+    */
+   private Long shopId;
+   
+   /**
+    * 快递公司别名
+    */
+   private String anotherName;
+   
+   private String shopName;
 
 }

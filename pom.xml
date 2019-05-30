@@ -51,9 +51,24 @@
 				<version>1.0.9</version>
 			</dependency>
 			<dependency>
+				<groupId>com.github.rebue.slr</groupId>
+				<artifactId>slr-api</artifactId>
+				<version>1.0.9</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.slr</groupId>
+				<artifactId>slr-svr-feign</artifactId>
+				<version>1.0.9</version>
+			</dependency>
+			<dependency>
 				<groupId>com.github.rebue.kdi</groupId>
 				<artifactId>kdi-bll</artifactId>
 				<version>1.0.9</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.rebue.jwt</groupId>
+				<artifactId>jwt-svr-feign</artifactId>
+				<version>1.0.8</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

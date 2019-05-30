@@ -123,4 +123,13 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
         return result;
 		
 	}
+	
+	/**
+	 * 根据店铺id修改店铺名称
+	 */
+	@Override
+	public int updateShopNameByShopId(Long shopId, String shopName) {
+		 _log.info("根据店铺id修改店铺名称参数为: shopId-{},shopName-{}",shopId,shopName);
+		return _mapper.updateShopNameByShopId(shopId,shopName);
+	}
 }

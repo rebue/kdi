@@ -31,4 +31,9 @@ public interface KdiCompanySvc extends MybatisBaseSvc<KdiCompanyMo, java.lang.Lo
      * 
      */
     CompanyRo	getOneCompanyById(Long id);
+    
+    /**
+     *  根据店铺id修改店铺名字
+     */
+    int updateShopNameByShopId(Long shopId,String shopName);
 }

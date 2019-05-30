@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class KdiCompanyMo implements Serializable {
 
     /**
-     *    快递公司信息ID
+     *    快递公司ID
      *
      *    数据库字段: KDI_COMPANY.ID
      *
@@ -34,6 +34,15 @@ public class KdiCompanyMo implements Serializable {
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     private Long companyDicId;
+
+    /**
+     *    快递公司别名，用于区分一个买家的两个店铺使用同一个快递公司
+     *
+     *    数据库字段: KDI_COMPANY.ANOTHER_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private String anotherName;
 
     /**
      *    快递公司账号
@@ -115,12 +124,30 @@ public class KdiCompanyMo implements Serializable {
     private String sendSite;
 
     /**
+     *    店铺ID，用来表示这个快递公司是那个店铺的默认快递公司
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Long shopId;
+
+    /**
+     *    默认使用该快递公司的店铺
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private String shopName;
+
+    /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     *    快递公司信息ID
+     *    快递公司ID
      *
      *    数据库字段: KDI_COMPANY.ID
      *
@@ -131,7 +158,7 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
-     *    快递公司信息ID
+     *    快递公司ID
      *
      *    数据库字段: KDI_COMPANY.ID
      *
@@ -161,6 +188,28 @@ public class KdiCompanyMo implements Serializable {
      */
     public void setCompanyDicId(Long companyDicId) {
         this.companyDicId = companyDicId;
+    }
+
+    /**
+     *    快递公司别名，用于区分一个买家的两个店铺使用同一个快递公司
+     *
+     *    数据库字段: KDI_COMPANY.ANOTHER_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getAnotherName() {
+        return anotherName;
+    }
+
+    /**
+     *    快递公司别名，用于区分一个买家的两个店铺使用同一个快递公司
+     *
+     *    数据库字段: KDI_COMPANY.ANOTHER_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setAnotherName(String anotherName) {
+        this.anotherName = anotherName;
     }
 
     /**
@@ -350,6 +399,50 @@ public class KdiCompanyMo implements Serializable {
     }
 
     /**
+     *    店铺ID，用来表示这个快递公司是那个店铺的默认快递公司
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getShopId() {
+        return shopId;
+    }
+
+    /**
+     *    店铺ID，用来表示这个快递公司是那个店铺的默认快递公司
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
+
+    /**
+     *    默认使用该快递公司的店铺
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getShopName() {
+        return shopName;
+    }
+
+    /**
+     *    默认使用该快递公司的店铺
+     *
+     *    数据库字段: KDI_COMPANY.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -360,6 +453,7 @@ public class KdiCompanyMo implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", companyDicId=").append(companyDicId);
+        sb.append(", anotherName=").append(anotherName);
         sb.append(", companyAccount=").append(companyAccount);
         sb.append(", companyPwd=").append(companyPwd);
         sb.append(", payType=").append(payType);
@@ -368,6 +462,8 @@ public class KdiCompanyMo implements Serializable {
         sb.append(", isDefault=").append(isDefault);
         sb.append(", monthCode=").append(monthCode);
         sb.append(", sendSite=").append(sendSite);
+        sb.append(", shopId=").append(shopId);
+        sb.append(", shopName=").append(shopName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

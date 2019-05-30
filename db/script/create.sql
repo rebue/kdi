@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/2/18 15:00:32                           */
+/* Created on:     2019/5/30 15:13:02                           */
 /*==============================================================*/
 
 
@@ -25,6 +25,7 @@ create table KDI_COMPANY
 (
    ID                   bigint not null comment '快递公司ID',
    COMPANY_DIC_ID       bigint not null comment '快递公司字典ID',
+   ANOTHER_NAME         varchar(50) comment '快递公司别名，用于区分一个买家的两个店铺使用同一个快递公司',
    COMPANY_ACCOUNT      varchar(50) comment '快递公司账号',
    COMPANY_PWD          varchar(50) comment '快递公司密码',
    PAY_TYPE             tinyint comment '支付类型
@@ -38,7 +39,10 @@ create table KDI_COMPANY
    IS_DEFAULT           bool not null comment '是否为默认公司（true：默认  false：不是默认）',
    MONTH_CODE           varchar(45) comment '月结账号',
    SEND_SITE            varchar(45) comment '网点',
-   primary key (ID)
+   SHOP_ID              bigint comment '店铺ID，用来表示这个快递公司是那个店铺的默认快递公司',
+   SHOP_NAME            varchar(50) comment '默认使用该快递公司的店铺',
+   primary key (ID),
+   unique key AK_SHOP_ID (SHOP_ID)
 );
 
 alter table KDI_COMPANY comment '快递公司信息';
@@ -201,3 +205,4 @@ alter table KDI_TEMPLATE_DIC add constraint FK_Relationship_4 foreign key (COMPA
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;
+

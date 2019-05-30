@@ -2,7 +2,10 @@ package rebue.kdi.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
 import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.robotech.mapper.MybatisBaseMapper;
@@ -91,4 +94,7 @@ public interface KdiCompanyMapper extends MybatisBaseMapper<KdiCompanyMo, Long> 
      *   
      */
     List<CompanyRo> selectCompanyInfo(KdiCompanyMo record);
+    
+    @Update("update KDI_COMPANY set SHOP_NAME = #{shopName,jdbcType=VARCHAR} where SHOP_ID = #{shopId,jdbcType=BIGINT} ")
+    int updateShopNameByShopId(@Param("shopId") Long shopId,@Param("shopName") String shopName);
 }

@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import rebue.kdi.svc.KdiCompanySvc;
+import rebue.kdi.svc.KdiSenderSvc;
 import rebue.sbs.rabbit.RabbitConsumer;
 import rebue.slr.co.SlrExchangeCo;
 import rebue.slr.msg.SlrModifyShopNameMsg;
@@ -25,6 +26,9 @@ public class KdiSlrModifyShopNameDoneSub implements ApplicationListener<ContextR
 
     @Resource
     private KdiCompanySvc       kdiCompanySvc;
+    
+    @Resource
+    private KdiSenderSvc       kdiSenderSvc;
 
     @Resource
     private RabbitConsumer      consumer;
@@ -40,8 +44,9 @@ public class KdiSlrModifyShopNameDoneSub implements ApplicationListener<ContextR
         consumer.bind(SlrExchangeCo.SLR_MODIFY_SHOP_NAME_DONE_EXCHANGE_NAME, SLR_MODIFY_SHOP_NAME_QUEUE_NAME, SlrModifyShopNameMsg.class, (msg) -> {
             try {
                 _log.info("接收到修改店铺的消息: {}", msg);
-                // 添加用户的账户信息
+                // 修改快递公司和发件人中的店铺信息
                 kdiCompanySvc.updateShopNameByShopId(msg.getId(), msg.getName());
+                kdiSenderSvc.updateShopNameByShopId(msg.getId(), msg.getName());
                 return true;
             } catch (final DuplicateKeyException e) {
                 _log.warn("收到重复的消息: " + msg, e);

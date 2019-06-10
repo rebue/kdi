@@ -128,6 +128,24 @@ public class KdiSenderMo implements Serializable {
     private Long orgId;
 
     /**
+     *    店铺ID，用来表示这个发件人是那个店铺的默认发件人
+     *
+     *    数据库字段: KDI_SENDER.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private Long shopId;
+
+    /**
+     *    默认使用该发件人的店铺
+     *
+     *    数据库字段: KDI_SENDER.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    private String shopName;
+
+    /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     private static final long serialVersionUID = 1L;
@@ -397,6 +415,50 @@ public class KdiSenderMo implements Serializable {
     }
 
     /**
+     *    店铺ID，用来表示这个发件人是那个店铺的默认发件人
+     *
+     *    数据库字段: KDI_SENDER.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public Long getShopId() {
+        return shopId;
+    }
+
+    /**
+     *    店铺ID，用来表示这个发件人是那个店铺的默认发件人
+     *
+     *    数据库字段: KDI_SENDER.SHOP_ID
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
+
+    /**
+     *    默认使用该发件人的店铺
+     *
+     *    数据库字段: KDI_SENDER.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public String getShopName() {
+        return shopName;
+    }
+
+    /**
+     *    默认使用该发件人的店铺
+     *
+     *    数据库字段: KDI_SENDER.SHOP_NAME
+     *
+     *    @mbg.generated 自动生成，如需修改，请删除本行
+     */
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    /**
      *    @mbg.generated 自动生成，如需修改，请删除本行
      */
     @Override
@@ -417,6 +479,8 @@ public class KdiSenderMo implements Serializable {
         sb.append(", isDefault=").append(isDefault);
         sb.append(", entryTime=").append(entryTime);
         sb.append(", orgId=").append(orgId);
+        sb.append(", shopId=").append(shopId);
+        sb.append(", shopName=").append(shopName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

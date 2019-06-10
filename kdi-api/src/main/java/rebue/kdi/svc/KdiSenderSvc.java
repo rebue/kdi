@@ -1,5 +1,4 @@
 package rebue.kdi.svc;
-
 import java.util.List;
 import rebue.kdi.mo.KdiSenderMo;
 import rebue.kdi.ro.ModifyDefaultSenderRo;
@@ -27,4 +26,15 @@ public interface KdiSenderSvc extends MybatisBaseSvc<KdiSenderMo, java.lang.Long
      *  @return
      */
     List<KdiSenderMo> listSenderByOrganizeId(Long organizeId);
+    
+    
+    /**
+     *  根据店铺id修改店铺名字
+     */
+    int updateShopNameByShopId(Long shopId,String shopName);
+    
+    /**
+     *  修改发件人店铺信息
+     */
+    int updateShopInfoById(KdiSenderMo mo);
 }

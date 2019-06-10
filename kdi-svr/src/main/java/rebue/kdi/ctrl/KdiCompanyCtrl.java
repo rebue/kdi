@@ -123,6 +123,29 @@ public class KdiCompanyCtrl {
             return ro;
         }
     }
+    
+    /**
+     * 修改快递公司的默认使用店铺信息
+     */
+    @PutMapping("/kdi/company/modifyshopinfo")
+    KdiCompanyRo modifyShopInfo(@RequestBody KdiCompanyMo mo) throws Exception {
+        _log.info("modifyShopInfo KdiCompanyMo:" + mo);
+        KdiCompanyRo ro = new KdiCompanyRo();
+        int result = svc.updateShopInfoById(mo);
+        if (result == 1) {
+            String msg = "修改成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "修改失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+    }
 
     /**
      * 删除快递公司信息

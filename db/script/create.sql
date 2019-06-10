@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/5/30 15:13:02                           */
+/* Created on:     2019/6/10 11:01:34                           */
 /*==============================================================*/
 
 
@@ -136,7 +136,10 @@ create table KDI_SENDER
    IS_DEFAULT           bool not null comment '是否为默认发件人（true：默认  false：不是默认）',
    ENTRY_TIME           datetime not null comment '录入时间',
    ORG_ID               bigint not null comment '组织id',
-   primary key (ID)
+   SHOP_ID              bigint comment '店铺ID，用来表示这个发件人是那个店铺的默认发件人',
+   SHOP_NAME            varchar(50) comment '默认使用该发件人的店铺',
+   primary key (ID),
+   unique key AK_SHOP_ID (SHOP_ID)
 );
 
 alter table KDI_SENDER comment '发件人信息';
@@ -205,4 +208,3 @@ alter table KDI_TEMPLATE_DIC add constraint FK_Relationship_4 foreign key (COMPA
 
 alter table KDI_TRACE add constraint FK_Relationship_1 foreign key (LOGISTIC_ID)
       references KDI_LOGISTIC (ID) on delete restrict on update restrict;
-

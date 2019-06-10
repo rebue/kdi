@@ -102,6 +102,33 @@ public class KdiSenderCtrl {
 
     }
     
+    
+	/**
+	 * 修改发件人店铺信息
+	 * 
+	 * @param mo
+	 * @return
+	 */
+    @PutMapping("/kdi/sender/modifyshopinfo")
+    KdiSenderRo modifyShopInfo(@RequestBody KdiSenderMo mo) throws Exception {
+        _log.info("updateShopInfoById KdiSenderMo:" + mo);
+        KdiSenderRo ro = new KdiSenderRo();
+        int result = svc.updateShopInfoById(mo);
+        if (result == 1) {
+            String msg = "修改成功";
+            _log.info("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) 1);
+            return ro;
+        } else {
+            String msg = "修改失败";
+            _log.error("{}: mo-{}", msg, mo);
+            ro.setMsg(msg);
+            ro.setResult((byte) -1);
+            return ro;
+        }
+
+    }
     /**
      * 删除发件人
      *

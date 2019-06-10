@@ -36,6 +36,10 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
      */
     @Resource
     private KdiTemplateDicSvc kdiTemplateDicSvc;
+    
+    
+    @Resource
+    private KdiCompanySvc thisSvc;
     /**
      *  添加快递公司
      */
@@ -131,5 +135,13 @@ public class KdiCompanySvcImpl extends MybatisBaseSvcImpl<KdiCompanyMo, java.lan
 	public int updateShopNameByShopId(Long shopId, String shopName) {
 		 _log.info("根据店铺id修改店铺名称参数为: shopId-{},shopName-{}",shopId,shopName);
 		return _mapper.updateShopNameByShopId(shopId,shopName);
+	}
+
+	@Override
+	public int updateShopInfoById(KdiCompanyMo mo) {
+		_log.info("先根据店铺id清除店铺信息以确保一个快递公司只有一个店铺的参数为: shopId-{}",mo.getShopId());
+		int i=_mapper.cleanShopInfoByShopId(mo.getShopId());
+		_log.info("先根据店铺id清除店铺信息以确保一个快递公司只有一个店铺的结果为: i-{}",i);
+		return thisSvc.modify(mo);
 	}
 }

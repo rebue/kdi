@@ -95,4 +95,17 @@ public interface KdiSenderMapper extends MybatisBaseMapper<KdiSenderMo, Long> {
      */
     @Select("SELECT * FROM KDI_SENDER WHERE ORG_ID = #{orgId}")
     List<KdiSenderMo> selectByOrganizeId(Long orgId);
+    
+    @Update("update KDI_SENDER set SHOP_NAME = #{shopName,jdbcType=VARCHAR} where SHOP_ID = #{shopId,jdbcType=BIGINT} ")
+    int updateShopNameByShopId(@Param("shopId") Long shopId,@Param("shopName") String shopName);
+    
+    
+    /**
+     * 清除快递发件人的店铺信息
+     * @param shopId
+     * @return
+     */
+    @Update("update KDI_SENDER set SHOP_NAME = null , SHOP_ID = null  where  SHOP_ID = #{shopId,jdbcType=BIGINT}  ")
+    int cleanShopInfoByShopId(@Param("shopId") Long  shopId);
+    
 }

@@ -1,7 +1,7 @@
 package rebue.kdi.svc.impl;
-
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,10 @@ import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.Long, KdiSenderMapper> implements KdiSenderSvc {
 
     private static final Logger _log = LoggerFactory.getLogger(KdiSenderSvcImpl.class);
+    
+    
+    @Resource
+    private KdiSenderSvc thisSvc;
 
     /**
      *  添加发件人
@@ -118,4 +122,23 @@ public class KdiSenderSvcImpl extends MybatisBaseSvcImpl<KdiSenderMo, java.lang.
         _log.info("根据组织ID获取发件人信息");
         return _mapper.selectByOrganizeId(organizeId);
     }
+    
+    
+	/**
+	 * 根据店铺id修改店铺名称
+	 */
+	@Override
+	public int updateShopNameByShopId(Long shopId, String shopName) {
+		 _log.info("根据店铺id修改店铺名称参数为: shopId-{},shopName-{}",shopId,shopName);
+		return _mapper.updateShopNameByShopId(shopId,shopName);
+	}
+	
+	
+	@Override
+	public int updateShopInfoById(KdiSenderMo mo) {
+		_log.info("先根据店铺id清除店铺信息以确保一个发件人只有一个店铺的参数为: shopId-{}",mo.getShopId());
+		int i=_mapper.cleanShopInfoByShopId(mo.getShopId());
+		_log.info("先根据店铺id清除店铺信息以确保一个发件人只有一个店铺的结果为: i-{}",i);
+		return thisSvc.modify(mo);
+	}
 }

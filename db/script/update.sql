@@ -53,3 +53,18 @@ alter table KDI_COMPANY add  ANOTHER_NAME         varchar(50) comment '快递公
 
 -- ---------------------------- 上面的已经更新到大卖网线上2019-06-11 ----------------------------
 
+create table KDI_TASK
+(
+   ID                   bigint not null comment '任务ID',
+   LOGISTIC_ID          bigint not null comment '物流ID',
+   EXECUTE_STATE        tinyint not null default 0 comment '执行状态(-1:取消；0:未执行；1:已执行)',
+   EXECUTE_PLAN_TIME    datetime not null comment '计划执行时间',
+   EXECUTE_FACT_TIME    datetime comment '实际执行时间',
+   TASK_TYPE            tinyint not null comment '任务类型（1：执行订阅2：执行下单）',
+   SUB_TASK_TYPE        tinyint default -1 comment '子任务类型',
+   primary key (ID)
+);
+
+-- ---------------------------- 上面的已经更新到大卖网线上2019-07-18 ----------------------------
+
+

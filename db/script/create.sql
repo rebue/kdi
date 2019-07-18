@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/6/10 11:01:34                           */
+/* Created on:     2019/7/18 17:43:48                           */
 /*==============================================================*/
 
 
@@ -11,6 +11,8 @@ drop table if exists KDI_COMPANY_DIC;
 drop table if exists KDI_LOGISTIC;
 
 drop table if exists KDI_SENDER;
+
+drop table if exists KDI_TASK;
 
 drop table if exists KDI_TEMPLATE;
 
@@ -143,6 +145,23 @@ create table KDI_SENDER
 );
 
 alter table KDI_SENDER comment '发件人信息';
+
+/*==============================================================*/
+/* Table: KDI_TASK                                              */
+/*==============================================================*/
+create table KDI_TASK
+(
+   ID                   bigint not null comment '任务ID',
+   LOGISTIC_ID          bigint not null comment '物流ID',
+   EXECUTE_STATE        tinyint not null default 0 comment '执行状态(-1:取消；0:未执行；1:已执行)',
+   EXECUTE_PLAN_TIME    datetime not null comment '计划执行时间',
+   EXECUTE_FACT_TIME    datetime comment '实际执行时间',
+   TASK_TYPE            tinyint not null comment '任务类型（1：订阅物流轨迹 2：订单下单打印快递单）',
+   SUB_TASK_TYPE        tinyint default -1 comment '子任务类型',
+   primary key (ID)
+);
+
+alter table KDI_TASK comment '快递任务';
 
 /*==============================================================*/
 /* Table: KDI_TEMPLATE                                          */

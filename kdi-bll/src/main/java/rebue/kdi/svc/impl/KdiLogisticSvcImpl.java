@@ -1,6 +1,7 @@
 package rebue.kdi.svc.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,30 +19,40 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import rebue.kdi.dic.EOrderResultDic;
+import rebue.kdi.dic.KdiTaskTypeDic;
 import rebue.kdi.dic.SubscribeTraceResultDic;
 import rebue.kdi.kdniao.svc.KdNiaoSvc;
 import rebue.kdi.mapper.KdiLogisticMapper;
+import rebue.kdi.mo.KdiCompanyDicMo;
+import rebue.kdi.mo.KdiCompanyMo;
 import rebue.kdi.mo.KdiLogisticMo;
 import rebue.kdi.mo.KdiOrderMo;
 import rebue.kdi.mo.KdiSenderMo;
+import rebue.kdi.mo.KdiTaskMo;
 import rebue.kdi.ro.CompanyRo;
 import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.ro.ExaddKdiLogisticRo;
 import rebue.kdi.ro.KdiBatchOrderRo;
 import rebue.kdi.ro.ReportOrderCountRo;
 import rebue.kdi.ro.SubscribeTraceRo;
+import rebue.kdi.svc.KdiCompanyDicSvc;
 import rebue.kdi.svc.KdiCompanySvc;
 import rebue.kdi.svc.KdiLogisticSvc;
 import rebue.kdi.svc.KdiSenderSvc;
 import rebue.kdi.svc.KdiSvc;
+import rebue.kdi.svc.KdiTaskSvc;
 import rebue.kdi.svc.KdiTraceSvc;
 import rebue.kdi.to.AddKdiLogisticTo;
+import rebue.kdi.to.BatchEnterTo;
 import rebue.kdi.to.DeliverCountTo;
 import rebue.kdi.to.EOrderTo;
 import rebue.kdi.to.KdiBatchOrderTo;
 import rebue.kdi.to.ListKdiLogisticTo;
 import rebue.kdi.to.OrderCountReportTo;
 import rebue.kdi.to.SubscribeTraceTo;
+import rebue.robotech.dic.ResultDic;
+import rebue.robotech.dic.TaskExecuteStateDic;
+import rebue.robotech.ro.Ro;
 import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
 
 @Service
@@ -57,7 +68,8 @@ import rebue.robotech.svc.impl.MybatisBaseSvcImpl;
  * </pre>
  */
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.lang.Long, KdiLogisticMapper> implements KdiLogisticSvc {
+public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.lang.Long, KdiLogisticMapper>
+        implements KdiLogisticSvc {
 
     /**
      * @mbg.generated
@@ -76,22 +88,28 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     private static final Logger _log = LoggerFactory.getLogger(KdiLogisticSvcImpl.class);
 
     @Resource
-    private KdiTraceSvc         traceSvc;
+    private KdiTraceSvc traceSvc;
 
     @Resource
-    private KdiSenderSvc        kdiSenderSvc;
+    private KdiSenderSvc kdiSenderSvc;
 
     @Resource
-    private KdNiaoSvc           kdNiaoSvc;
+    private KdNiaoSvc kdNiaoSvc;
 
     @Resource
-    private KdiCompanySvc       kdiCompanySvc;
+    private KdiCompanySvc kdiCompanySvc;
 
     @Resource
-    private Mapper              dozerMapper;
+    private Mapper dozerMapper;
 
     @Resource
-    private KdiSvc              kdiSvc;
+    private KdiSvc kdiSvc;
+
+    @Resource
+    private KdiCompanyDicSvc kdiCompanyDicSvc;
+
+    @Resource
+    private KdiTaskSvc kdiTaskSvc;
 
     /**
      * 获取新的ID
@@ -127,8 +145,10 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     public ExaddKdiLogisticRo exaddKdiLogistic(final AddKdiLogisticTo mo) {
         _log.info("添加物流订单信息的参数为：｛｝", mo);
         ExaddKdiLogisticRo kdiLogisticRo = new ExaddKdiLogisticRo();
-        if (StringUtils.isAnyBlank(mo.getOrderTitle(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(),
-                mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null || mo.getShipperId() == null) {
+        if (StringUtils.isAnyBlank(mo.getOrderTitle(), mo.getReceiverName(), mo.getReceiverProvince(),
+                mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode())
+                || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile()) || mo.getOrderId() == null
+                || mo.getShipperId() == null) {
             kdiLogisticRo.setResult(EOrderResultDic.PARAM_ERROR);
             kdiLogisticRo.setFailReason("参数有误");
             return kdiLogisticRo;
@@ -186,9 +206,11 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public int entryLogistics(final AddKdiLogisticTo mo) {
         _log.info("录入订单的参数为: {}", mo);
-        if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getEntryType().toString(), mo.getShipperCode(), mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(),
-                mo.getSenderCity(), mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(), mo.getReceiverProvince(), mo.getReceiverCity(),
-                mo.getReceiverExpArea(), mo.getReceiverAddress(), mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
+        if (StringUtils.isAnyBlank(mo.getLogisticCode(), mo.getEntryType().toString(), mo.getShipperCode(),
+                mo.getOrderTitle(), mo.getSenderName(), mo.getSenderProvince(), mo.getSenderCity(),
+                mo.getSenderExpArea(), mo.getSenderAddress(), mo.getSenderPostCode(), mo.getReceiverName(),
+                mo.getReceiverProvince(), mo.getReceiverCity(), mo.getReceiverExpArea(), mo.getReceiverAddress(),
+                mo.getReceiverPostCode()) || StringUtils.isAllBlank(mo.getSenderTel(), mo.getSenderMobile())
                 || StringUtils.isAllBlank(mo.getReceiverTel(), mo.getReceiverMobile())) {
             _log.info("录入订单的参数不正确，参数为: {}", mo);
             return -1;
@@ -270,119 +292,180 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
     public KdiLogisticMo getReceiverByReceiverMobile(final String receiverMobile) {
         return _mapper.selectReceiverByReceiverMobile(receiverMobile);
     }
-    
+
     /**
      * 获取组织的发单量
      */
-	@Override
-	public Long getDeliverCount(DeliverCountTo to) {
-		
-		//拼接的物流状态logisticStatus
-		String logisticStatus = "";
-		if (to.getLogisticStatus() !=null && to.getLogisticStatus().size() >0) {
-			for (int i = 0; i < to.getLogisticStatus().size(); i++) {
-				if (i != 0 && i < to.getLogisticStatus().size()) {
-					logisticStatus += ",'" + to.getLogisticStatus().get(i).byteValue()+"'";
-				} else {
-					logisticStatus += "'" + to.getLogisticStatus().get(i).byteValue() +"'";
-				}
-			}
-	        _log.info("查询未添加和已经添加的组织的参数为: {}", logisticStatus);
-		}else {
-			logisticStatus="-9";//设置无效状态就可以查不出数据
-		}
-		
-		//拼接的组织id
-		String orgIds = "";
-		if (to.getOrgIds() !=null && to.getOrgIds().size() >0) {
-			for (int i = 0; i < to.getOrgIds().size(); i++) {
-				if (i != 0 && i < to.getOrgIds().size()) {
-					orgIds += ",'" + to.getOrgIds().get(i).longValue()+"'";
-				} else {
-					orgIds += "'" + to.getOrgIds().get(i).longValue() +"'";
-				}
-			}
-	        _log.info("查询未添加和已经添加的组织的参数为: {}", orgIds);
-		}else {
-			orgIds="-9";//设置无效组织就可以查不出数据
-		}
-		
-		
-		return _mapper.getDeliverCount(orgIds, logisticStatus, to.getOrderTimeStart(),to.getOrderTimeEnd());
-	}
+    @Override
+    public Long getDeliverCount(DeliverCountTo to) {
 
-	/**
-	 * 向快递公司批量下发订单并获取快递单号和打印模板
-	 */
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public KdiBatchOrderRo KdiBatchOrder(KdiBatchOrderTo to) {
-		final KdiBatchOrderRo kdiBatchOrderRo = new KdiBatchOrderRo();
-		List<String> batchPrint = new ArrayList<String>();
-		KdiOrderMo[] kdiOrdermo = to.getReceiver();
+        // 拼接的物流状态logisticStatus
+        String logisticStatus = "";
+        if (to.getLogisticStatus() != null && to.getLogisticStatus().size() > 0) {
+            for (int i = 0; i < to.getLogisticStatus().size(); i++) {
+                if (i != 0 && i < to.getLogisticStatus().size()) {
+                    logisticStatus += ",'" + to.getLogisticStatus().get(i).byteValue() + "'";
+                } else {
+                    logisticStatus += "'" + to.getLogisticStatus().get(i).byteValue() + "'";
+                }
+            }
+            _log.info("查询未添加和已经添加的组织的参数为: {}", logisticStatus);
+        } else {
+            logisticStatus = "-9";// 设置无效状态就可以查不出数据
+        }
 
-		for (KdiOrderMo mo : kdiOrdermo) {
-			// 调用快递鸟打印电子面单
-			final EOrderTo eorderTo = new EOrderTo();
-			eorderTo.setShipperId(to.getShipperId());
-			eorderTo.setShipperCode(to.getShipperCode());
-			eorderTo.setOrderId(_idWorker.getId());
-			eorderTo.setOrderDetail(mo.getReceiveTitle());
-			eorderTo.setOrderTitle(mo.getReceiveTitle());
-			eorderTo.setReceiverName(mo.getReceivePeople());
-			eorderTo.setReceiverProvince(mo.getProvince());
-			eorderTo.setReceiverCity(mo.getCity());
-			eorderTo.setReceiverExpArea(mo.getCount());
-			eorderTo.setReceiverAddress(mo.getReceiveAddress());
-			eorderTo.setReceiverPostCode("000000");
-			eorderTo.setReceiverTel(mo.getReceivePhone());
-			eorderTo.setReceiverMobile(mo.getReceivePhone());
-			eorderTo.setSenderName(to.getSenderName());
-			eorderTo.setSenderMobile(to.getSenderMobile());
-			eorderTo.setSenderTel(to.getSenderTel());
-			eorderTo.setSenderProvince(to.getSenderProvince());
-			eorderTo.setSenderCity(to.getSenderCity());
-			eorderTo.setSenderAddress(to.getSenderAddress());
-			eorderTo.setSenderExpArea(to.getSenderExpArea());
-			eorderTo.setSenderPostCode(to.getSenderPostCode());
-			eorderTo.setOrgId(to.getOrgId());
-			_log.info("调用电子面单的参数为:{}", eorderTo);
-			final EOrderRo eOrderRo = kdNiaoSvc.eorder(eorderTo);
-			_log.info("调用电子面单的返回值为:{}", eOrderRo);
-			if (eOrderRo.getResult().getCode() == -1) {
-				_log.error("调用快递电子面单出现参数错误");
-				throw new RuntimeException("调用快递电子面单参数错误");
-			}
-			if (eOrderRo.getResult().getCode() == -2) {
-				_log.error("重复调用快递电子面单");
-				throw new RuntimeException("该订单已发货");
-			}
-			if (eOrderRo.getResult().getCode() == -3) {
-				_log.error("调用快递电子面单失败");
-				throw new RuntimeException("调用快递电子面单失败");
-			}
-			_log.info("调用快递电子面单成功，返回值为：{}", eOrderRo);
-			if (eOrderRo.getFailReason() == null) {
-				batchPrint.add(eOrderRo.getPrintPage());
-				kdiBatchOrderRo.setMsg("批量下单并成功获取电子面单");
-				kdiBatchOrderRo.setResult(EOrderResultDic.SUCCESS);
-			} else {
-				return kdiBatchOrderRo;
-			}
-		}
+        // 拼接的组织id
+        String orgIds = "";
+        if (to.getOrgIds() != null && to.getOrgIds().size() > 0) {
+            for (int i = 0; i < to.getOrgIds().size(); i++) {
+                if (i != 0 && i < to.getOrgIds().size()) {
+                    orgIds += ",'" + to.getOrgIds().get(i).longValue() + "'";
+                } else {
+                    orgIds += "'" + to.getOrgIds().get(i).longValue() + "'";
+                }
+            }
+            _log.info("查询未添加和已经添加的组织的参数为: {}", orgIds);
+        } else {
+            orgIds = "-9";// 设置无效组织就可以查不出数据
+        }
 
-		// 拼接快递鸟返回的打印页面
-		String printPage = "";
-		if (kdiBatchOrderRo.getResult() == EOrderResultDic.SUCCESS) {
-			for (int i = 0; i < batchPrint.size(); i++) {
-				if (i != 0) {
-					printPage += "<br><div style=\"page-break-after:always\"></div>\n\r";
-				}
-				printPage += batchPrint.get(i);
-			}
-			kdiBatchOrderRo.setPrintPage(printPage);
-		}
-		return kdiBatchOrderRo;
-	}
+        return _mapper.getDeliverCount(orgIds, logisticStatus, to.getOrderTimeStart(), to.getOrderTimeEnd());
+    }
+
+    /**
+     * 向快递公司批量下发订单并获取快递单号和打印模板
+     */
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public KdiBatchOrderRo KdiBatchOrder(KdiBatchOrderTo to) {
+        final KdiBatchOrderRo kdiBatchOrderRo = new KdiBatchOrderRo();
+        List<String> batchPrint = new ArrayList<String>();
+        KdiOrderMo[] kdiOrdermo = to.getReceiver();
+
+        for (KdiOrderMo mo : kdiOrdermo) {
+            // 调用快递鸟打印电子面单
+            final EOrderTo eorderTo = new EOrderTo();
+            eorderTo.setShipperId(to.getShipperId());
+            eorderTo.setShipperCode(to.getShipperCode());
+            eorderTo.setOrderId(_idWorker.getId());
+            eorderTo.setOrderDetail(mo.getReceiveTitle());
+            eorderTo.setOrderTitle(mo.getReceiveTitle());
+            eorderTo.setReceiverName(mo.getReceivePeople());
+            eorderTo.setReceiverProvince(mo.getProvince());
+            eorderTo.setReceiverCity(mo.getCity());
+            eorderTo.setReceiverExpArea(mo.getCount());
+            eorderTo.setReceiverAddress(mo.getReceiveAddress());
+            eorderTo.setReceiverPostCode("000000");
+            eorderTo.setReceiverTel(mo.getReceivePhone());
+            eorderTo.setReceiverMobile(mo.getReceivePhone());
+            eorderTo.setSenderName(to.getSenderName());
+            eorderTo.setSenderMobile(to.getSenderMobile());
+            eorderTo.setSenderTel(to.getSenderTel());
+            eorderTo.setSenderProvince(to.getSenderProvince());
+            eorderTo.setSenderCity(to.getSenderCity());
+            eorderTo.setSenderAddress(to.getSenderAddress());
+            eorderTo.setSenderExpArea(to.getSenderExpArea());
+            eorderTo.setSenderPostCode(to.getSenderPostCode());
+            eorderTo.setOrgId(to.getOrgId());
+            _log.info("调用电子面单的参数为:{}", eorderTo);
+            final EOrderRo eOrderRo = kdNiaoSvc.eorder(eorderTo);
+            _log.info("调用电子面单的返回值为:{}", eOrderRo);
+            if (eOrderRo.getResult().getCode() == -1) {
+                _log.error("调用快递电子面单出现参数错误");
+                throw new RuntimeException("调用快递电子面单参数错误");
+            }
+            if (eOrderRo.getResult().getCode() == -2) {
+                _log.error("重复调用快递电子面单");
+                throw new RuntimeException("该订单已发货");
+            }
+            if (eOrderRo.getResult().getCode() == -3) {
+                _log.error("调用快递电子面单失败");
+                throw new RuntimeException("调用快递电子面单失败");
+            }
+            _log.info("调用快递电子面单成功，返回值为：{}", eOrderRo);
+            if (eOrderRo.getFailReason() == null) {
+                batchPrint.add(eOrderRo.getPrintPage());
+                kdiBatchOrderRo.setMsg("批量下单并成功获取电子面单");
+                kdiBatchOrderRo.setResult(EOrderResultDic.SUCCESS);
+            } else {
+                return kdiBatchOrderRo;
+            }
+        }
+
+        // 拼接快递鸟返回的打印页面
+        String printPage = "";
+        if (kdiBatchOrderRo.getResult() == EOrderResultDic.SUCCESS) {
+            for (int i = 0; i < batchPrint.size(); i++) {
+                if (i != 0) {
+                    printPage += "<br><div style=\"page-break-after:always\"></div>\n\r";
+                }
+                printPage += batchPrint.get(i);
+            }
+            kdiBatchOrderRo.setPrintPage(printPage);
+        }
+        return kdiBatchOrderRo;
+    }
+
+    @Override
+    public Ro batchEnter(BatchEnterTo to) {
+        Ro ro = new Ro();
+        _log.info("获取快递公司信息");
+        KdiCompanyMo compamyResult = kdiCompanySvc.getById(to.getSelectCompany().getId());
+        _log.info("获取快递公司信息结果compamyResult-{}", compamyResult);
+        KdiCompanyDicMo companyDicResult = kdiCompanyDicSvc.getById(compamyResult.getCompanyDicId());
+        _log.info("获取快递公司字典结果companyDicResult-{}", companyDicResult);
+        for (KdiLogisticMo item : to.getReceiver()) {
+            final KdiLogisticMo kdiLogisticMo = dozerMapper.map(item, KdiLogisticMo.class);
+            if (kdiLogisticMo.getReceiverPostCode() == null) {
+                kdiLogisticMo.setReceiverPostCode("000000");
+            }
+
+            kdiLogisticMo.setShipperCode(companyDicResult.getCompanyCode());
+            kdiLogisticMo.setShipperId(compamyResult.getId());
+            kdiLogisticMo.setShipperName(companyDicResult.getCompanyName());
+
+            kdiLogisticMo.setSenderName(to.getSelectSend().getSenderName());
+            kdiLogisticMo.setSenderMobile(to.getSelectSend().getSenderMobile());
+            kdiLogisticMo.setSenderProvince(to.getSelectSend().getSenderProvince());
+            kdiLogisticMo.setSenderCity(to.getSelectSend().getSenderCity());
+            kdiLogisticMo.setSenderExpArea(to.getSelectSend().getSenderExpArea());
+            kdiLogisticMo.setSenderPostCode(to.getSelectSend().getSenderPostCode());
+            kdiLogisticMo.setReceiverAddress(to.getSelectSend().getSenderAddress());
+            kdiLogisticMo.setUpdateTime(new Date());
+            kdiLogisticMo.setEntryType((byte) 1);
+            kdiLogisticMo.setOrgId(to.getOrgId());
+            kdiLogisticMo.setOrderTime(new Date());
+            kdiLogisticMo.setOrderId(_idWorker.getId());
+            kdiLogisticMo.setLogisticStatus("0");
+            kdiLogisticMo.setOrderTime(new Date());
+            kdiLogisticMo.setId(_idWorker.getId());
+            _log.info("添加新的物流参数为:{}", kdiLogisticMo);
+            if (super.add(kdiLogisticMo) == 1) {
+                // 添加订阅任务,五分钟后执行。
+                final Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.MINUTE, 5);
+                final Date executePlanTime = calendar.getTime();
+                KdiTaskMo kdiTaskMo = new KdiTaskMo();
+                kdiTaskMo.setExecuteState((byte) TaskExecuteStateDic.NONE.getCode());
+                kdiTaskMo.setTaskType((byte) KdiTaskTypeDic.SUBSCRIBE_TRACE.getCode());
+                kdiTaskMo.setLogisticId(kdiLogisticMo.getId());
+                kdiTaskMo.setExecutePlanTime(executePlanTime);
+                _log.info("添加订阅物流的参数为:{}", kdiTaskMo);
+                if (kdiTaskSvc.add(kdiTaskMo) != 1) {
+                    _log.error("录入失败");
+                    throw new RuntimeException("录入失败");
+                }
+            } else {
+                _log.error("录入失败");
+                throw new RuntimeException("录入失败");
+            }
+
+        }
+
+        ro.setMsg("批量录入成功");
+        ro.setResult(ResultDic.SUCCESS);
+        return ro;
+    }
 
 }

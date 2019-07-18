@@ -1,4 +1,5 @@
 package rebue.kdi.kdniao.svc.impl;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,8 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
@@ -73,17 +76,17 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     private final static Logger _log = LoggerFactory.getLogger(KdNiaoSvcImpl.class);
 
     @Value("${kdi.issandbox:false}")
-    private Boolean             _isSandBox;
+    private Boolean _isSandBox;
 
     @Value("${kdi.kdniao.Ebusinessid}")
-    private String              _EBusinessID;
+    private String _EBusinessID;
     @Value("${kdi.kdniao.apikey}")
-    private String              _apikey;
-    
-    @Value("${appid:0}")
-    private int                 _appid;
+    private String _apikey;
 
-    protected IdWorker3         _idWorker;
+    @Value("${appid:0}")
+    private int _appid;
+
+    protected IdWorker3 _idWorker;
 
     @PostConstruct
     public void init() {
@@ -104,17 +107,17 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     }
 
     @Resource
-    private KdNiaoSvc           selfSvc;
+    private KdNiaoSvc      selfSvc;
     @Resource
-    private KdiLogisticSvc      logisticSvc;
+    private KdiLogisticSvc logisticSvc;
     @Resource
-    private KdiTraceSvc         traceSvc;
+    private KdiTraceSvc    traceSvc;
     @Resource
-    private KdiCompanySvc       kdiCompanySvc;
+    private KdiCompanySvc  kdiCompanySvc;
     @Resource
-    private JsonParser          jsonParser;
+    private JsonParser     jsonParser;
     @Resource
-    private Mapper              dozerMapper;
+    private Mapper         dozerMapper;
 
     /**
      * 识别快递单号的url
@@ -125,15 +128,15 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
     /**
      * 电子面单的url
      */
-    private final static String EORDER_URL                      = "http://api.kdniao.com/api/EOrderService";
-    private final static String EORDER_URL_SANDBOX              = "http://testapi.kdniao.com:8081/api/eorderservice";
+    private final static String EORDER_URL         = "http://api.kdniao.com/api/EOrderService";
+    private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/eorderservice";
     // private final static String EORDER_URL_SANDBOX =
     // "http://sandboxapi.kdniao.com:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
     /**
      * 订阅物流轨迹的url
      */
-    private final static String SUBCRIBE_TRACE_URL              = "https://api.kdniao.com/api/dist";
-    private final static String SUBCRIBE_TRACE_URL_SANDBOX      = "http://testapi.kdniao.com:8081/api/dist";
+    private final static String SUBCRIBE_TRACE_URL         = "https://api.kdniao.com/api/dist";
+    private final static String SUBCRIBE_TRACE_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/dist";
 
     /**
      * 识别快递单号
@@ -224,18 +227,20 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         final EOrderRo ro = new EOrderRo();
         _log.info("检验参数是否正确");
         if (to.getOrderId() == null || to.getOrgId() == null
-                || StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(), to.getSenderProvince(), to.getSenderCity(),
-                        to.getSenderExpArea(), to.getSenderAddress(), to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
+                || StringUtils.isAnyBlank(to.getShipperCode(), to.getOrderTitle(), to.getSenderName(),
+                        to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
+                        to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
                         to.getReceiverAddress())
-                || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile()) || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
+                || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile())
+                || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
             _log.warn("没有填写必要的参数:{}", to);
             ro.setResult(EOrderResultDic.PARAM_ERROR);
             ro.setMsg("没有填写必要的参数");
             return ro;
         }
-        if(to.getOrderDetail() ==null) {
-        	to.setOrderDetail(to.getOrderTitle());	
-        }	
+        if (to.getOrderDetail() == null) {
+            to.setOrderDetail(to.getOrderTitle());
+        }
         // 根据快递公司id获取选中的快递公司编码
         _log.info("查询快递公司账号密码");
         final KdiCompanyMo kdiMo = new KdiCompanyMo();
@@ -261,7 +266,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         // to.setMonthCode(mo.getMonthCode());
         // to.setSendsite(sendsite);
 
-        _log.info("组织要传递的参数 requestMap-{}",to);
+        _log.info("组织要传递的参数 requestMap-{}", to);
         final Map<String, Object> requestMap = new LinkedHashMap<>();
         try {
             // 应用级参数
@@ -349,7 +354,8 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             _log.info("向快递鸟服务器发出请求-电子面单：{}", url);
             // Map<String, Object> resultMap
             // =jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
-            final Map<String, Object> resultMap = jsonParser.parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
+            final Map<String, Object> resultMap = jsonParser
+                    .parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
             // Map<String, Object> resultMap
             // =jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
             if ((boolean) resultMap.get("Success")) {
@@ -359,98 +365,98 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 final String logisticCode = (String) orderMap.get("LogisticCode");
                 final String MarkDestination = (String) orderMap.get("MarkDestination");
                 final String SortingCode = (String) orderMap.get("SortingCode");
-                final String PackageCode = (String) orderMap.get("PackageCode");//测试环境不显示2019.02.19
-                _log.info("返回的参数：MarkDestination：{},SortingCode：{},PackageCode：{}", MarkDestination,SortingCode,PackageCode);
+                final String PackageCode = (String) orderMap.get("PackageCode");// 测试环境不显示2019.02.19
+                _log.info("返回的参数：MarkDestination：{},SortingCode：{},PackageCode：{}", MarkDestination, SortingCode,
+                        PackageCode);
 
-                
-                String printPage="";
+                String printPage = "";
                 if (to.getShipperCode().equals("HTKY")) {
-                	//开始创建百世模板并注入参数 线下
+                    // 开始创建百世模板并注入参数 线下
 //                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
 //                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
 //                	Configuration cfg = Configuration.defaultConfiguration();
 //                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
 //                	Template t = gt.getTemplate("/百世.btl");
-                	
-                	//开始创建百世模板并注入参数 线上
-                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+
+                    // 开始创建百世模板并注入参数 线上
+                    ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
                     _log.info("resourceLoader：{}", resourceLoader);
-                	Configuration cfg = Configuration.defaultConfiguration();
+                    Configuration cfg = Configuration.defaultConfiguration();
                     _log.info("cfg：{}", cfg);
-                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                    GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
                     _log.info("gt：{}", gt);
-                	Template t = gt.getTemplate("/百世.btl");
+                    Template t = gt.getTemplate("/百世.btl");
                     _log.info("t：{}", t);
-                    
-                	//参数
-                	t.binding("name", "百世快递");
-                	t.binding("logisticCode", logisticCode);
-                	t.binding("MarkDestination", MarkDestination);
-                	t.binding("SortingCode", SortingCode);
-                	t.binding("PackageCode", PackageCode);
-                	//收件人信息getReceiverProvince
-                	t.binding("receiverName", to.getReceiverName());
-                	t.binding("receiverMobile", to.getReceiverMobile());
-                	t.binding("receiverProvince", to.getReceiverProvince());
-                	t.binding("receiverCity", to.getReceiverCity());
-                	t.binding("receiverExpArea", to.getReceiverExpArea());
-                	t.binding("receiverAddress", to.getReceiverAddress());
-                	//寄件人信息
-                	t.binding("senderName", to.getSenderName());
-                	t.binding("senderMobile", to.getSenderMobile());
-                	t.binding("senderProvince", to.getSenderProvince());
-                	t.binding("senderCity", to.getSenderCity());
-                	t.binding("senderExpArea", to.getSenderExpArea());
-                	t.binding("senderAddress", to.getSenderAddress());
-                	//商品名字
-                	
-                	t.binding("orderDetail", to.getOrderDetail());
-                	 printPage = t.render();
+
+                    // 参数
+                    t.binding("name", "百世快递");
+                    t.binding("logisticCode", logisticCode);
+                    t.binding("MarkDestination", MarkDestination);
+                    t.binding("SortingCode", SortingCode);
+                    t.binding("PackageCode", PackageCode);
+                    // 收件人信息getReceiverProvince
+                    t.binding("receiverName", to.getReceiverName());
+                    t.binding("receiverMobile", to.getReceiverMobile());
+                    t.binding("receiverProvince", to.getReceiverProvince());
+                    t.binding("receiverCity", to.getReceiverCity());
+                    t.binding("receiverExpArea", to.getReceiverExpArea());
+                    t.binding("receiverAddress", to.getReceiverAddress());
+                    // 寄件人信息
+                    t.binding("senderName", to.getSenderName());
+                    t.binding("senderMobile", to.getSenderMobile());
+                    t.binding("senderProvince", to.getSenderProvince());
+                    t.binding("senderCity", to.getSenderCity());
+                    t.binding("senderExpArea", to.getSenderExpArea());
+                    t.binding("senderAddress", to.getSenderAddress());
+                    // 商品名字
+
+                    t.binding("orderDetail", to.getOrderDetail());
+                    printPage = t.render();
                     _log.info("创建完成并注入参数后的模板：{}", printPage);
-                } 
-                
+                }
+
                 if (to.getShipperCode().equals("ZTO")) {
-                	//开始创建百世模板并注入参数 线下
+                    // 开始创建百世模板并注入参数 线下
 //                	String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
 //                	FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
 //                	Configuration cfg = Configuration.defaultConfiguration();
 //                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
 //                	Template t = gt.getTemplate("/百世.btl");
-                	
-                	//开始创建百世模板并注入参数 线上
-                	ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+
+                    // 开始创建百世模板并注入参数 线上
+                    ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
                     _log.info("resourceLoader：{}", resourceLoader);
-                	Configuration cfg = Configuration.defaultConfiguration();
+                    Configuration cfg = Configuration.defaultConfiguration();
                     _log.info("cfg：{}", cfg);
-                	GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                    GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
                     _log.info("gt：{}", gt);
-                	Template t = gt.getTemplate("/中通.btl");
+                    Template t = gt.getTemplate("/中通.btl");
                     _log.info("t：{}", t);
-                    
-                	//参数
-                	t.binding("name", "中通快递");
-                	t.binding("logisticCode", logisticCode);
-                	t.binding("MarkDestination", MarkDestination);
-                	t.binding("SortingCode", SortingCode);
-                	t.binding("PackageCode", PackageCode);
-                	//收件人信息getReceiverProvince
-                	t.binding("receiverName", to.getReceiverName());
-                	t.binding("receiverMobile", to.getReceiverMobile());
-                	t.binding("receiverProvince", to.getReceiverProvince());
-                	t.binding("receiverCity", to.getReceiverCity());
-                	t.binding("receiverExpArea", to.getReceiverExpArea());
-                	t.binding("receiverAddress", to.getReceiverAddress());
-                	//寄件人信息
-                	t.binding("senderName", to.getSenderName());
-                	t.binding("senderMobile", to.getSenderMobile());
-                	t.binding("senderProvince", to.getSenderProvince());
-                	t.binding("senderCity", to.getSenderCity());
-                	t.binding("senderExpArea", to.getSenderExpArea());
-                	t.binding("senderAddress", to.getSenderAddress());
-                	//商品名字
-                	
-                	t.binding("orderDetail", to.getOrderDetail());
-                	 printPage = t.render();
+
+                    // 参数
+                    t.binding("name", "中通快递");
+                    t.binding("logisticCode", logisticCode);
+                    t.binding("MarkDestination", MarkDestination);
+                    t.binding("SortingCode", SortingCode);
+                    t.binding("PackageCode", PackageCode);
+                    // 收件人信息getReceiverProvince
+                    t.binding("receiverName", to.getReceiverName());
+                    t.binding("receiverMobile", to.getReceiverMobile());
+                    t.binding("receiverProvince", to.getReceiverProvince());
+                    t.binding("receiverCity", to.getReceiverCity());
+                    t.binding("receiverExpArea", to.getReceiverExpArea());
+                    t.binding("receiverAddress", to.getReceiverAddress());
+                    // 寄件人信息
+                    t.binding("senderName", to.getSenderName());
+                    t.binding("senderMobile", to.getSenderMobile());
+                    t.binding("senderProvince", to.getSenderProvince());
+                    t.binding("senderCity", to.getSenderCity());
+                    t.binding("senderExpArea", to.getSenderExpArea());
+                    t.binding("senderAddress", to.getSenderAddress());
+                    // 商品名字
+
+                    t.binding("orderDetail", to.getOrderDetail());
+                    printPage = t.render();
                     _log.info("创建完成并注入参数后的模板：{}", printPage);
                 }
 
@@ -462,7 +468,7 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                 logisticMo.setUpdateTime(now);
                 logisticMo.setOrderTime(now);
                 logisticMo.setOrgId(to.getOrgId());
-				logisticMo.setOrderDetail(to.getOrderDetail());
+                logisticMo.setOrderDetail(to.getOrderDetail());
                 // 如果录入类型为空那么设置录入类型为自动 1：手动 2：自动
                 if (logisticMo.getEntryType() == null || logisticMo.getEntryType() == 0) {
                     logisticMo.setEntryType((byte) 2);
@@ -517,9 +523,12 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
 
         // 检验参数是否正确
         if (to.getOrderId() == null
-                || StringUtils.isAnyBlank(to.getShipperCode(), to.getLogisticCode(), to.getSenderName(), to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(),
-                        to.getSenderAddress(), to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(), to.getReceiverAddress())
-                || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile()) || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
+                || StringUtils.isAnyBlank(to.getShipperCode(), to.getLogisticCode(), to.getSenderName(),
+                        to.getSenderProvince(), to.getSenderCity(), to.getSenderExpArea(), to.getSenderAddress(),
+                        to.getReceiverName(), to.getReceiverProvince(), to.getReceiverCity(), to.getReceiverExpArea(),
+                        to.getReceiverAddress())
+                || StringUtils.isAllBlank(to.getSenderTel(), to.getSenderMobile())
+                || StringUtils.isAllBlank(to.getReceiverTel(), to.getReceiverMobile())) {
             _log.warn("没有填写必要的参数:{}", to);
             ro.setResult(SubscribeTraceResultDic.PARAM_ERROR);
             return ro;
@@ -582,7 +591,10 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                     logisticMo.setUpdateTime(new Date());
                     logisticMo.setId(to.getLogisticId());
                     _log.info("添加新的物流参数为:{}", logisticMo);
-                    logisticSvc.add(logisticMo);
+                    // 先查询是否已经有记录
+                    if (logisticSvc.getById(to.getLogisticId()) == null) {
+                        logisticSvc.add(logisticMo);
+                    }
                 } catch (final DuplicateKeyException e) {
                     final String failReason = "订阅成功，但是该物流公司已经存在相同的物流单号";
                     _log.warn(failReason, e);
@@ -748,6 +760,5 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         }
 
     }
-
 
 }

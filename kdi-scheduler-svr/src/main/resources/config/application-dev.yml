@@ -1,0 +1,4 @@
+kdi:
+  scheduler:
+    # 交易任务执行的间隔（毫秒）
+    subscribeTrace: 6000

@@ -24,7 +24,7 @@ public class SubscribeTraceTaks {
     @Resource
     private KdiTaskSvc kdiTaskSvc;
 
-    // startSettleFixedDelay:结算启动任务执行的间隔(毫秒)，默认5分钟检查一次
+    // subsctibeTraceFixedDelay:订阅任务启动任务执行的间隔(毫秒)，默认5分钟检查一次
     @Scheduled(fixedDelayString = "${kdi.scheduler.subscribeTrace:30000}")
     public void executeTasks() throws InterruptedException {
         _log.info("定时执行需要订阅物流轨迹的任务");

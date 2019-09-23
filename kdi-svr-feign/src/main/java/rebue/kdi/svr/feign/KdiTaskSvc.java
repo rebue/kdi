@@ -11,7 +11,7 @@ import rebue.kdi.dic.KdiTaskTypeDic;
 import rebue.robotech.dic.TaskExecuteStateDic;
 import rebue.sbs.feign.FeignConfig;
 
-@FeignClient(name = "kdi-svr", configuration = FeignConfig.class)
+@FeignClient(name = "kdi-svr", configuration = FeignConfig.class, contextId = "kdi-svr-task")
 public interface KdiTaskSvc {
 
     /**

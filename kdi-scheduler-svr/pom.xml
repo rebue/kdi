@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.rebue.kdi</groupId>
 		<artifactId>kdi</artifactId>
-		<version>1.0.9</version>
+		<version>1.1.0</version>
 	</parent>
 	<artifactId>kdi-scheduler-svr</artifactId>
 	<description>快递订阅任务</description>
@@ -21,7 +21,7 @@
 			<artifactId>javax.el-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.web</groupId>
+			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
 		</dependency>
 

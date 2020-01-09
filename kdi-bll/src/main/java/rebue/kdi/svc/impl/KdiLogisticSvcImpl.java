@@ -419,6 +419,9 @@ public class KdiLogisticSvcImpl extends MybatisBaseSvcImpl<KdiLogisticMo, java.l
             if (kdiLogisticMo.getReceiverPostCode() == null) {
                 kdiLogisticMo.setReceiverPostCode("000000");
             }
+            if (kdiLogisticMo.getReceiverMobile() == null && kdiLogisticMo.getReceiverTel() != null) {
+                kdiLogisticMo.setReceiverMobile(kdiLogisticMo.getReceiverTel());
+            }
 
             kdiLogisticMo.setShipperCode(companyDicResult.getCompanyCode());
             kdiLogisticMo.setShipperId(compamyResult.getId());

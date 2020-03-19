@@ -1,7 +1,12 @@
 package rebue.kdi.kdniao.svc.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -129,9 +134,9 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
      * 电子面单的url
      */
     private final static String EORDER_URL         = "http://api.kdniao.com/api/EOrderService";
-    private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/eorderservice";
-    // private final static String EORDER_URL_SANDBOX =
-    // "http://sandboxapi.kdniao.com:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
+  //  private final static String EORDER_URL_SANDBOX = "http://testapi.kdniao.com:8081/api/eorderservice";
+     private final static String EORDER_URL_SANDBOX =
+     "http://sandboxapi.kdniao.com:8080/kdniaosandbox/gateway/exterfaceInvoke.json";
     /**
      * 订阅物流轨迹的url
      */
@@ -348,14 +353,14 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
         _log.info("请求电子面单报文：{}", requestMap);
         try {
             String url = EORDER_URL;
-            if (_isSandBox) {
-                url = EORDER_URL_SANDBOX;
-            }
+//            if (_isSandBox) {
+//                url = EORDER_URL_SANDBOX;
+//            }
             _log.info("向快递鸟服务器发出请求-电子面单：{}", url);
-            // Map<String, Object> resultMap
-            // =jsonParser.parseMap(OkhttpUtils.postByFormParams(url, requestMap));
+
+            
             final Map<String, Object> resultMap = jsonParser
-                    .parseMap(HttpClientUtils.postByJsonParams(url, requestMap));
+                    .parseMap(newEOrderRo(url,requestMap));
             // Map<String, Object> resultMap
             // =jsonParser.parseMap(HttpTest.httpRequest(url,"POST",requestMap));
             if ((boolean) resultMap.get("Success")) {
@@ -459,6 +464,52 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
                     printPage = t.render();
                     _log.info("创建完成并注入参数后的模板：{}", printPage);
                 }
+                
+                if (to.getShipperCode().equals("YZPY")) {
+                    // 开始创建百世模板并注入参数 线下
+//                  String root = System.getProperty("user.dir")+File.separator+"/src/main/resources/btl";
+//                  FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
+//                  Configuration cfg = Configuration.defaultConfiguration();
+//                  GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+//                  Template t = gt.getTemplate("/邮政.btl");
+
+                    // 开始创建百世模板并注入参数 线上
+                    ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("btl/");
+                    _log.info("resourceLoader：{}", resourceLoader);
+                    Configuration cfg = Configuration.defaultConfiguration();
+                    _log.info("cfg：{}", cfg);
+                    GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
+                    _log.info("gt：{}", gt);
+                    Template t = gt.getTemplate("/邮政.btl");
+                    _log.info("t：{}", t);
+
+                    // 参数
+                    t.binding("name", "邮政快递");
+                    t.binding("logisticCode", logisticCode);
+                    t.binding("MarkDestination", MarkDestination);
+                    t.binding("SortingCode", SortingCode);
+                    t.binding("PackageCode", PackageCode);
+                    // 收件人信息getReceiverProvince
+                    t.binding("receiverName", to.getReceiverName());
+                    t.binding("receiverMobile", to.getReceiverMobile());
+                    t.binding("receiverProvince", to.getReceiverProvince());
+                    t.binding("receiverCity", to.getReceiverCity());
+                    t.binding("receiverExpArea", to.getReceiverExpArea());
+                    t.binding("receiverAddress", to.getReceiverAddress());
+                    // 寄件人信息
+                    t.binding("senderName", to.getSenderName());
+                    t.binding("senderMobile", to.getSenderMobile());
+                    t.binding("senderProvince", to.getSenderProvince());
+                    t.binding("senderCity", to.getSenderCity());
+                    t.binding("senderExpArea", to.getSenderExpArea());
+                    t.binding("senderAddress", to.getSenderAddress());
+                    // 商品名字
+
+                    t.binding("orderDetail", to.getOrderDetail());
+                    printPage = t.render();
+                    _log.info("创建完成并注入参数后的模板：{}", printPage);
+                }
+                
 
                 final Date now = new Date();
                 // 添加新的物流订单
@@ -759,6 +810,72 @@ public class KdNiaoSvcImpl implements KdNiaoSvc {
             traceSvc.add(traceMo);
         }
 
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public String newEOrderRo(String url, Map<String, Object> params) {
+        OutputStreamWriter out = null;
+        BufferedReader in = null;
+        StringBuilder result = new StringBuilder();
+        try {
+            URL realUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
+            // 发送POST请求必须设置如下两行
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            // POST方法
+            conn.setRequestMethod("POST");
+            // 设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.connect();
+            // 获取URLConnection对象对应的输出流
+            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            // 发送请求参数
+            if (params != null) {
+                StringBuilder param = new StringBuilder();
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    if (param.length() > 0) {
+                        param.append("&");
+                    }
+                    param.append(entry.getKey());
+                    param.append("=");
+                    param.append(entry.getValue());
+                    System.out.println(entry.getKey() + ":" + entry.getValue());
+                }
+                System.out.println("param:" + param.toString());
+                out.write(param.toString());
+            }
+            // flush输出流的缓冲
+            out.flush();
+            // 定义BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+            _log.info("结果");
+            _log.info(result.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输出流、输入流
+        finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result.toString();
     }
 
 }

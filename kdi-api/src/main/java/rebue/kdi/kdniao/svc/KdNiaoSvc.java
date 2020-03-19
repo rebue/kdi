@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.Map;
 
 import rebue.kdi.kdniao.ro.KdNiaoUpdateTraceRo;
+import rebue.kdi.ro.EOrderRo;
 import rebue.kdi.svc.KdiSvc;
+import rebue.kdi.to.EOrderTo;
 
 public interface KdNiaoSvc extends KdiSvc {
 
@@ -30,5 +32,10 @@ public interface KdNiaoSvc extends KdiSvc {
      *            更新时间
      */
     void updateTraceOfLogistic(Map<String, Object> logistic, Date updateTime) throws ParseException;
+
+
+
+
+    String newEOrderRo(String url, Map<String, Object> params);
 
 }

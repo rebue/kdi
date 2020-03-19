@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--100*180,110-->
+
+<head>
+    <title>${name}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+    <title></title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://cdn.bootcss.com/jsbarcode/3.5.7/JsBarcode.all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .print_paper {
+            font-size: 14px;
+            border: none;
+            border-collapse: collapse;
+            width: 450px;
+            margin-top: -1px;
+            table-layout: fixed;
+        }
+
+        .print_paper td {
+            border: solid #000 1px;
+            overflow: hidden;
+        }
+
+        .print_paper div {
+            overflow: hidden;
+        }
+
+
+        .print_paper .xx10 {
+            font-size: 10px;
+        }
+
+
+        .no_border td {
+            border: none;
+            vertical-align: top;
+        }
+
+        .print_paper .pt5 {
+            padding-top: 5px;
+        }
+
+        .fhei {
+            font-family: 'SimHei';
+        }
+
+        .fst {
+            font-family: 'SimSun';
+        }
+
+        .far {
+            font-family: airal;
+        }
+
+        .fmy {
+            font-family: "Microsoft YaHei";
+        }
+
+        .f48 {
+            font-size: 48pt;
+        }
+
+        .f40 {
+            font-size: 40pt;
+        }
+
+        .f36 {
+            font-size: 36pt;
+        }
+
+        .f32 {
+            font-size: 32pt;
+        }
+
+        .f30 {
+            font-size: 30pt;
+        }
+
+        .f28 {
+            font-size: 28pt;
+        }
+
+        .f24 {
+            font-size: 24pt;
+        }
+
+        .f20 {
+            font-size: 20pt;
+        }
+
+        .f18 {
+            font-size: 18pt;
+        }
+
+        .f17 {
+            font-size: 17pt;
+        }
+
+        .f16 {
+            font-size: 16pt;
+        }
+
+        .f15 {
+            font-size: 15pt;
+        }
+
+        .f14 {
+            font-size: 14pt;
+        }
+
+        .f13 {
+            font-size: 13pt;
+        }
+
+        .f12 {
+            font-size: 12pt;
+        }
+
+        .f10 {
+            font-size: 10pt;
+        }
+
+        .f9 {
+            font-size: 9pt;
+        }
+
+        .f8 {
+            font-size: 8pt;
+        }
+
+        .f7 {
+            font-size: 7pt;
+        }
+
+        .f6 {
+            font-size: 6pt;
+        }
+
+        .f5 {
+            font-size: 5pt;
+        }
+
+        .b {
+            font-weight: bold;
+        }
+
+        .tc {
+            text-align: center;
+        }
+
+        .vt {
+            vertical-align: top;
+        }
+
+        .print_paper .bln {
+            border-left: none;
+        }
+
+        .print_paper .brn {
+            border-right: none;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pl5 {
+            padding-left: 5px;
+        }
+
+        .pl10 {
+            padding-left: 10px;
+        }
+
+        .pl20 {
+            padding-left: 20px;
+        }
+
+        .pr10 {
+            padding-right: 10px;
+        }
+
+        .pl30 {
+            padding-left: 30px;
+        }
+
+        .pl80 {
+            padding-left: 80px;
+        }
+
+        .lh16 {
+            line-height: 16px;
+        }
+
+        .pp-bn td {
+            border: none;
+        }
+
+        .t-bn td {
+            border: none;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pl5 {
+            padding-left: 5px;
+        }
+
+        .pl20 {
+            padding-left: 20px;
+        }
+
+        .mb-3 {
+            margin-bottom: -3px;
+        }
+
+        .rel {
+            position: relative;
+        }
+
+        .abs {
+            position: absolute;
+        }
+
+        .relative {
+            position: relative;
+        }
+        #imgcode${logisticCode} {
+            width: 387px;
+            height: 62px;
+            z-index: 1;
+            position: absolute;
+        }
+
+        #firstCode {
+            font-size: 22px;
+            font-weight: bold;
+            z-index: 100;
+            position: absolute;
+        }
+
+        #imgcode${logisticCode}Tow {
+            width: 179px;
+            height: 34px;
+            position: absolute;
+        }
+
+        #towCode {
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 100;
+            position: absolute;
+
+        }
+
+        .space {
+            margin-left: 3px;
+        }
+    </style>
+</head>
+
+<body class="fhei">
+    <table class="print_paper ">
+        <tr height="36">
+            <td class="brn">
+
+            </td>
+            <td width="130" class="tc f17 bln lh16">
+                标准快件
+                <div class="f7">精彩生活·快递欢乐</div>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="56">
+            <td class="f18 b pl10">
+                <div style="height: 55px;font-size:25pt;">
+                    ${MarkDestination}
+                    <span class="pl10 far">
+                        ${SortingCode}
+                    </span>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="37">
+            <td class="b f18 pl5">${PackageCode}</td>
+        </tr>
+    </table>
+    <table class="print_paper">
+        <tr height="75">
+            <td width="18" style="text-align:center; padding:0;">收
+                <br />件</td>
+            <td class="b f11">
+                <div style="height: 74px;">
+                    ${receiverName}
+                    <span class="far">${receiverMobile}</span>
+                    <br /> ${receiverProvince}
+                    <span class="space">${receiverCity}</span>
+                    <span class="space">${receiverExpArea}</span>
+                    <span class="space"> ${receiverAddress}</span>
+                </div>
+            </td>
+            <td width="1" rowspan="2" class="xx10 vt">
+                <div class="f12 tc" style="border-bottom:1px solid #000;line-height: 20px;">服务</div>
+                <div class="f6 pl5 pt5" style="line-height: 14px;">
+                </div>
+            </td>
+        </tr>
+        <tr height="70">
+            <td style="text-align:center; padding:0;">寄
+                <br />件</td>
+            <td class="b f11">
+                <div style="height: 43px;">
+                    ${senderName}
+                    <span class="far">${senderMobile}</span>
+                    <br /> ${senderProvince}
+                    <span class="space">${senderCity}</span>
+                    <span class="space">${senderExpArea}</span>
+                    <span class="space"> ${senderAddress}</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="90">
+            <td class="relative" style="line-height: 1;letter-spacing: 8px; ">
+                   <img id="imgcode${logisticCode}"  style="left: 30px;top: 0px" />
+                <br/>
+                <span id="firstCode" style="top: 58px;left: 77px;" >
+                    ${logisticCode}
+                </span>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper" height="100">
+        <tr>
+            <td width="257" class="f7">快件送达收件人地址，经收件人或收件人（寄件人）允许的代收人签字，视为送达，您的签字代表您已验收此包裹，并以确定商品信息信息无误，包装完好，没有划痕，破损等。</td>
+            <td>签收人：
+                <br />
+                <br />时间：</td>
+            <td width="1" class="tc">
+                <img width="60" height="60" src="" alt="" />
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="55">
+            <td class="brn" width="203">
+
+            </td>
+            <td class="bln tc f12 b lh16 relative ">
+                 <img id="imgcode${logisticCode}Tow"  style="left: 29px;top: 0px" />
+                <br />
+                <span id="towCode" style="top: 31px;left: 53px;" >
+                    ${logisticCode}
+                </span>
+
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper">
+        <tr height="55">
+            <td width="18" style="text-align:center; padding:0;">收
+                <br />件</td>
+            <td class="b f11">
+                ${receiverName}
+                <span class="space">${receiverMobile}</span>
+                <br /> ${receiverProvince}
+                <span class="space">${receiverCity}</span>
+                <span class="space">${receiverExpArea}</span>
+                <span class="space"> ${receiverAddress}</span>
+
+            </td>
+            <td width="77" class="tc f9" rowspan="2">
+                <img width="60" height="60" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFIAAABSCAIAAABIThTMAAAeD0lEQVR4AeXbY5wm17YH4I5t3PAkE9u2bdu2jUl+E9vWjW3btjWTG9vmfd73X727prpnJicfz6kP1bt2rbX28lp719uD/fXXXx3/fdfg/30ityQeMmIfdthhjz/++CBVsNBCC+20007nnHPOjTfeGOCzzz572GGH3WKLLX788ceBoK+//vqrrLLKYIMNxrn23HPPN95448ILL/S43nrrBWveeefdbbfdbr75ZgTNDD744GguvvjiRx111GOPPWZmmGGGOfLIIyeaaCJjROBm4O46/fTTb7/99owHcp9uuun69OkDoBKbzNdff/3QQw89xBBD9Ij2559//vLLLyOPPLK3r7322h133BGwn3/+GYs33XTTd999VxDNIBXOfv/9999++23OOef09tdffzW+7777nnzySWMAFg0WeIO+ffuaGWqooTwutthiP/zww6OPPnrDDTeQeYQRRvj888/HGmssWgb5008/JTyHHHJIwM8///zA+f/jjz+s+PXXX2e5SmwPkHffffc55pgjLxr3119/fY899sjkBhtsMP/882c8xhhj4KABPMMMM+y7776RhBFOPfXUAJx88sn33nvvm2++2YBvPHKBFVdc8eGHH15nnXWefvppWujdu/cUU0xxwgknfPXVVxdffDFR11xzzWAtvfTSW2+9dcb77LPPzDPP3KCWxxdffDF2zmOX2OxM5uWXX54YdFOQ2YSmxxxzzDLDVVzm6ZtBXFE8AHYebrjhxh9//AUXXBAWy3zxxRcjjjhiVPDqq68yNTAzsFAwsFZDcZNOOqloYmQ+D5ipCeM69NBDaZ+/QAwdbwG75+JTSyyxhHDjm51zHeTCkoUoq0x2jTKFg1122YVuCgSEW265pTw2Bizz0UcfFb4nn3zyE0888f33319ttdVmm222I444gjVuu+22xCRv2mijjUJhk002oaxbb72VJJtttlmd7FlnnUVgDp9JzinsudXee+89zjjjCDRio+ktCmbquGY448cff1wmucnxxx9fHjNoik33ZH7kkUcK3CijjFKMmUmGEtLm6e+tt94itjHEb7/9lo6oPPMYgvg/7YtemB3ro48+etyEVN5ONdVUUkZZK4P/a19lEti7777LvccbbzwyJPtAtEpyTYE0APzMM88g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"
+                    alt="" />
+                <br />商家二维码
+            </td>
+        </tr>
+        <tr height="55">
+            <td style="text-align:center; padding:0;">寄
+                <br />件</td>
+            <td class="b f11">
+                ${senderName}
+                <span class="space"> ${senderMobile}</span>
+                <br /> ${senderProvince}
+                <span class="space">${senderCity}</span>
+                <span class="space">${senderExpArea}</span>
+                <span class="space"> ${senderAddress}</span>
+            </td>
+        </tr>
+    </table>
+    <table class="print_paper ">
+        <tr height="90">
+            <td class="vt pl5 f9 rel">
+                <div class="b f11">${orderDetail}</div>
+                <div <div class="abs" style="top: 72px;right: 5px;">已检视</div>
+            </td>
+        </tr>
+    </table>
+    <script>  
+        $("#imgcode${logisticCode}").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
+        $("#imgcode${logisticCode}Tow").JsBarcode("${logisticCode}", { displayValue: false, lineColor: "#000" });
+    </script>
+</body>
+
+</html>
